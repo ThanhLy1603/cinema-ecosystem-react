@@ -5,9 +5,16 @@ import Pagination from '@/components/common/Pagination';
 import Alert from '@/components/ui/Alert';
 import { getErrorMessage } from '@/lib/common/apiError';
 import { cn } from '@/lib/common/utils';
+import { AUDIT_ACTION_LABELS } from '@/lib/staff/operationsLabels';
+import SelectField, { type SelectOption } from '@/components/ui/SelectField';
 import { useCinemaOptions } from '@/lib/cinema/useCinemaOptions';
 import type { PageResponse } from '@/types/common/api';
-import type { OperationsAuditLog, OperationsFnbDelivery, OperationsScanLog } from '@/types/staff/operations';
+import type {
+   AuditAction,
+   OperationsAuditLog,
+   OperationsFnbDelivery,
+   OperationsScanLog,
+} from '@/types/staff/operations';
 import OperationsFilterBar from '../components/OperationsFilterBar';
 import { AuditLogTable, FnbDeliveryTable, ScanLogTable } from '../components/OperationsTables';
 import { createDefaultFilterState, toOperationsFilter, type OperationsFilterState } from '../utils/operationsFilters';
@@ -25,10 +32,19 @@ const HISTORY_TABS: HistoryTabOption[] = [
    { tab: 'AUDIT', label: 'Nhật ký thao tác nhạy cảm' },
 ];
 
+const AUDIT_ACTION_OPTIONS: SelectOption[] = [
+   { value: '', label: 'Tất cả thao tác' },
+   ...(Object.keys(AUDIT_ACTION_LABELS) as AuditAction[]).map((action: AuditAction): SelectOption => ({
+      value: action,
+      label: AUDIT_ACTION_LABELS[action],
+   })),
+];
+
 export function OperationsHistoryPage(): ReactElement {
    const [activeTab, setActiveTab] = useState<HistoryTab>('SCAN');
    const [operationsFilterState, setOperationsFilterState] = useState<OperationsFilterState>(createDefaultFilterState);
    const [page, setPage] = useState<number>(0);
+   const [auditAction, setAuditAction] = useState<string>('');
    const cinemaOptionsQuery = useCinemaOptions();
    const scanLogsQuery: UseQueryResult<PageResponse<OperationsScanLog>> = useQuery<PageResponse<OperationsScanLog>>({
       queryKey: ['operations', 'scan-logs', operationsFilterState, page],
@@ -45,14 +61,23 @@ export function OperationsHistoryPage(): ReactElement {
       placeholderData: keepPreviousData,
    });
    const auditLogsQuery: UseQueryResult<PageResponse<OperationsAuditLog>> = useQuery<PageResponse<OperationsAuditLog>>({
-      queryKey: ['operations', 'audit-logs', operationsFilterState, page],
-      queryFn: () => getOperationsAuditLogs(toOperationsFilter(operationsFilterState, page)),
+      queryKey: ['operations', 'audit-logs', operationsFilterState, auditAction, page],
+      queryFn: () =>
+         getOperationsAuditLogs(
+            toOperationsFilter(operationsFilterState, page),
+            (auditAction || undefined) as AuditAction | undefined,
+         ),
       enabled: activeTab === 'AUDIT',
       placeholderData: keepPreviousData,
    });
 
    function handleFilterChange(nextFilterState: OperationsFilterState): void {
       setOperationsFilterState(nextFilterState);
+      setPage(0);
+   }
+
+   function handleAuditActionChange(nextAuditAction: string): void {
+      setAuditAction(nextAuditAction);
       setPage(0);
    }
 
@@ -133,6 +158,18 @@ export function OperationsHistoryPage(): ReactElement {
             showStaffFilter
             onChange={handleFilterChange}
          />
+         {activeTab === 'AUDIT' && (
+            <div className="max-w-sm">
+               <SelectField
+                  id="operations-audit-action"
+                  label="Loại thao tác"
+                  value={auditAction}
+                  onChange={handleAuditActionChange}
+                  options={AUDIT_ACTION_OPTIONS}
+                  optional
+               />
+            </div>
+         )}
          {renderActiveTab()}
       </div>
    );

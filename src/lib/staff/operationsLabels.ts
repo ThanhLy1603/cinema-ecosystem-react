@@ -23,6 +23,13 @@ export const AUDIT_ACTION_LABELS: Record<AuditAction, string> = {
    SHIFT_OPENED: 'Mở ca',
    SHIFT_CLOSED: 'Đóng ca',
    SCAN_RATE_LIMITED: 'Quét quá giới hạn',
+   FNB_ITEM_PRICE_CHANGED: 'Giá món bắp nước',
+   FNB_COMBO_PRICE_CHANGED: 'Giá combo',
+   SHOWTIME_PRICE_CHANGED: 'Giá cơ bản suất chiếu',
+   PRICE_RULE_CREATED: 'Tạo quy tắc giá vé',
+   PRICE_RULE_UPDATED: 'Sửa quy tắc giá vé',
+   PRICE_RULE_DELETED: 'Xóa quy tắc giá vé',
+   PRICE_RULE_RESTORED: 'Khôi phục quy tắc giá vé',
 };
 
 export const SCAN_ACTION_LABELS: Record<TicketScanAction, string> = {
