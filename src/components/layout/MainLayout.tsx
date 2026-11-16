@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
-import { Outlet, useLocation, type Location } from 'react-router-dom';
+import { useLocation, type Location } from 'react-router-dom';
+import PageOutlet from '@/components/common/PageOutlet';
 import Footer from './Footer';
 import Navbar from './Navbar';
 import ScrollToTopButton from './ScrollToTopButton';
@@ -11,7 +12,7 @@ export function MainLayout(): ReactElement {
       <div className="theme-shinkai app-backdrop flex min-h-screen flex-col">
          <Navbar />
          <main key={location.pathname} className="flex-1 animate-fade-in">
-            <Outlet />
+            <PageOutlet />
          </main>
          <Footer />
          <ScrollToTopButton />

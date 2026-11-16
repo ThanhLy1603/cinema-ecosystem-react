@@ -1,6 +1,7 @@
 import { ChevronRight, Menu, MapPin, Store } from 'lucide-react';
 import { useEffect, useState, type ReactElement } from 'react';
-import { Link, Outlet, useLocation, type Location } from 'react-router-dom';
+import { Link, useLocation, type Location } from 'react-router-dom';
+import PageOutlet from '@/components/common/PageOutlet';
 import FullPageSpinner from '@/components/common/FullPageSpinner';
 import Alert from '@/components/ui/Alert';
 import SelectField, { type SelectOption } from '@/components/ui/SelectField';
@@ -95,7 +96,7 @@ export function StaffLayout(): ReactElement {
             </Alert>
          );
       }
-      return <Outlet />;
+      return <PageOutlet />;
    }
 
    return (

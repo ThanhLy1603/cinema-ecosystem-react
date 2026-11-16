@@ -1,6 +1,7 @@
 import { ChevronRight, Menu, Store } from 'lucide-react';
 import { useEffect, useState, type ReactElement } from 'react';
-import { Link, Outlet, useLocation, type Location } from 'react-router-dom';
+import { Link, useLocation, type Location } from 'react-router-dom';
+import PageOutlet from '@/components/common/PageOutlet';
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { User } from '@/types/auth/auth';
 import AdminSidebar from './AdminSidebar';
@@ -111,7 +112,7 @@ export function AdminLayout(): ReactElement {
             </header>
 
             <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
-               <Outlet />
+               <PageOutlet />
             </main>
          </div>
       </div>

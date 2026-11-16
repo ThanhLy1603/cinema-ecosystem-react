@@ -1,7 +1,8 @@
 import { ArrowLeft } from 'lucide-react';
 import type { ReactElement } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Logo from '@/components/brand/Logo';
+import PageOutlet from '@/components/common/PageOutlet';
 import AuthShowcase from './AuthShowcase';
 
 export function AuthLayout(): ReactElement {
@@ -25,7 +26,7 @@ export function AuthLayout(): ReactElement {
 
             <div className="flex flex-1 items-center justify-center px-6 pb-10 sm:px-10">
                <div className="w-full max-w-[460px] animate-fade-up">
-                  <Outlet />
+                  <PageOutlet />
                </div>
             </div>
 
