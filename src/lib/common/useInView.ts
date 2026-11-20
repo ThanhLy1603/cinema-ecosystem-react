@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
 
-const VISIBILITY_THRESHOLD: number = 0.12;
+const VISIBILITY_THRESHOLD: number = 0;
+const PRELOAD_MARGIN: string = '0px 0px 80px 0px';
 
 export function useInView<ElementType extends Element>(): [RefObject<ElementType | null>, boolean] {
    const elementRef = useRef<ElementType | null>(null);
@@ -12,23 +13,45 @@ export function useInView<ElementType extends Element>(): [RefObject<ElementType
          return undefined;
       }
 
-      function handleIntersection(entries: IntersectionObserverEntry[]): void {
-         if (entries.some((entry) => entry.isIntersecting)) {
-            setIsInView(true);
-            intersectionObserver.disconnect();
+      let intersectionObserver: IntersectionObserver | null = null;
+
+      function stopWatching(): void {
+         intersectionObserver?.disconnect();
+         window.removeEventListener('scroll', handlePositionCheck);
+         window.removeEventListener('resize', handlePositionCheck);
+         window.removeEventListener('touchmove', handlePositionCheck);
+      }
+
+      function reveal(): void {
+         setIsInView(true);
+         stopWatching();
+      }
+
+      function handlePositionCheck(): void {
+         const elementTop: number = element!.getBoundingClientRect().top;
+         if (elementTop < window.innerHeight) {
+            reveal();
          }
       }
 
-      const intersectionObserver: IntersectionObserver = new IntersectionObserver(handleIntersection, {
+      function handleIntersection(entries: IntersectionObserverEntry[]): void {
+         if (entries.some((entry) => entry.isIntersecting)) {
+            reveal();
+         }
+      }
+
+      intersectionObserver = new IntersectionObserver(handleIntersection, {
          threshold: VISIBILITY_THRESHOLD,
+         rootMargin: PRELOAD_MARGIN,
       });
       intersectionObserver.observe(element);
 
-      function handleCleanup(): void {
-         intersectionObserver.disconnect();
-      }
+      window.addEventListener('scroll', handlePositionCheck, { passive: true });
+      window.addEventListener('resize', handlePositionCheck, { passive: true });
+      window.addEventListener('touchmove', handlePositionCheck, { passive: true });
+      handlePositionCheck();
 
-      return handleCleanup;
+      return stopWatching;
    }, []);
 
    return [elementRef, isInView];

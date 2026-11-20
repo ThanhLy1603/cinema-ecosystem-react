@@ -279,7 +279,7 @@ export function FnbSelectionPage(): ReactElement {
             />
          </div>
 
-         <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">
             <div className="space-y-6">
                <div className="flex flex-wrap items-center justify-between gap-3">
                   <p className="text-sm text-ink-600">Thêm bắp nước để nhận nhanh tại quầy, không cần xếp hàng lại.</p>
@@ -295,7 +295,7 @@ export function FnbSelectionPage(): ReactElement {
                      <h2 id="fnb-combos-heading" className="text-lg font-bold text-ink-900">
                         Combo tiết kiệm
                      </h2>
-                     <div className="grid gap-4 sm:grid-cols-2">
+                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         {menu.combos.map((fnbCombo) => (
                            <FnbProductCard
                               key={fnbCombo.id}
@@ -323,7 +323,7 @@ export function FnbSelectionPage(): ReactElement {
                {FNB_CATEGORIES.filter((fnbCategory) => itemsByCategory[fnbCategory].length > 0).map((fnbCategory) => (
                   <section key={fnbCategory} aria-label={FNB_CATEGORY_LABELS[fnbCategory]} className="space-y-3">
                      <h2 className="text-lg font-bold text-ink-900">{FNB_CATEGORY_LABELS[fnbCategory]}</h2>
-                     <div className="grid gap-4 sm:grid-cols-2">
+                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         {itemsByCategory[fnbCategory].map((fnbItem) => (
                            <FnbProductCard
                               key={fnbItem.id}

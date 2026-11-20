@@ -151,7 +151,7 @@ export function ProfileForm({ userProfile }: ProfileFormProps): ReactElement {
             error={fieldErrors.phone ?? serverFieldErrors.phone}
             disabled={updateMutation.isPending}
          />
-         <div className="grid gap-5 sm:grid-cols-2">
+         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <TextField
                id="profile-dateOfBirth"
                label="Ngày sinh"

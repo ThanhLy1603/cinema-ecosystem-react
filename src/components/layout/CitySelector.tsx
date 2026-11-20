@@ -21,7 +21,7 @@ export function CitySelector(): ReactElement {
    ];
 
    return (
-      <div className="relative w-56">
+      <div className="relative w-56 xl:w-44 2xl:w-56">
          <MapPin
             className="pointer-events-none absolute left-3.5 top-1/2 z-10 size-4 -translate-y-1/2 text-ink-700"
             aria-hidden="true"

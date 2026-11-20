@@ -46,7 +46,7 @@ export function Footer(): ReactElement {
    return (
       <footer className="mt-10 bg-[#dfeae7] text-ink-700">
          <div className="mx-auto max-w-6xl px-4 pb-10 pt-14 sm:px-6 lg:px-12">
-            <div className="grid gap-8 border-b border-ink-200 pb-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
+            <div className="grid grid-cols-1 gap-8 border-b border-ink-200 pb-10 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.3fr]">
                <div className="space-y-3">
                   <Logo variant="cinema" />
                   <p className="max-w-xs text-sm leading-relaxed text-ink-700">

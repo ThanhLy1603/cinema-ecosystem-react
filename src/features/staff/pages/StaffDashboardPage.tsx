@@ -38,7 +38,7 @@ export function StaffDashboardPage(): ReactElement {
             <h2 id="staff-work-heading" className="text-sm font-extrabold uppercase tracking-wider text-ink-500">
                Công việc tại quầy
             </h2>
-            <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
                {workItems.map((workItem) => (
                   <li key={workItem.to}>
                      <Link

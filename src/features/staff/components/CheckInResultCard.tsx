@@ -187,7 +187,7 @@ export function CheckInResultCard({
                         </h4>
                         <AgeRatingLabel ageRating={booking.rated} className="text-xs text-ink-700" />
                      </div>
-                     <div className="grid gap-x-8 gap-y-3 md:grid-cols-2">
+                     <div className="grid grid-cols-1 gap-x-8 gap-y-3 md:grid-cols-2">
                         <ul className="space-y-1.5 text-sm text-ink-800">
                            <li className="flex items-center gap-2">
                               <Building2 className="size-4 shrink-0 text-brand-600" aria-hidden="true" />

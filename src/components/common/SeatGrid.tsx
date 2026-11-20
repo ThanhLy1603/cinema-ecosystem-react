@@ -127,6 +127,9 @@ function SeatShape({ gridSeat, isSelected, showLabel, onPick }: SeatShapeProps):
    );
 }
 
+const MIN_GRID_WIDTH: number = 520;
+const MIN_TOUCH_SCALE: number = 0.6;
+
 export function SeatGrid({
    rows,
    columns,
@@ -224,7 +227,10 @@ export function SeatGrid({
             aria-label={ariaLabel}
             viewBox={`0 0 ${width} ${height}`}
             className={cn('mx-auto block h-auto w-full select-none', isInteractive && 'cursor-crosshair touch-none')}
-            style={{ minWidth: Math.min(width, 520), maxWidth: width * 1.6 }}
+            style={{
+               minWidth: Math.min(width, Math.max(MIN_GRID_WIDTH, width * MIN_TOUCH_SCALE)),
+               maxWidth: width * 1.6,
+            }}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={handlePointerEnd}

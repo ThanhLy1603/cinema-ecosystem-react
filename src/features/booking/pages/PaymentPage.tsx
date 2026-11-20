@@ -197,7 +197,7 @@ export function PaymentPage(): ReactElement {
             />
          </div>
 
-         <div className="grid gap-6 lg:grid-cols-[1fr_340px]">
+         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_340px]">
             <section className="space-y-5 rounded-2xl border border-ink-200 bg-white p-5 shadow-xs sm:p-6">
                {notice && <Alert variant="error">{notice}</Alert>}
                <h2 className="text-lg font-bold text-ink-900">Phương thức thanh toán</h2>

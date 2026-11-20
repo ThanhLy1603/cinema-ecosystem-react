@@ -107,7 +107,7 @@ export function FnbSalesPage(): ReactElement {
          return <FnbSalesReceipt counterFnbReceipt={counterFnbReceipt} onNewSale={handleNewSale} />;
       }
       return (
-         <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]">
+         <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]">
             <div className="space-y-5">
                {menuQuery.isError && <Alert variant="error">{getErrorMessage(menuQuery.error)}</Alert>}
                {menuQuery.isPending && <p className="text-sm text-ink-500">Đang tải thực đơn...</p>}

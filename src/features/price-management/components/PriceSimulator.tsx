@@ -73,7 +73,7 @@ export function PriceSimulator(): ReactElement {
                Chọn giá gốc, loại phòng và giờ chiếu để xem giá từng loại ghế theo các quy tắc đang áp dụng.
             </p>
          </div>
-         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <TextField
                id="simulator-base-price"
                label="Giá vé gốc (VNĐ)"

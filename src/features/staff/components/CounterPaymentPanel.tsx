@@ -47,7 +47,7 @@ export function CounterPaymentPanel({
    return (
       <section className="space-y-4 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100">
          <h2 className="text-sm font-extrabold uppercase tracking-wide text-ink-700">Thanh toán</h2>
-         <div className="grid gap-3 sm:grid-cols-3" role="radiogroup" aria-label="Phương thức thanh toán">
+         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3" role="radiogroup" aria-label="Phương thức thanh toán">
             {PAYMENT_METHOD_OPTIONS.map((paymentMethodOption) => {
                const MethodIcon: LucideIcon = paymentMethodOption.icon;
                const isSelected: boolean = paymentMethodOption.method === paymentMethod;

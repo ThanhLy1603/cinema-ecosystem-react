@@ -224,7 +224,7 @@ export function ShiftPage(): ReactElement {
          return renderOpenForm();
       }
       return (
-         <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]">
+         <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_24rem]">
             <ShiftReportView shiftReport={currentShiftReport} />
             {renderCloseForm()}
          </div>

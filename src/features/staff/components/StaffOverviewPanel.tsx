@@ -103,7 +103,7 @@ export function StaffOverviewPanel({ cinemaId }: StaffOverviewPanelProps): React
 
    return (
       <div className="space-y-6">
-         <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+         <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
             <li>
                <StatCard
                   label="Vé chờ soát"

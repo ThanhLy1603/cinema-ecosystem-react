@@ -182,7 +182,7 @@ export function ShowtimeManagementPage(): ReactElement {
             </div>
          </header>
 
-         <div className="grid gap-4 rounded-3xl bg-white p-5 shadow-card ring-1 ring-ink-200/80 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+         <div className="grid grid-cols-1 gap-4 rounded-3xl bg-white p-5 shadow-card ring-1 ring-ink-200/80 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
             <SelectField
                id="showtime-cinema-filter"
                label="Cụm rạp"

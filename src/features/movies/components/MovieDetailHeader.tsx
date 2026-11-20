@@ -59,7 +59,7 @@ export function MovieDetailHeader({ movieDetail, children }: MovieDetailHeaderPr
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/55 to-black/25" />
          </div>
 
-         <div className="relative mx-auto grid max-w-6xl gap-x-8 px-6 pt-8 sm:px-10 md:grid-cols-[13rem_1fr] lg:grid-cols-[14rem_1fr]">
+         <div className="relative mx-auto grid grid-cols-1 max-w-6xl gap-x-8 px-6 pt-8 sm:px-10 md:grid-cols-[13rem_1fr] lg:grid-cols-[14rem_1fr]">
             <div className="space-y-5">
                <button
                   type="button"

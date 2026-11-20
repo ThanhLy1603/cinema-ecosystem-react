@@ -35,7 +35,7 @@ const ABOUT_FEATURES: AboutFeature[] = [
 
 export function AboutFeatureList(): ReactElement {
    return (
-      <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
          {ABOUT_FEATURES.map((aboutFeature, featureIndex) => {
             const FeatureIcon: LucideIcon = aboutFeature.icon;
             return (

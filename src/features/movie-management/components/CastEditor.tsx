@@ -44,7 +44,7 @@ export function CastEditor({ castDrafts, personOptions, onChange }: CastEditorPr
          {castDrafts.map((castDraft) => (
             <div
                key={castDraft.key}
-               className="grid gap-3 rounded-2xl border border-ink-100 p-4 md:grid-cols-[1.4fr_1fr_1fr_auto] md:items-end"
+               className="grid grid-cols-1 gap-3 rounded-2xl border border-ink-100 p-4 md:grid-cols-[1.4fr_1fr_1fr_auto] md:items-end"
             >
                <SelectField
                   id={`cast-person-${castDraft.key}`}

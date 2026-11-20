@@ -31,7 +31,7 @@ export function OperationsFilterBar({
    const today: string = todayInVietnam();
 
    return (
-      <div className="grid gap-3 rounded-xl bg-white p-4 ring-1 ring-ink-100 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 rounded-xl bg-white p-4 ring-1 ring-ink-100 sm:grid-cols-2 xl:grid-cols-4">
          <SelectField
             id="operations-cinema"
             label="Chi nhánh"

@@ -178,7 +178,7 @@ export function CreateStaffPage(): ReactElement {
                   optional
                   error={fieldErrors.phone ?? serverFieldErrors.phone}
                />
-               <div className="grid gap-5 sm:grid-cols-2">
+               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <SelectField
                      id="staff-role"
                      label="Role"
@@ -196,7 +196,7 @@ export function CreateStaffPage(): ReactElement {
                      error={fieldErrors.position}
                   />
                </div>
-               <div className="grid gap-5 sm:grid-cols-2">
+               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                   <TextField
                      id="staff-employee-code"
                      label="Mã nhân viên"

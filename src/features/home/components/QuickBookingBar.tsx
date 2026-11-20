@@ -70,7 +70,7 @@ export function QuickBookingBar({ movies, cinemas }: QuickBookingBarProps): Reac
                   Chọn phim, rạp và ngày chiếu để xem suất chiếu ngay
                </p>
             </div>
-            <div className="grid items-start gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 items-start gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
                <div className="space-y-1.5">
                   <p className="flex items-center gap-1.5 text-xs font-bold text-ink-700">
                      <Film className="size-3.5 text-brand-600" aria-hidden="true" />

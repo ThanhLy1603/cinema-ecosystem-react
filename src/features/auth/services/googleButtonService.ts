@@ -3,6 +3,7 @@ import type { GoogleAccountsId } from '@/types/auth/google';
 
 const GOOGLE_SCRIPT_URL: string = 'https://accounts.google.com/gsi/client';
 const MAX_BUTTON_WIDTH: number = 400;
+const WIDE_BUTTON_MIN_WIDTH: number = 330;
 
 let googleAccountsIdPromise: Promise<GoogleAccountsId> | null = null;
 
@@ -46,6 +47,26 @@ export function mountGoogleButton(
    onLoadError: () => void,
 ): () => void {
    let isCancelled: boolean = false;
+   let resizeObserver: ResizeObserver | null = null;
+   let renderedWidth: number = 0;
+
+   function drawButton(googleAccountsId: GoogleAccountsId, containerElement: HTMLDivElement): void {
+      const buttonWidth: number = Math.min(containerElement.clientWidth, MAX_BUTTON_WIDTH);
+      if (buttonWidth === renderedWidth) {
+         return;
+      }
+      renderedWidth = buttonWidth;
+      containerElement.replaceChildren();
+      googleAccountsId.renderButton(containerElement, {
+         type: 'standard',
+         theme: 'outline',
+         size: 'large',
+         text: buttonWidth < WIDE_BUTTON_MIN_WIDTH ? 'signin_with' : 'continue_with',
+         shape: 'pill',
+         locale: 'vi',
+         width: buttonWidth,
+      });
+   }
 
    function renderButton(googleAccountsId: GoogleAccountsId): void {
       const containerElement: HTMLDivElement | null = containerRef.current;
@@ -56,15 +77,9 @@ export function mountGoogleButton(
          client_id: googleClientId,
          callback: (googleCredentialResponse) => onCredential(googleCredentialResponse.credential),
       });
-      googleAccountsId.renderButton(containerElement, {
-         type: 'standard',
-         theme: 'outline',
-         size: 'large',
-         text: 'continue_with',
-         shape: 'pill',
-         locale: 'vi',
-         width: Math.min(containerElement.offsetWidth, MAX_BUTTON_WIDTH),
-      });
+      drawButton(googleAccountsId, containerElement);
+      resizeObserver = new ResizeObserver((): void => drawButton(googleAccountsId, containerElement));
+      resizeObserver.observe(containerElement);
    }
 
    function handleLoadError(): void {
@@ -77,6 +92,7 @@ export function mountGoogleButton(
 
    return (): void => {
       isCancelled = true;
+      resizeObserver?.disconnect();
       containerRef.current?.replaceChildren();
    };
 }

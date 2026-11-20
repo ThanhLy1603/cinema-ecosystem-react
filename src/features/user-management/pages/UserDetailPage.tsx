@@ -126,7 +126,7 @@ export function UserDetailPage(): ReactElement {
             </dl>
          </header>
 
-         <div className="grid gap-8 lg:grid-cols-2">
+         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <SectionCard title="Thông tin cá nhân">
                <UserInfoForm key={adminUser.id} adminUser={adminUser} />
             </SectionCard>

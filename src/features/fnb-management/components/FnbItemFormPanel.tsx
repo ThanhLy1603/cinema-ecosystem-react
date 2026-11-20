@@ -102,7 +102,7 @@ export function FnbItemFormPanel({ panelState, onSaved, onClose }: FnbItemFormPa
                   placeholder="Vd. Bắp rang bơ vị phô mai"
                   error={fnbItemFormErrors.name}
                />
-               <div className="grid gap-4 sm:grid-cols-2">
+               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <SelectField
                      id="fnb-item-category"
                      label="Nhóm món"

@@ -22,7 +22,7 @@ export function AboutCinemaList(): ReactElement {
       <div>
          {cinemasQuery.isError && <Alert variant="error">{getErrorMessage(cinemasQuery.error)}</Alert>}
          {cinemasQuery.isPending && (
-            <div className="grid gap-5 sm:grid-cols-2" aria-hidden="true">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2" aria-hidden="true">
                {SKELETON_KEYS.map((skeletonKey) => (
                   <div key={skeletonKey} className="h-36 animate-pulse rounded-2xl bg-white" />
                ))}
@@ -34,7 +34,7 @@ export function AboutCinemaList(): ReactElement {
             </p>
          )}
          {cinemas.length > 0 && (
-            <ul className="grid gap-5 sm:grid-cols-2">
+            <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                {cinemas.map((cinema, cinemaIndex) => (
                   <li key={cinema.id}>
                      <Reveal delayMs={cinemaIndex * 80} className="h-full">

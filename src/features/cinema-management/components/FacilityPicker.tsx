@@ -27,7 +27,7 @@ export function FacilityPicker({
    }
 
    return (
-      <fieldset className="grid gap-3 sm:grid-cols-2" disabled={disabled}>
+      <fieldset className="grid grid-cols-1 gap-3 sm:grid-cols-2" disabled={disabled}>
          <legend className="sr-only">Tiện ích của rạp</legend>
          {facilities.map((facility) => (
             <label

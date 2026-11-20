@@ -173,7 +173,7 @@ export function AdminDashboardPage(): ReactElement {
             }
          />
 
-         <section aria-label="Số liệu chính" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+         <section aria-label="Số liệu chính" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {statCardItems.map((statCardItem) => (
                <Link
                   key={statCardItem.to}

@@ -21,15 +21,15 @@ export function Logo({ tone = 'default', variant = 'flat', to = '/', className }
          <Link
             to={to}
             aria-label="CinemaSphere - Trang chủ"
-            className={cn('group inline-flex shrink-0 items-center gap-3', className)}
+            className={cn('group inline-flex shrink-0 items-center gap-2 sm:gap-3', className)}
          >
             <span className="grid size-10 place-items-center rounded-xl text-white shadow-glow transition-transform [background:var(--cta-bg)] group-hover:scale-105">
                <Film className="size-5" aria-hidden="true" />
             </span>
-            <span className="flex flex-col leading-tight">
+            <span className="flex flex-col leading-tight max-[359px]:hidden">
                <span
                   className={cn(
-                     'text-xl font-extrabold uppercase tracking-wider',
+                     'text-lg font-extrabold uppercase tracking-wider sm:text-xl',
                      isLight ? 'text-white' : 'text-ink-900',
                   )}
                >

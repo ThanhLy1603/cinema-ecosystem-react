@@ -57,7 +57,7 @@ export function AdminLayout(): ReactElement {
    }, [isSidebarOpen]);
 
    return (
-      <div className="flex min-h-screen bg-cream">
+      <div className="flex min-h-dvh bg-cream">
          <aside className="hidden lg:sticky lg:top-0 lg:block lg:h-screen lg:shrink-0">
             <AdminSidebar user={user} />
          </aside>

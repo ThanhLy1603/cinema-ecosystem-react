@@ -77,7 +77,7 @@ export function BookingInvoiceCard({ bookingDetail }: BookingInvoiceCardProps): 
             </div>
          </header>
 
-         <div className="grid gap-6 p-5 md:grid-cols-[1fr_1fr]">
+         <div className="grid grid-cols-1 gap-6 p-5 md:grid-cols-[1fr_1fr]">
             <section aria-label="Hóa đơn" className="space-y-3 text-sm">
                <h3 className="font-bold text-ink-900">Hóa đơn</h3>
                <ul className="space-y-1.5 text-ink-700">

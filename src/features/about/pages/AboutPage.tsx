@@ -31,7 +31,7 @@ export function AboutPage(): ReactElement {
          </section>
 
          <div className="mx-auto max-w-6xl space-y-16 px-6 pt-14 sm:px-10 sm:pt-16">
-            <section aria-labelledby="about-story-heading" className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+            <section aria-labelledby="about-story-heading" className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
                <Reveal>
                   <div className="space-y-4">
                      <h2
@@ -66,7 +66,7 @@ export function AboutPage(): ReactElement {
                <AboutFeatureList />
             </section>
 
-            <section aria-labelledby="about-space-heading" className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+            <section aria-labelledby="about-space-heading" className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
                <Reveal className="lg:order-2">
                   <div className="space-y-4">
                      <h2

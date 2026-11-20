@@ -56,7 +56,7 @@ export function CinemaListPage(): ReactElement {
                </p>
             )}
             {cinemasQuery.data && cinemasQuery.data.length > 0 && (
-               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   {cinemasQuery.data.map((cinema, cinemaIndex) => (
                      <Reveal key={cinema.id} delayMs={(cinemaIndex % 3) * 90} className="h-full">
                         <CinemaCard cinema={cinema} />

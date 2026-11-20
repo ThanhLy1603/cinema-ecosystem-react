@@ -68,7 +68,7 @@ export function GoogleAuthSection(): ReactElement | null {
             ref={buttonContainerRef}
             aria-busy={googleLoginMutation.isPending}
             className={cn(
-               'flex min-h-[44px] justify-center transition-opacity',
+               'flex min-h-[44px] w-full max-w-full justify-center transition-opacity',
                googleLoginMutation.isPending && 'pointer-events-none opacity-50',
             )}
          />

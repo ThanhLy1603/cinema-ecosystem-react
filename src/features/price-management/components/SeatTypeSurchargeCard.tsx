@@ -17,7 +17,7 @@ export function SeatTypeSurchargeCard(): ReactElement {
             </p>
          </div>
          {seatTypesQuery.isPending && <p className="text-sm text-ink-500">Đang tải...</p>}
-         <ul className="grid gap-3 sm:grid-cols-3">
+         <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {seatTypes.map((seatType) => (
                <li key={seatType.id} className="rounded-2xl bg-ink-50 px-4 py-3 ring-1 ring-ink-100">
                   <p className="text-sm font-bold text-ink-900">{seatType.name}</p>

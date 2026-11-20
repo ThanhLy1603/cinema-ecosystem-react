@@ -94,7 +94,7 @@ export function PersonForm({ person, onDone, onCancel }: PersonFormProps): React
       >
          {personMutation.isError && <Alert variant="error">{getErrorMessage(personMutation.error)}</Alert>}
          {deferredUpload.uploadError && <Alert variant="error">{deferredUpload.uploadError}</Alert>}
-         <div className="grid gap-4 sm:grid-cols-2">
+         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <TextField
                id={`person-name-${person?.id ?? 'new'}`}
                label="Tên nghệ sĩ"

@@ -98,7 +98,7 @@ export function HomePromotions(): ReactElement {
             <SectionBanner title="Ưu đãi đặc biệt" headingId="home-promotions-heading" />
             {promotionsQuery.isError && <Alert variant="error">{getErrorMessage(promotionsQuery.error)}</Alert>}
             {promotionsQuery.isPending && (
-               <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
+               <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3" aria-hidden="true">
                   {SKELETON_KEYS.map((skeletonKey) => (
                      <div key={skeletonKey} className="h-36 animate-pulse rounded-2xl bg-brand-100" />
                   ))}
@@ -110,7 +110,7 @@ export function HomePromotions(): ReactElement {
                </p>
             )}
             {publicPromotions.length > 0 && (
-               <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+               <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
                   {publicPromotions.map((publicPromotion, promotionIndex) => (
                      <Reveal key={publicPromotion.id} delayMs={(promotionIndex % 3) * 90} className="h-full">
                         <PromotionCard publicPromotion={publicPromotion} />

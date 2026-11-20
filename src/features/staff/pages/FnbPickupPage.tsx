@@ -141,7 +141,7 @@ export function FnbPickupPage(): ReactElement {
             </p>
          </header>
 
-         <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
+         <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
             <QrScannerPanel
                videoRef={videoRef}
                isCameraActive={isCameraActive}

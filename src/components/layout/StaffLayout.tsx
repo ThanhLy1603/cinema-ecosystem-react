@@ -100,7 +100,7 @@ export function StaffLayout(): ReactElement {
    }
 
    return (
-      <div className="theme-shinkai flex min-h-screen bg-cream">
+      <div className="theme-shinkai flex min-h-dvh bg-cream">
          <aside className="hidden lg:sticky lg:top-0 lg:block lg:h-screen lg:shrink-0">
             <StaffSidebar user={user} />
          </aside>

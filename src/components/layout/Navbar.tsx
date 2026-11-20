@@ -25,7 +25,7 @@ const NAV_ITEMS: NavItem[] = [
 
 function getNavLinkClassName(isActive: boolean): string {
    return cn(
-      'group relative whitespace-nowrap px-3 py-2 text-[13px] font-semibold uppercase tracking-wide transition-colors',
+      'group relative whitespace-nowrap px-2 py-2 text-[13px] 2xl:px-3 font-semibold uppercase tracking-wide transition-colors',
       isActive ? 'text-brand-600' : 'text-ink-900 hover:text-brand-600',
    );
 }
@@ -44,13 +44,13 @@ export function Navbar(): ReactElement {
       <header className="sticky top-0 z-40 w-full">
          <div
             className={cn(
-               'flex h-16 w-full items-center gap-4 border-b border-white/70 px-4 backdrop-blur-xl transition-all duration-300 sm:px-8 lg:px-12',
+               'flex h-16 w-full items-center gap-2 border-b border-white/70 px-3 backdrop-blur-xl transition-all duration-300 sm:gap-4 sm:px-8 lg:px-12',
                isScrolled ? 'bg-white/90 shadow-md shadow-ink-900/10' : 'bg-white/70',
             )}
          >
             <Logo variant="cinema" />
 
-            <nav className="ml-6 hidden items-center gap-1 lg:flex xl:ml-10 xl:gap-3" aria-label="Điều hướng chính">
+            <nav className="ml-4 hidden items-center gap-1 xl:flex 2xl:ml-10 2xl:gap-3" aria-label="Điều hướng chính">
                {NAV_ITEMS.map((navItem) => (
                   <NavLink key={navItem.to} to={navItem.to} className={({ isActive }) => getNavLinkClassName(isActive)}>
                      {({ isActive }) => (
@@ -58,7 +58,7 @@ export function Navbar(): ReactElement {
                            {navItem.label}
                            <span
                               className={cn(
-                                 'absolute inset-x-3 -bottom-1 h-0.5 origin-left rounded-full bg-brand-600 transition-transform duration-300',
+                                 'absolute inset-x-2 -bottom-1 2xl:inset-x-3 h-0.5 origin-left rounded-full bg-brand-600 transition-transform duration-300',
                                  isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
                               )}
                            />
@@ -68,7 +68,7 @@ export function Navbar(): ReactElement {
                ))}
             </nav>
 
-            <div className="ml-auto flex items-center gap-3">
+            <div className="ml-auto flex items-center gap-2 sm:gap-3">
                <div className="hidden sm:block">
                   <CitySelector />
                </div>
@@ -82,7 +82,8 @@ export function Navbar(): ReactElement {
                      size="sm"
                      className="hidden rounded-xl px-5 text-xs font-bold uppercase sm:inline-flex"
                   >
-                     Đăng ký / Đăng nhập
+                     <span className="2xl:hidden">Đăng nhập</span>
+                     <span className="hidden 2xl:inline">Đăng ký / Đăng nhập</span>
                   </LinkButton>
                )}
 
@@ -91,7 +92,7 @@ export function Navbar(): ReactElement {
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   aria-label={isMobileMenuOpen ? 'Đóng menu' : 'Mở menu'}
                   aria-expanded={isMobileMenuOpen}
-                  className="grid size-10 place-items-center rounded-xl text-ink-800 transition-colors hover:bg-ink-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 lg:hidden"
+                  className="grid size-10 place-items-center rounded-xl text-ink-800 transition-colors hover:bg-ink-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 xl:hidden"
                >
                   {isMobileMenuOpen ? <X className="size-6" /> : <Menu className="size-6" />}
                </button>
@@ -99,7 +100,7 @@ export function Navbar(): ReactElement {
          </div>
 
          {isMobileMenuOpen && (
-            <div className="w-full space-y-4 border-b border-ink-100 bg-white/95 px-4 pb-5 pt-4 shadow-lg backdrop-blur-xl lg:hidden">
+            <div className="w-full space-y-4 border-b border-ink-100 bg-white/95 px-4 pb-5 pt-4 shadow-lg backdrop-blur-xl xl:hidden">
                <div className="sm:hidden">
                   <CitySelector />
                </div>

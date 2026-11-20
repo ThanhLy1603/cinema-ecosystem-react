@@ -181,7 +181,7 @@ export function BulkShowtimePanel({ panelState, halls, onChanged, onClose }: Bul
                {panelState.mode === 'duplicate' && (
                   <fieldset className="space-y-2" disabled={isFinished}>
                      <legend className="text-sm font-semibold text-ink-800">Phòng chiếu đích</legend>
-                     <div className="grid gap-2 sm:grid-cols-2">
+                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                         {halls.map((hall) => (
                            <label
                               key={hall.id}

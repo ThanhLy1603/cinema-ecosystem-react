@@ -213,7 +213,7 @@ export function SeatMapEditor({ seatLayout, seatTypes }: SeatMapEditorProps): Re
    useEffect(registerUnloadWarning, [isDirty]);
 
    return (
-      <div className="grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
          <aside
             className={cn('space-y-6', isEditingLocked && 'pointer-events-none opacity-50')}
             inert={isEditingLocked}

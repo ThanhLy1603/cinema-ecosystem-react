@@ -93,7 +93,7 @@ export function ProfilePage(): ReactElement {
             </section>
          )}
 
-         <div className="grid gap-8 lg:grid-cols-2">
+         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <section className="rounded-3xl bg-white p-6 shadow-card ring-1 ring-ink-100 sm:p-8">
                <h2 className="mb-6 text-xl font-bold text-ink-900">Thông tin cá nhân</h2>
                <ProfileForm key={userProfile.id} userProfile={userProfile} />

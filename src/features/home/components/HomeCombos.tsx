@@ -29,7 +29,7 @@ export function HomeCombos({ fnbCombos }: HomeCombosProps): ReactElement | null 
       >
          <div className="mx-auto max-w-6xl">
             <SectionBanner title="Combo ưu đãi" headingId="home-combos-heading" />
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                {visibleFnbCombos.map((fnbCombo, comboIndex) => (
                   <Reveal key={fnbCombo.id} delayMs={comboIndex * 90} className="h-full">
                      <FnbComboCard fnbCombo={fnbCombo} isBestSeller={bestSellerIds.comboIds.has(fnbCombo.id)} />

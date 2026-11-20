@@ -109,7 +109,7 @@ export function PaymentSimulatorPage(): ReactElement {
                </div>
             </dl>
             {errorMessage && <Alert variant="error">{errorMessage}</Alert>}
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                <Button isLoading={callbackMutation.isPending} onClick={handleSuccessClick}>
                   Thanh toán thành công
                </Button>

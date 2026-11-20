@@ -269,7 +269,7 @@ export function SalesSeatStep({ showtimeId, onChangeShowtime, onContinue }: Sale
    }
 
    return (
-      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_20rem]">
          <section className="space-y-4 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100">
             <div className="flex flex-wrap items-center justify-between gap-3">
                <button

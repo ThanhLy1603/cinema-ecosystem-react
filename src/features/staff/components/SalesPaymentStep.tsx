@@ -120,7 +120,7 @@ export function SalesPaymentStep({ cinemaId, onBack, onPaid }: SalesPaymentStepP
    }
 
    return (
-      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_22rem]">
          <div className="space-y-5">
             <button
                type="button"

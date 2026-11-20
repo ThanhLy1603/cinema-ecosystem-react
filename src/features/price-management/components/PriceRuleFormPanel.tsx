@@ -152,7 +152,7 @@ export function PriceRuleFormPanel({ panelState, onSaved, onClose }: PriceRuleFo
 
                   {priceRuleFormValues.ruleType === 'TIME_SLOT' && (
                      <div className="space-y-2">
-                        <div className="grid gap-4 sm:grid-cols-2">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                            <TextField
                               id="price-rule-time-from"
                               label="Từ giờ"
@@ -201,7 +201,7 @@ export function PriceRuleFormPanel({ panelState, onSaved, onClose }: PriceRuleFo
 
                   {priceRuleFormValues.ruleType !== '' && (
                      <div className="space-y-2">
-                        <div className="grid gap-4 sm:grid-cols-2">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                            <TextField
                               id="price-rule-valid-from"
                               label={isHoliday ? 'Áp dụng từ ngày' : 'Hiệu lực từ ngày'}

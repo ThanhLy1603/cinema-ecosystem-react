@@ -156,7 +156,7 @@ export function MovieForm({
          {deferredUpload.uploadError && <Alert variant="error">{deferredUpload.uploadError}</Alert>}
          {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
-         <div className="grid gap-5 sm:grid-cols-2">
+         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <div className="sm:col-span-2">
                <TextField
                   id="movie-title"

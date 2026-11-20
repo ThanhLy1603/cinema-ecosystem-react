@@ -107,7 +107,7 @@ export function BookingSummaryAside({
          className={cn(
             'rounded-2xl border border-ink-200 bg-white shadow-xs lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:self-start lg:overflow-y-auto',
             collapsibleOnMobile &&
-               'fixed inset-x-0 bottom-0 z-40 max-h-[85vh] overflow-y-auto rounded-b-none border-x-0 border-b-0 lg:inset-x-auto lg:bottom-auto lg:z-auto lg:rounded-2xl lg:border',
+               'fixed inset-x-0 bottom-0 z-40 max-h-[85dvh] overflow-y-auto pb-[env(safe-area-inset-bottom)] rounded-b-none border-x-0 border-b-0 lg:inset-x-auto lg:bottom-auto lg:z-auto lg:rounded-2xl lg:border',
          )}
       >
          {collapsibleOnMobile && (

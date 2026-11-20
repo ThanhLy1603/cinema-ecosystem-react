@@ -102,7 +102,7 @@ export function FnbMenuPage(): ReactElement {
                   <h2 id="fnb-combos-heading" className={SECTION_HEADING_CLASS_NAME}>
                      Combo tiết kiệm
                   </h2>
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                      {fnbMenu.combos.map((fnbCombo, comboIndex) => (
                         <Reveal key={fnbCombo.id} delayMs={(comboIndex % 3) * 80} className="h-full">
                            <FnbComboCard fnbCombo={fnbCombo} isBestSeller={bestSellerIds.comboIds.has(fnbCombo.id)} />
@@ -115,7 +115,7 @@ export function FnbMenuPage(): ReactElement {
             {visibleCategories.map((fnbCategory) => (
                <section key={fnbCategory} aria-label={FNB_CATEGORY_LABELS[fnbCategory]}>
                   <h2 className={SECTION_HEADING_CLASS_NAME}>{FNB_CATEGORY_LABELS[fnbCategory]}</h2>
-                  <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                      {getItemsByCategory(fnbCategory).map((fnbItem, itemIndex) => (
                         <Reveal key={fnbItem.id} delayMs={(itemIndex % 3) * 80} className="h-full">
                            <FnbItemCard fnbItem={fnbItem} isBestSeller={bestSellerIds.itemIds.has(fnbItem.id)} />
