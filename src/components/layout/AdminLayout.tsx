@@ -1,6 +1,6 @@
-import { ChevronRight, Menu, Store } from 'lucide-react';
+import { ChevronRight, Menu } from 'lucide-react';
 import { useEffect, useState, type ReactElement } from 'react';
-import { Link, useLocation, type Location } from 'react-router-dom';
+import { useLocation, type Location } from 'react-router-dom';
 import PageOutlet from '@/components/common/PageOutlet';
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { User } from '@/types/auth/auth';
@@ -17,6 +17,10 @@ const ADMIN_TITLE_RULES: RouteTitleRule[] = [
    { prefix: '/admin/users/', title: 'Chi tiết người dùng' },
    { prefix: '/admin/users', title: 'Quản lý người dùng' },
    { prefix: '/admin/cinemas', title: 'Cụm rạp & phòng chiếu' },
+   { prefix: '/admin/movies/new', title: 'Thêm phim mới' },
+   { prefix: '/admin/movies/genres', title: 'Thể loại phim' },
+   { prefix: '/admin/movies/persons', title: 'Nghệ sĩ & ekip' },
+   { prefix: '/admin/movies/', title: 'Chi tiết & chỉnh sửa phim' },
    { prefix: '/admin/movies', title: 'Quản lý phim' },
    { prefix: '/admin/showtimes', title: 'Suất chiếu' },
    { prefix: '/admin/price-rules', title: 'Cấu hình giá vé' },
@@ -29,8 +33,9 @@ const ADMIN_TITLE_RULES: RouteTitleRule[] = [
 ];
 
 function getAdminPageTitle(pathname: string): string {
+   const normalizedPathname: string = pathname.replace(/\/+$/, '');
    const routeTitleRule: RouteTitleRule | undefined = ADMIN_TITLE_RULES.find((rule) =>
-      pathname.startsWith(rule.prefix),
+      normalizedPathname.startsWith(rule.prefix),
    );
    return routeTitleRule ? routeTitleRule.title : 'Tổng quan quản trị';
 }
@@ -99,16 +104,7 @@ export function AdminLayout(): ReactElement {
                   </nav>
                </div>
 
-               <div className="flex items-center gap-3">
-                  <Link
-                     to="/"
-                     className="hidden items-center gap-2 rounded-lg px-3 py-1.5 text-[13px] font-semibold text-ink-600 transition-colors hover:bg-ink-100 hover:text-ink-900 sm:inline-flex"
-                  >
-                     <Store className="size-4" aria-hidden="true" />
-                     Trang khách hàng
-                  </Link>
-                  {user && <UserMenu user={user} />}
-               </div>
+               {user && <UserMenu user={user} />}
             </header>
 
             <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">

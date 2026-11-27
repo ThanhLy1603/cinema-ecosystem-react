@@ -1,5 +1,5 @@
-import { CircleAlert, Eye, EyeOff, type LucideIcon } from 'lucide-react';
-import { useState, type ReactElement } from 'react';
+import { CircleAlert, Eye, EyeOff, X, type LucideIcon } from 'lucide-react';
+import { useRef, useState, type ReactElement } from 'react';
 import { cn } from '@/lib/common/utils';
 
 interface TextFieldProps {
@@ -19,6 +19,7 @@ interface TextFieldProps {
    max?: string;
    autoFocus?: boolean;
    hideLabel?: boolean;
+   clearable?: boolean;
 }
 
 export function TextField({
@@ -38,12 +39,20 @@ export function TextField({
    max,
    autoFocus = false,
    hideLabel = false,
+   clearable = false,
 }: TextFieldProps): ReactElement {
    const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
    const isPasswordField: boolean = type === 'password';
    const inputType: string = isPasswordField && isPasswordVisible ? 'text' : type;
    const messageId: string = `${id}-message`;
    const hasError: boolean = Boolean(error);
+   const inputRef = useRef<HTMLInputElement>(null);
+   const canClear: boolean = clearable && !disabled && !isPasswordField && value.length > 0;
+
+   function clearValue(): void {
+      onChange('');
+      inputRef.current?.focus();
+   }
 
    return (
       <div className="space-y-1">
@@ -69,6 +78,7 @@ export function TextField({
                />
             )}
             <input
+               ref={inputRef}
                id={id}
                name={id}
                type={inputType}
@@ -85,12 +95,22 @@ export function TextField({
                className={cn(
                   'h-10 w-full rounded-lg border bg-white text-sm text-ink-900 shadow-sm outline-none transition-colors placeholder:text-ink-300 disabled:bg-ink-50 disabled:text-ink-400',
                   Icon ? 'pl-10' : 'pl-3',
-                  isPasswordField ? 'pr-11' : 'pr-3',
+                  isPasswordField ? 'pr-11' : canClear ? 'pr-9' : 'pr-3',
                   hasError
                      ? 'border-danger-400 focus:border-danger-500 focus:ring-2 focus:ring-danger-100'
                      : 'border-ink-200 hover:border-ink-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100',
                )}
             />
+            {canClear && (
+               <button
+                  type="button"
+                  aria-label="Xóa nội dung"
+                  onClick={clearValue}
+                  className="absolute right-1.5 top-1/2 grid size-6 -translate-y-1/2 place-items-center rounded-full text-ink-400 transition-colors hover:bg-ink-100 hover:text-ink-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-200"
+               >
+                  <X className="size-4" aria-hidden="true" />
+               </button>
+            )}
             {isPasswordField && (
                <button
                   type="button"

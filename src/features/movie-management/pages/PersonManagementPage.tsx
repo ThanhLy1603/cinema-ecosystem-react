@@ -1,7 +1,6 @@
 import { keepPreviousData, useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { ArrowLeft, Plus, Search } from 'lucide-react';
+import { Plus, Search } from 'lucide-react';
 import { useState, type FormEvent, type ReactElement } from 'react';
-import { Link } from 'react-router-dom';
 import { searchAdminPersons } from '@/api/movie/movieApi';
 import Pagination from '@/components/common/Pagination';
 import SectionCard from '@/components/common/SectionCard';
@@ -12,6 +11,7 @@ import { getErrorMessage } from '@/lib/common/apiError';
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { PageResponse } from '@/types/common/api';
 import type { Person } from '@/types/movie/movie';
+import MovieSectionTabs from '../components/MovieSectionTabs';
 import PersonForm from '../components/PersonForm';
 import PersonRow from '../components/PersonRow';
 import { ADMIN_PERSONS_KEY } from '../utils/queryKeys';
@@ -54,10 +54,7 @@ export function PersonManagementPage(): ReactElement {
 
    return (
       <div className="w-full max-w-3xl space-y-6">
-         <Link to="/admin/movies" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700">
-            <ArrowLeft className="size-4" aria-hidden="true" />
-            Về danh sách phim
-         </Link>
+         <MovieSectionTabs />
          <h1 className="text-xl font-semibold tracking-tight text-ink-900">Đạo diễn & diễn viên</h1>
          <SectionCard
             title="Nghệ sĩ"

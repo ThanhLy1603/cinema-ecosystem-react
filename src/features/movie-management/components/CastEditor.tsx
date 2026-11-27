@@ -29,6 +29,11 @@ export function CastEditor({ castDrafts, personOptions, onChange }: CastEditorPr
       onChange(castDrafts.map((castDraft) => (castDraft.key === castKey ? { ...castDraft, ...changes } : castDraft)));
    }
 
+   function changeRoleType(castKey: number, roleType: string): void {
+      const shouldClearCharacterName: boolean = roleType !== '' && roleType !== 'ACTOR';
+      updateCastDraft(castKey, shouldClearCharacterName ? { roleType, characterName: '' } : { roleType });
+   }
+
    function removeCastDraft(castKey: number): void {
       onChange(castDrafts.filter((castDraft) => castDraft.key !== castKey));
    }
@@ -39,26 +44,28 @@ export function CastEditor({ castDrafts, personOptions, onChange }: CastEditorPr
    }
 
    return (
-      <div className="space-y-3">
+      <div className="@container space-y-3">
          {castDrafts.length === 0 && <p className="text-sm text-ink-500">Chưa có đạo diễn hoặc diễn viên nào.</p>}
          {castDrafts.map((castDraft) => (
             <div
                key={castDraft.key}
-               className="grid grid-cols-1 gap-3 rounded-2xl border border-ink-100 p-4 md:grid-cols-[1.4fr_1fr_1fr_auto] md:items-end"
+               className="grid grid-cols-1 gap-3 rounded-2xl border border-ink-100 p-4 @md:grid-cols-2 @2xl:grid-cols-[1.4fr_1fr_1fr_auto] @2xl:items-end"
             >
-               <SelectField
-                  id={`cast-person-${castDraft.key}`}
-                  label="Nghệ sĩ"
-                  value={castDraft.personId}
-                  onChange={(personId) => updateCastDraft(castDraft.key, { personId })}
-                  options={personSelectOptions}
-                  placeholder="Chọn nghệ sĩ..."
-               />
+               <div className="@md:col-span-2 @2xl:col-span-1">
+                  <SelectField
+                     id={`cast-person-${castDraft.key}`}
+                     label="Nghệ sĩ"
+                     value={castDraft.personId}
+                     onChange={(personId) => updateCastDraft(castDraft.key, { personId })}
+                     options={personSelectOptions}
+                     placeholder="Chọn nghệ sĩ..."
+                  />
+               </div>
                <SelectField
                   id={`cast-role-${castDraft.key}`}
                   label="Vai trò"
                   value={castDraft.roleType}
-                  onChange={(roleType) => updateCastDraft(castDraft.key, { roleType })}
+                  onChange={(roleType) => changeRoleType(castDraft.key, roleType)}
                   options={CAST_ROLE_OPTIONS}
                />
                <TextField
@@ -67,11 +74,13 @@ export function CastEditor({ castDrafts, personOptions, onChange }: CastEditorPr
                   value={castDraft.characterName}
                   onChange={(characterName) => updateCastDraft(castDraft.key, { characterName })}
                   maxLength={150}
+                  disabled={castDraft.roleType !== 'ACTOR'}
+                  placeholder={castDraft.roleType === 'ACTOR' ? undefined : 'Chỉ dành cho diễn viên'}
                   optional
                />
                <Button
                   variant="ghost"
-                  className="h-12 px-3"
+                  className="justify-self-end px-3 @md:col-span-2 @2xl:col-span-1"
                   aria-label="Gỡ nghệ sĩ khỏi phim"
                   icon={<Trash2 className="size-4" aria-hidden="true" />}
                   onClick={() => removeCastDraft(castDraft.key)}

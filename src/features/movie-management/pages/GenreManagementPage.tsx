@@ -1,7 +1,6 @@
 import type { UseQueryResult } from '@tanstack/react-query';
-import { ArrowLeft, Plus } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import { useState, type ReactElement } from 'react';
-import { Link } from 'react-router-dom';
 import SectionCard from '@/components/common/SectionCard';
 import Alert from '@/components/ui/Alert';
 import Button from '@/components/ui/Button';
@@ -10,6 +9,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import type { Genre } from '@/types/movie/movie';
 import GenreForm from '../components/GenreForm';
 import GenreRow from '../components/GenreRow';
+import MovieSectionTabs from '../components/MovieSectionTabs';
 import { useGenres } from '../hooks/useGenres';
 
 export function GenreManagementPage(): ReactElement {
@@ -35,10 +35,7 @@ export function GenreManagementPage(): ReactElement {
 
    return (
       <div className="w-full max-w-3xl space-y-6">
-         <Link to="/admin/movies" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700">
-            <ArrowLeft className="size-4" aria-hidden="true" />
-            Về danh sách phim
-         </Link>
+         <MovieSectionTabs />
          <h1 className="text-xl font-semibold tracking-tight text-ink-900">Danh mục thể loại</h1>
          <SectionCard
             title="Thể loại phim"

@@ -10,16 +10,17 @@ import { useMovieRefresh } from '../hooks/useMovieRefresh';
 
 interface DeleteMovieCardProps {
    movieId: number;
+   movieListPath: string;
 }
 
-export function DeleteMovieCard({ movieId }: DeleteMovieCardProps): ReactElement {
+export function DeleteMovieCard({ movieId, movieListPath }: DeleteMovieCardProps): ReactElement {
    const [isConfirming, setIsConfirming] = useState<boolean>(false);
    const navigate: NavigateFunction = useNavigate();
    const refreshMovie: () => void = useMovieRefresh(null);
 
    function handleDeleted(): void {
       refreshMovie();
-      navigate('/admin/movies', { replace: true });
+      navigate(movieListPath, { replace: true });
    }
 
    const deleteMutation: UseMutationResult<void, unknown, void> = useMutation<void, unknown, void>({
@@ -32,7 +33,7 @@ export function DeleteMovieCard({ movieId }: DeleteMovieCardProps): ReactElement
          {deleteMutation.isError && <Alert variant="error">{getErrorMessage(deleteMutation.error)}</Alert>}
          <p className="text-sm text-ink-600">
             Phim bị xóa mềm: ẩn khỏi danh sách và trang khách hàng nhưng dữ liệu vẫn được giữ lại, có thể khôi phục
-            trong bộ lọc «Đã xóa». Không thể xóa khi phim còn suất chiếu chưa diễn ra.
+            trong tab «Đã xóa». Không thể xóa khi phim còn suất chiếu chưa diễn ra.
          </p>
          {!isConfirming ? (
             <Button

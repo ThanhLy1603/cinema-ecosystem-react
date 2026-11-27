@@ -22,6 +22,7 @@ interface SelectFieldProps {
    hideLabel?: boolean;
    triggerClassName?: string;
    menuClassName?: string;
+   searchable?: boolean;
 }
 
 const DEFAULT_PLACEHOLDER: string = 'Chọn...';
@@ -40,6 +41,7 @@ export function SelectField({
    hideLabel = false,
    triggerClassName,
    menuClassName,
+   searchable = true,
 }: SelectFieldProps): ReactElement {
    const [isOpen, setIsOpen] = useState<boolean>(false);
    const [searchText, setSearchText] = useState<string>('');
@@ -98,14 +100,30 @@ export function SelectField({
       setActiveIndex(0);
    }
 
+   function selectActiveOption(): void {
+      const activeOption: SelectOption | undefined = filteredOptions[activeIndex];
+      if (activeOption) {
+         selectOption(activeOption.value);
+      }
+   }
+
    function handleTriggerKeyDown(keyboardEvent: KeyboardEvent<HTMLButtonElement>): void {
+      if (isOpen && !searchable) {
+         if (keyboardEvent.key === ' ') {
+            keyboardEvent.preventDefault();
+            selectActiveOption();
+            return;
+         }
+         handleListKeyDown(keyboardEvent);
+         return;
+      }
       if (keyboardEvent.key === 'ArrowDown' || keyboardEvent.key === 'ArrowUp') {
          keyboardEvent.preventDefault();
          openDropdown();
       }
    }
 
-   function handleSearchKeyDown(keyboardEvent: KeyboardEvent<HTMLInputElement>): void {
+   function handleListKeyDown(keyboardEvent: KeyboardEvent<HTMLElement>): void {
       if (keyboardEvent.key === 'ArrowDown') {
          keyboardEvent.preventDefault();
          setActiveIndex(Math.min(activeIndex + 1, Math.max(filteredOptions.length - 1, 0)));
@@ -114,10 +132,7 @@ export function SelectField({
          setActiveIndex(Math.max(activeIndex - 1, 0));
       } else if (keyboardEvent.key === 'Enter') {
          keyboardEvent.preventDefault();
-         const activeOption: SelectOption | undefined = filteredOptions[activeIndex];
-         if (activeOption) {
-            selectOption(activeOption.value);
-         }
+         selectActiveOption();
       } else if (keyboardEvent.key === 'Escape') {
          keyboardEvent.preventDefault();
          closeDropdown();
@@ -127,12 +142,14 @@ export function SelectField({
       }
    }
 
-   function focusSearchInput(): void {
-      if (isOpen) {
-         searchInputRef.current?.focus();
+   function focusDropdownControl(): void {
+      if (!isOpen) {
+         return;
       }
+      const focusTarget: HTMLElement | null = searchable ? searchInputRef.current : triggerRef.current;
+      focusTarget?.focus();
    }
-   useEffect(focusSearchInput, [isOpen]);
+   useEffect(focusDropdownControl, [isOpen, searchable]);
 
    function scrollActiveOptionIntoView(): void {
       if (activeOptionId) {
@@ -163,6 +180,7 @@ export function SelectField({
                aria-haspopup="listbox"
                aria-expanded={isOpen}
                aria-controls={listboxId}
+               aria-activedescendant={searchable ? undefined : activeOptionId}
                aria-invalid={hasError}
                aria-describedby={error ? messageId : undefined}
                disabled={disabled}
@@ -174,7 +192,7 @@ export function SelectField({
                   hasError
                      ? 'border-danger-400 focus:border-danger-500 focus:ring-2 focus:ring-danger-100'
                      : 'border-ink-200 hover:border-ink-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100',
-                  selectedOption && value !== '' ? 'text-ink-900' : 'text-ink-400',
+                  selectedOption ? 'text-ink-900' : 'text-ink-400',
                   triggerClassName,
                )}
             >
@@ -205,25 +223,27 @@ export function SelectField({
                      menuClassName,
                   )}
                >
-                  <div className="relative border-b border-ink-100 p-2">
-                     <Search
-                        className="pointer-events-none absolute left-5 top-1/2 size-4 -translate-y-1/2 text-ink-400"
-                        aria-hidden="true"
-                     />
-                     <input
-                        ref={searchInputRef}
-                        type="text"
-                        value={searchText}
-                        onChange={(changeEvent) => handleSearchChange(changeEvent.target.value)}
-                        onKeyDown={handleSearchKeyDown}
-                        placeholder="Tìm kiếm..."
-                        aria-label="Tìm trong danh sách"
-                        aria-controls={listboxId}
-                        aria-activedescendant={activeOptionId}
-                        autoComplete="off"
-                        className="h-10 w-full rounded-lg border border-ink-200 pl-9 pr-3 text-sm text-ink-900 outline-none placeholder:text-ink-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
-                     />
-                  </div>
+                  {searchable && (
+                     <div className="relative border-b border-ink-100 p-2">
+                        <Search
+                           className="pointer-events-none absolute left-5 top-1/2 size-4 -translate-y-1/2 text-ink-400"
+                           aria-hidden="true"
+                        />
+                        <input
+                           ref={searchInputRef}
+                           type="text"
+                           value={searchText}
+                           onChange={(changeEvent) => handleSearchChange(changeEvent.target.value)}
+                           onKeyDown={handleListKeyDown}
+                           placeholder="Tìm kiếm..."
+                           aria-label="Tìm trong danh sách"
+                           aria-controls={listboxId}
+                           aria-activedescendant={activeOptionId}
+                           autoComplete="off"
+                           className="h-10 w-full rounded-lg border border-ink-200 pl-9 pr-3 text-sm text-ink-900 outline-none placeholder:text-ink-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100"
+                        />
+                     </div>
+                  )}
                   <ul id={listboxId} role="listbox" aria-label={label} className="max-h-60 overflow-y-auto py-1">
                      {filteredOptions.length === 0 && (
                         <li role="presentation" className="px-4 py-3 text-sm text-ink-500">

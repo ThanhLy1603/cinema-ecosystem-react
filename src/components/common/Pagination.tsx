@@ -9,8 +9,12 @@ interface PaginationProps {
    onPageChange: (page: number) => void;
 }
 
-export function Pagination({ page, totalPages, totalElements, onPageChange }: PaginationProps): ReactElement {
+export function Pagination({ page, totalPages, totalElements, onPageChange }: PaginationProps): ReactElement | null {
    const lastPage: number = Math.max(totalPages - 1, 0);
+
+   if (totalElements === 0) {
+      return null;
+   }
 
    return (
       <nav aria-label="Phân trang" className="flex flex-wrap items-center justify-between gap-3 text-sm text-ink-600">
