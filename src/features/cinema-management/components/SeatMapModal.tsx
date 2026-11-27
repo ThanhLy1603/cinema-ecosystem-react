@@ -46,7 +46,7 @@ export function SeatMapModal({ hallId, onClose }: SeatMapModalProps): ReactEleme
       return (
          <div className="space-y-5">
             <div className="flex flex-wrap items-center gap-3">
-               <h3 className="text-lg font-bold text-ink-900">Phòng {seatLayout.hallName}</h3>
+               <h3 className="text-lg font-bold text-ink-900">{seatLayout.hallName}</h3>
                <span className="rounded-full bg-ink-100 px-2.5 py-0.5 text-xs font-bold text-ink-700">
                   {seatLayout.screenType}
                </span>

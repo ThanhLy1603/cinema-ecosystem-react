@@ -88,7 +88,8 @@ export function TextField({
             {Icon && (
                <Icon
                   className={cn(
-                     'pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 transition-colors',
+                     'pointer-events-none absolute left-3 size-4 transition-colors',
+                     expandable ? 'top-3' : 'top-1/2 -translate-y-1/2',
                      hasError ? 'text-danger-500' : 'text-ink-400',
                   )}
                   aria-hidden="true"
@@ -111,7 +112,8 @@ export function TextField({
                   aria-describedby={error || hint ? messageId : undefined}
                   className={cn(
                      stateClassName,
-                     'block field-sizing-content max-h-[min(20rem,50dvh)] min-h-10 resize-y break-words px-3 py-[9px] leading-5',
+                     'block field-sizing-content max-h-[min(20rem,50dvh)] min-h-10 resize-y break-words py-[9px] pr-3 leading-5',
+                     Icon ? 'pl-10' : 'pl-3',
                   )}
                />
             ) : (

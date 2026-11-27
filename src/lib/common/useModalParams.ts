@@ -5,6 +5,7 @@ export interface ModalParams {
    getId: (name: string) => number | null;
    openModal: (name: string, value: string | number) => void;
    closeModal: (...names: string[]) => void;
+   switchModal: (closingName: string, openingName: string, value: string | number) => void;
 }
 
 export function useModalParams(): ModalParams {
@@ -31,6 +32,12 @@ export function useModalParams(): ModalParams {
       },
       openModal(name: string, value: string | number): void {
          updateParams((urlSearchParams) => urlSearchParams.set(name, String(value)));
+      },
+      switchModal(closingName: string, openingName: string, value: string | number): void {
+         updateParams((urlSearchParams): void => {
+            urlSearchParams.delete(closingName);
+            urlSearchParams.set(openingName, String(value));
+         });
       },
       closeModal(...names: string[]): void {
          updateParams((urlSearchParams): void => {

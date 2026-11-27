@@ -62,8 +62,7 @@ export function CinemaManagementPage(): ReactElement {
 
    function handleCreated(cinemaDetail: CinemaDetail): void {
       setCreatedCinemaId(cinemaDetail.id);
-      modalParams.closeModal('modal');
-      modalParams.openModal('cinemaId', cinemaDetail.id);
+      modalParams.switchModal('modal', 'cinemaId', cinemaDetail.id);
    }
 
    return (

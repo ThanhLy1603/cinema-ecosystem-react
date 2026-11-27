@@ -3,6 +3,7 @@ import {
    useId,
    useLayoutEffect,
    useRef,
+   type KeyboardEvent,
    type MouseEvent,
    type ReactElement,
    type ReactNode,
@@ -64,6 +65,14 @@ export function Modal({
       requestClose();
    }
 
+   function handleKeyDown(keyboardEvent: KeyboardEvent<HTMLDialogElement>): void {
+      if (keyboardEvent.key !== 'Escape' || keyboardEvent.defaultPrevented || keyboardEvent.nativeEvent.isComposing) {
+         return;
+      }
+      keyboardEvent.preventDefault();
+      requestClose();
+   }
+
    function handleNativeClose(): void {
       const htmlDialogElement: HTMLDialogElement | null = dialogRef.current;
       if (htmlDialogElement && !htmlDialogElement.open) {
@@ -86,6 +95,7 @@ export function Modal({
       <dialog
          ref={dialogRef}
          onCancel={handleCancel}
+         onKeyDown={handleKeyDown}
          onClose={handleNativeClose}
          onClick={handleClick}
          aria-labelledby={titleId}
