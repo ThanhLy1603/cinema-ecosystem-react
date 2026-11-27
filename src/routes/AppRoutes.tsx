@@ -27,11 +27,7 @@ const ProfilePage = lazy(() => import('@/features/auth/pages/ProfilePage'));
 const RegisterPage = lazy(() => import('@/features/auth/pages/RegisterPage'));
 const ResetPasswordPage = lazy(() => import('@/features/auth/pages/ResetPasswordPage'));
 const VerifyEmailPage = lazy(() => import('@/features/auth/pages/VerifyEmailPage'));
-const CinemaCreatePage = lazy(() => import('@/features/cinema-management/pages/CinemaCreatePage'));
-const CinemaDetailPage = lazy(() => import('@/features/cinema-management/pages/CinemaDetailPage'));
 const CinemaManagementPage = lazy(() => import('@/features/cinema-management/pages/CinemaManagementPage'));
-const FacilityManagementPage = lazy(() => import('@/features/cinema-management/pages/FacilityManagementPage'));
-const SeatMapEditorPage = lazy(() => import('@/features/cinema-management/pages/SeatMapEditorPage'));
 const FnbSelectionPage = lazy(() => import('@/features/booking/pages/FnbSelectionPage'));
 const MyTicketsPage = lazy(() => import('@/features/tickets/pages/MyTicketsPage'));
 const PaymentPage = lazy(() => import('@/features/booking/pages/PaymentPage'));
@@ -53,8 +49,6 @@ const MovieDetailPage = lazy(() => import('@/features/movies/pages/MovieDetailPa
 const MovieListPage = lazy(() => import('@/features/movies/pages/MovieListPage'));
 const PriceRuleManagementPage = lazy(() => import('@/features/price-management/pages/PriceRuleManagementPage'));
 const ShowtimeManagementPage = lazy(() => import('@/features/showtime-management/pages/ShowtimeManagementPage'));
-const CreateStaffPage = lazy(() => import('@/features/user-management/pages/CreateStaffPage'));
-const UserDetailPage = lazy(() => import('@/features/user-management/pages/UserDetailPage'));
 const UserManagementPage = lazy(() => import('@/features/user-management/pages/UserManagementPage'));
 
 function renderStaffComingSoonRoute(staffNavItem: StaffNavItem): ReactElement {
@@ -152,13 +146,7 @@ export function AppRoutes(): ReactElement {
                <Route path="/admin" element={<AdminLayout />}>
                   <Route index element={<AdminDashboardPage />} />
                   <Route path="users" element={<UserManagementPage />} />
-                  <Route path="users/new" element={<CreateStaffPage />} />
-                  <Route path="users/:userId" element={<UserDetailPage />} />
                   <Route path="cinemas" element={<CinemaManagementPage />} />
-                  <Route path="cinemas/new" element={<CinemaCreatePage />} />
-                  <Route path="cinemas/facilities" element={<FacilityManagementPage />} />
-                  <Route path="cinemas/:cinemaId" element={<CinemaDetailPage />} />
-                  <Route path="halls/:hallId/seat-map" element={<SeatMapEditorPage />} />
                   <Route path="movies" element={<MovieManagementPage />} />
                   <Route path="movies/genres" element={<GenreManagementPage />} />
                   <Route path="movies/persons" element={<PersonManagementPage />} />

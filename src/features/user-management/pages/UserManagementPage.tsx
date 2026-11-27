@@ -4,13 +4,16 @@ import { useState, type ReactElement } from 'react';
 import { searchUsers } from '@/api/auth/adminUserApi';
 import Pagination from '@/components/common/Pagination';
 import Alert from '@/components/ui/Alert';
-import LinkButton from '@/components/ui/LinkButton';
+import Button from '@/components/ui/Button';
 import { getErrorMessage } from '@/lib/common/apiError';
+import { useModalParams, type ModalParams } from '@/lib/common/useModalParams';
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { AdminUser, UserSearchParams, UserStatus } from '@/types/auth/admin';
 import type { PageResponse } from '@/types/common/api';
 import type { UserRole } from '@/types/auth/auth';
 import type { CinemaOption } from '@/types/cinema/cinema';
+import CreateStaffModal from '../components/CreateStaffModal';
+import UserDetailModal from '../components/UserDetailModal';
 import UserFilterBar, { type UserFilters } from '../components/UserFilterBar';
 import UserTable from '../components/UserTable';
 import { useCinemaOptions } from '../hooks/useCinemaOptions';
@@ -33,6 +36,9 @@ function toSearchParams(userFilters: UserFilters, page: number): UserSearchParam
 export function UserManagementPage(): ReactElement {
    const [userFilters, setUserFilters] = useState<UserFilters>(EMPTY_FILTERS);
    const [page, setPage] = useState<number>(0);
+   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+   const modalParams: ModalParams = useModalParams();
+   const selectedUserId: number | null = modalParams.getId('userId');
    const isAdmin: boolean = useAuthStore((authState) => authState.hasRole('ROLE_ADMIN'));
    const cinemaOptionsQuery: UseQueryResult<CinemaOption[]> = useCinemaOptions();
    const userSearchParams: UserSearchParams = toSearchParams(userFilters, page);
@@ -47,6 +53,16 @@ export function UserManagementPage(): ReactElement {
       setPage(0);
    }
 
+   function openCreate(): void {
+      setSuccessMessage(null);
+      modalParams.openModal('modal', 'create');
+   }
+
+   function handleCreated(fullName: string): void {
+      modalParams.closeModal('modal');
+      setSuccessMessage(`Đã tạo tài khoản cho ${fullName}.`);
+   }
+
    return (
       <div className="w-full max-w-7xl space-y-5">
          <header className="flex flex-wrap items-center justify-between gap-4">
@@ -56,10 +72,12 @@ export function UserManagementPage(): ReactElement {
                   {isAdmin ? 'Toàn bộ tài khoản trong hệ thống.' : 'Nhân viên thuộc các chi nhánh bạn phụ trách.'}
                </p>
             </div>
-            <LinkButton to="/admin/users/new" icon={<UserPlus className="size-4" aria-hidden="true" />}>
+            <Button icon={<UserPlus className="size-4" aria-hidden="true" />} onClick={openCreate}>
                Thêm nhân viên
-            </LinkButton>
+            </Button>
          </header>
+
+         {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
          <UserFilterBar
             userFilters={userFilters}
@@ -71,7 +89,10 @@ export function UserManagementPage(): ReactElement {
          {usersQuery.isError && <Alert variant="error">{getErrorMessage(usersQuery.error)}</Alert>}
          {usersQuery.data && (
             <>
-               <UserTable adminUsers={usersQuery.data.content} />
+               <UserTable
+                  adminUsers={usersQuery.data.content}
+                  onView={(userId) => modalParams.openModal('userId', userId)}
+               />
                <Pagination
                   page={usersQuery.data.page}
                   totalPages={usersQuery.data.totalPages}
@@ -81,6 +102,17 @@ export function UserManagementPage(): ReactElement {
             </>
          )}
          {usersQuery.isPending && <p className="text-sm text-ink-500">Đang tải danh sách...</p>}
+
+         {modalParams.getText('modal') === 'create' && (
+            <CreateStaffModal onClose={() => modalParams.closeModal('modal')} onCreated={handleCreated} />
+         )}
+         {selectedUserId !== null && (
+            <UserDetailModal
+               key={selectedUserId}
+               userId={selectedUserId}
+               onClose={() => modalParams.closeModal('userId')}
+            />
+         )}
       </div>
    );
 }

@@ -1,7 +1,6 @@
 import { useMutation, type UseMutationResult } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
 import { useState, type ReactElement } from 'react';
-import { useNavigate, type NavigateFunction } from 'react-router-dom';
 import { deleteCinema } from '@/api/cinema/cinemaApi';
 import Alert from '@/components/ui/Alert';
 import Button from '@/components/ui/Button';
@@ -10,16 +9,16 @@ import { useCinemaRefresh } from '../hooks/useCinemaRefresh';
 
 interface DeleteCinemaCardProps {
    cinemaId: number;
+   onDeleted: () => void;
 }
 
-export function DeleteCinemaCard({ cinemaId }: DeleteCinemaCardProps): ReactElement {
+export function DeleteCinemaCard({ cinemaId, onDeleted }: DeleteCinemaCardProps): ReactElement {
    const [isConfirming, setIsConfirming] = useState<boolean>(false);
-   const navigate: NavigateFunction = useNavigate();
    const refreshCinema: () => void = useCinemaRefresh(null);
 
    function handleDeleted(): void {
       refreshCinema();
-      navigate('/admin/cinemas', { replace: true });
+      onDeleted();
    }
 
    const deleteMutation: UseMutationResult<void, unknown, void> = useMutation<void, unknown, void>({

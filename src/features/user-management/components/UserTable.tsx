@@ -1,6 +1,6 @@
 import { Eye } from 'lucide-react';
 import type { ReactElement } from 'react';
-import LinkButton from '@/components/ui/LinkButton';
+import Button from '@/components/ui/Button';
 import UserAvatar from '@/components/common/UserAvatar';
 import { getPrimaryRoleLabel } from '@/lib/auth/roleLabels';
 import type { AdminUser } from '@/types/auth/admin';
@@ -10,6 +10,7 @@ import StatusBadge from './StatusBadge';
 
 interface UserTableProps {
    adminUsers: AdminUser[];
+   onView: (userId: number) => void;
 }
 
 function formatBranches(branchAssignments: BranchAssignment[]): string {
@@ -18,7 +19,7 @@ function formatBranches(branchAssignments: BranchAssignment[]): string {
       .join(', ');
 }
 
-export function UserTable({ adminUsers }: UserTableProps): ReactElement {
+export function UserTable({ adminUsers, onView }: UserTableProps): ReactElement {
    if (adminUsers.length === 0) {
       return (
          <p className="rounded-3xl bg-white p-10 text-center text-sm text-ink-500 shadow-card ring-1 ring-ink-200/80">
@@ -65,14 +66,14 @@ export function UserTable({ adminUsers }: UserTableProps): ReactElement {
                         {formatDateTime(adminUser.lastLoginAt)}
                      </td>
                      <td className="whitespace-nowrap px-4 py-4">
-                        <LinkButton
-                           to={`/admin/users/${adminUser.id}`}
+                        <Button
                            variant="view"
                            size="sm"
                            icon={<Eye className="size-3.5" aria-hidden="true" />}
+                           onClick={() => onView(adminUser.id)}
                         >
                            Chi tiết
-                        </LinkButton>
+                        </Button>
                      </td>
                   </tr>
                ))}

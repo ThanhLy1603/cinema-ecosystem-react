@@ -18,14 +18,16 @@ interface ModalProps {
    closeOnBackdrop?: boolean;
    showCloseButton?: boolean;
    hideTitle?: boolean;
-   size?: 'md' | 'xl' | 'wide';
+   size?: 'md' | 'xl' | 'lg' | 'wide' | 'full';
    isFlush?: boolean;
 }
 
 const SIZE_CLASSES: Record<NonNullable<ModalProps['size']>, string> = {
    md: 'max-w-md',
    xl: 'max-w-xl',
+   lg: 'max-w-3xl',
    wide: 'max-w-6xl',
+   full: 'max-w-[96rem]',
 };
 
 export function Modal({
@@ -63,8 +65,14 @@ export function Modal({
    }
 
    function handleNativeClose(): void {
-      if (dialogRef.current && !dialogRef.current.open) {
+      const htmlDialogElement: HTMLDialogElement | null = dialogRef.current;
+      if (htmlDialogElement && !htmlDialogElement.open) {
          onClose();
+         window.setTimeout((): void => {
+            if (htmlDialogElement.isConnected && !htmlDialogElement.open) {
+               htmlDialogElement.showModal();
+            }
+         }, 0);
       }
    }
 

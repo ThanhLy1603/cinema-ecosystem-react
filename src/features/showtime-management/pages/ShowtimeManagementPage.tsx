@@ -244,8 +244,8 @@ export function ShowtimeManagementPage(): ReactElement {
          {cinemaId !== null && hallsQuery.data && hallsQuery.data.length === 0 && (
             <div className="space-y-3 rounded-3xl bg-white p-8 text-center shadow-card ring-1 ring-ink-200/80">
                <p className="text-sm text-ink-600">Cụm rạp này chưa có phòng chiếu để xếp lịch.</p>
-               <LinkButton to={`/admin/cinemas/${cinemaId}`} variant="secondary">
-                  Mở trang cụm rạp để thêm phòng
+               <LinkButton to={`/admin/cinemas?cinemaId=${cinemaId}`} variant="secondary">
+                  Mở cụm rạp để thêm phòng
                </LinkButton>
             </div>
          )}

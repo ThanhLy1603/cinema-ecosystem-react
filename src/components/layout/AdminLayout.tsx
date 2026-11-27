@@ -14,8 +14,6 @@ interface RouteTitleRule {
 }
 
 const ADMIN_TITLE_RULES: RouteTitleRule[] = [
-   { prefix: '/admin/users/new', title: 'Thêm nhân viên' },
-   { prefix: '/admin/users/', title: 'Chi tiết người dùng' },
    { prefix: '/admin/users', title: 'Quản lý người dùng' },
    { prefix: '/admin/cinemas', title: 'Cụm rạp và phòng chiếu' },
    { prefix: '/admin/movies/genres', title: 'Thể loại phim' },

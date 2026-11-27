@@ -162,7 +162,7 @@ export function AdminDashboardPage(): ReactElement {
             actions={
                <>
                   <LinkButton
-                     to="/admin/users/new"
+                     to="/admin/users?modal=create"
                      variant="light"
                      icon={<UserPlus className="size-4" aria-hidden="true" />}
                   >

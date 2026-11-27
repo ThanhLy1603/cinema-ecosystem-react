@@ -28,6 +28,7 @@ interface CinemaFormProps {
    successMessage?: string;
    serverFieldErrors?: Record<string, string>;
    onSubmit: (cinemaRequest: CinemaRequest) => void;
+   hasStickyFooter?: boolean;
 }
 
 interface CinemaFieldErrors {
@@ -54,6 +55,7 @@ export function CinemaForm({
    successMessage,
    serverFieldErrors = {},
    onSubmit,
+   hasStickyFooter = false,
 }: CinemaFormProps): ReactElement {
    const [name, setName] = useState<string>(initialCinema?.name ?? '');
    const [city, setCity] = useState<string>(initialCinema?.city ?? '');
@@ -103,7 +105,7 @@ export function CinemaForm({
 
    return (
       <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-         {errorMessage && <Alert variant="error">{errorMessage}</Alert>}
+         {errorMessage && !hasStickyFooter && <Alert variant="error">{errorMessage}</Alert>}
          {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -185,9 +187,18 @@ export function CinemaForm({
             <FacilityPicker facilities={facilities} selectedFacilityIds={facilityIds} onChange={setFacilityIds} />
          </div>
 
-         <Button type="submit" isLoading={isSubmitting} icon={<Save className="size-4" aria-hidden="true" />}>
-            {submitLabel}
-         </Button>
+         <div
+            className={
+               hasStickyFooter
+                  ? 'sticky -bottom-5 z-10 -mx-5 -mb-5 space-y-3 border-t border-ink-200 bg-white px-5 py-3 text-right'
+                  : undefined
+            }
+         >
+            {errorMessage && hasStickyFooter && <Alert variant="error">{errorMessage}</Alert>}
+            <Button type="submit" isLoading={isSubmitting} icon={<Save className="size-4" aria-hidden="true" />}>
+               {submitLabel}
+            </Button>
+         </div>
       </form>
    );
 }

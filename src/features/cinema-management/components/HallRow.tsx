@@ -1,7 +1,6 @@
 import { useMutation, type UseMutationResult } from '@tanstack/react-query';
 import { Armchair, Pencil, Trash2 } from 'lucide-react';
 import { useState, type ReactElement } from 'react';
-import { Link } from 'react-router-dom';
 import { deleteHall } from '@/api/cinema/hallApi';
 import Alert from '@/components/ui/Alert';
 import Button from '@/components/ui/Button';
@@ -13,9 +12,10 @@ import CinemaStatusBadge from './CinemaStatusBadge';
 interface HallRowProps {
    hall: Hall;
    onEdit: (hallId: number) => void;
+   onOpenSeatMap: (hallId: number) => void;
 }
 
-export function HallRow({ hall, onEdit }: HallRowProps): ReactElement {
+export function HallRow({ hall, onEdit, onOpenSeatMap }: HallRowProps): ReactElement {
    const [isConfirmingDelete, setIsConfirmingDelete] = useState<boolean>(false);
    const refreshCinema: () => void = useCinemaRefresh(hall.cinemaId);
 
@@ -38,13 +38,14 @@ export function HallRow({ hall, onEdit }: HallRowProps): ReactElement {
                <p className="mt-0.5 text-xs text-ink-500">{hall.totalSeats} ghế</p>
             </div>
             <div className="flex flex-wrap gap-2">
-               <Link
-                  to={`/admin/halls/${hall.id}/seat-map`}
+               <button
+                  type="button"
+                  onClick={() => onOpenSeatMap(hall.id)}
                   className="inline-flex h-9 items-center gap-2 rounded-lg bg-sky-50 px-3 text-sm font-semibold text-sky-700 ring-1 ring-inset ring-sky-200 transition-colors hover:bg-sky-600 hover:text-white hover:ring-sky-600"
                >
                   <Armchair className="size-4" aria-hidden="true" />
                   Sơ đồ ghế
-               </Link>
+               </button>
                <Button
                   variant="edit"
                   className="h-9 px-3"

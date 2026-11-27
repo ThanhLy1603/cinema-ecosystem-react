@@ -44,6 +44,7 @@ import SeatToolPalette from './SeatToolPalette';
 interface SeatMapEditorProps {
    seatLayout: SeatLayout;
    seatTypes: SeatType[];
+   onDirtyChange: (isDirty: boolean) => void;
 }
 
 const DEFAULT_GENERATE_ROWS: number = 10;
@@ -67,7 +68,7 @@ function preserveCanvasSize(loadedSeatMapDraft: SeatMapDraft, currentSeatMapDraf
    };
 }
 
-export function SeatMapEditor({ seatLayout, seatTypes }: SeatMapEditorProps): ReactElement {
+export function SeatMapEditor({ seatLayout, seatTypes, onDirtyChange }: SeatMapEditorProps): ReactElement {
    const queryClient: QueryClient = useQueryClient();
    const refreshCinema: () => void = useCinemaRefresh(seatLayout.cinemaId);
    const seatTypesByCode: SeatTypesByCode = useMemo(() => indexSeatTypes(seatTypes), [seatTypes]);
@@ -211,6 +212,7 @@ export function SeatMapEditor({ seatLayout, seatTypes }: SeatMapEditorProps): Re
       return (): void => window.removeEventListener('beforeunload', warnBeforeUnload);
    }
    useEffect(registerUnloadWarning, [isDirty]);
+   useEffect((): void => onDirtyChange(isDirty), [isDirty, onDirtyChange]);
 
    return (
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">

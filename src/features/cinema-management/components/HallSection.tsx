@@ -9,9 +9,10 @@ import HallRow from './HallRow';
 interface HallSectionProps {
    cinemaId: number;
    halls: Hall[];
+   onOpenSeatMap: (hallId: number) => void;
 }
 
-export function HallSection({ cinemaId, halls }: HallSectionProps): ReactElement {
+export function HallSection({ cinemaId, halls, onOpenSeatMap }: HallSectionProps): ReactElement {
    const [editingHallId, setEditingHallId] = useState<number | null>(null);
    const [isCreating, setIsCreating] = useState<boolean>(false);
    const [isShowingDeleted, setIsShowingDeleted] = useState<boolean>(false);
@@ -45,7 +46,7 @@ export function HallSection({ cinemaId, halls }: HallSectionProps): ReactElement
                      <HallForm cinemaId={cinemaId} hall={hall} onDone={closeForms} onCancel={closeForms} />
                   </li>
                ) : (
-                  <HallRow key={hall.id} hall={hall} onEdit={startEditing} />
+                  <HallRow key={hall.id} hall={hall} onEdit={startEditing} onOpenSeatMap={onOpenSeatMap} />
                ),
             )}
          </ul>

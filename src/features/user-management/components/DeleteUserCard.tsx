@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient, type QueryClient, type UseMutationResult } from '@tanstack/react-query';
 import { Trash2 } from 'lucide-react';
 import { useState, type ReactElement } from 'react';
-import { useNavigate, type NavigateFunction } from 'react-router-dom';
 import { deleteUser } from '@/api/auth/adminUserApi';
 import Alert from '@/components/ui/Alert';
 import Button from '@/components/ui/Button';
@@ -12,16 +11,16 @@ import { ADMIN_USER_LIST_KEY } from '../utils/queryKeys';
 interface DeleteUserCardProps {
    adminUser: AdminUser;
    isSelf: boolean;
+   onDeleted: () => void;
 }
 
-export function DeleteUserCard({ adminUser, isSelf }: DeleteUserCardProps): ReactElement {
+export function DeleteUserCard({ adminUser, isSelf, onDeleted }: DeleteUserCardProps): ReactElement {
    const [isConfirming, setIsConfirming] = useState<boolean>(false);
    const queryClient: QueryClient = useQueryClient();
-   const navigate: NavigateFunction = useNavigate();
 
    function handleDeleted(): void {
       void queryClient.invalidateQueries({ queryKey: ADMIN_USER_LIST_KEY });
-      navigate('/admin/users', { replace: true });
+      onDeleted();
    }
 
    const deleteMutation: UseMutationResult<void, unknown, void> = useMutation<void, unknown, void>({

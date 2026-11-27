@@ -1,23 +1,25 @@
 import { useMutation, type UseMutationResult, type UseQueryResult } from '@tanstack/react-query';
-import { ArrowLeft } from 'lucide-react';
 import type { ReactElement } from 'react';
-import { Link, useNavigate, type NavigateFunction } from 'react-router-dom';
 import { createCinema } from '@/api/cinema/cinemaApi';
-import SectionCard from '@/components/common/SectionCard';
+import Modal from '@/components/common/Modal';
 import { getErrorMessage, getFieldErrors } from '@/lib/common/apiError';
 import type { CinemaDetail, CinemaRequest, Facility } from '@/types/cinema/cinema';
-import CinemaForm from '../components/CinemaForm';
 import { useCinemaRefresh } from '../hooks/useCinemaRefresh';
 import { useFacilities } from '../hooks/useFacilities';
+import CinemaForm from './CinemaForm';
 
-export function CinemaCreatePage(): ReactElement {
-   const navigate: NavigateFunction = useNavigate();
+interface CinemaCreateModalProps {
+   onClose: () => void;
+   onCreated: (cinemaDetail: CinemaDetail) => void;
+}
+
+export function CinemaCreateModal({ onClose, onCreated }: CinemaCreateModalProps): ReactElement {
    const refreshCinema: () => void = useCinemaRefresh(null);
    const facilitiesQuery: UseQueryResult<Facility[]> = useFacilities();
 
    function handleCreated(cinemaDetail: CinemaDetail): void {
       refreshCinema();
-      navigate(`/admin/cinemas/${cinemaDetail.id}`, { replace: true });
+      onCreated(cinemaDetail);
    }
 
    const createMutation: UseMutationResult<CinemaDetail, unknown, CinemaRequest> = useMutation<
@@ -33,14 +35,11 @@ export function CinemaCreatePage(): ReactElement {
    const hasFieldErrors: boolean = Object.keys(serverFieldErrors).length > 0;
 
    return (
-      <div className="w-full max-w-3xl space-y-6">
-         <Link to="/admin/cinemas" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700">
-            <ArrowLeft className="size-4" aria-hidden="true" />
-            Về danh sách cụm rạp
-         </Link>
-         <h1 className="text-2xl font-bold text-ink-900">Thêm cụm rạp</h1>
-         <SectionCard title="Thông tin cụm rạp" description="Sau khi tạo, bạn có thể thêm phòng chiếu và sơ đồ ghế.">
+      <Modal title="Thêm cụm rạp" size="lg" isFlush isDismissDisabled={createMutation.isPending} onClose={onClose}>
+         <div className="relative min-h-0 flex-1 space-y-4 overflow-y-auto p-5 focus-visible:outline-none">
+            <p className="text-sm text-ink-500">Sau khi tạo, bạn có thể thêm phòng chiếu và sơ đồ ghế.</p>
             <CinemaForm
+               hasStickyFooter
                facilities={facilitiesQuery.data ?? []}
                canEditStatus
                isSubmitting={createMutation.isPending}
@@ -51,9 +50,9 @@ export function CinemaCreatePage(): ReactElement {
                serverFieldErrors={serverFieldErrors}
                onSubmit={(cinemaRequest) => createMutation.mutate(cinemaRequest)}
             />
-         </SectionCard>
-      </div>
+         </div>
+      </Modal>
    );
 }
 
-export default CinemaCreatePage;
+export default CinemaCreateModal;

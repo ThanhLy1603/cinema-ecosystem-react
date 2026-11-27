@@ -1,6 +1,6 @@
 import { Eye } from 'lucide-react';
 import type { ReactElement } from 'react';
-import LinkButton from '@/components/ui/LinkButton';
+import Button from '@/components/ui/Button';
 import { restoreCinema } from '@/api/cinema/cinemaApi';
 import type { Cinema } from '@/types/cinema/cinema';
 import CinemaStatusBadge from './CinemaStatusBadge';
@@ -10,9 +10,10 @@ interface CinemaTableProps {
    cinemas: Cinema[];
    canRestore: boolean;
    onRestored: () => void;
+   onView: (cinemaId: number) => void;
 }
 
-export function CinemaTable({ cinemas, canRestore, onRestored }: CinemaTableProps): ReactElement {
+export function CinemaTable({ cinemas, canRestore, onRestored, onView }: CinemaTableProps): ReactElement {
    if (cinemas.length === 0) {
       return (
          <p className="rounded-3xl bg-white p-10 text-center text-sm text-ink-500 shadow-card ring-1 ring-ink-200/80">
@@ -59,14 +60,14 @@ export function CinemaTable({ cinemas, canRestore, onRestored }: CinemaTableProp
                               <RestoreButton restore={() => restoreCinema(cinema.id)} onRestored={onRestored} />
                            )
                         ) : (
-                           <LinkButton
-                              to={`/admin/cinemas/${cinema.id}`}
+                           <Button
                               variant="view"
                               size="sm"
                               icon={<Eye className="size-3.5" aria-hidden="true" />}
+                              onClick={() => onView(cinema.id)}
                            >
                               Chi tiết
-                           </LinkButton>
+                           </Button>
                         )}
                      </td>
                   </tr>

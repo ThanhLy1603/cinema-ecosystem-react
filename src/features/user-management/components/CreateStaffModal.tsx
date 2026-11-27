@@ -5,9 +5,9 @@ import {
    type UseMutationResult,
    type UseQueryResult,
 } from '@tanstack/react-query';
-import { ArrowLeft, Mail, Phone, User as UserIcon, UserPlus } from 'lucide-react';
+import { Mail, Phone, User as UserIcon, UserPlus } from 'lucide-react';
 import { useState, type FormEvent, type ReactElement } from 'react';
-import { Link, useNavigate, type NavigateFunction } from 'react-router-dom';
+import Modal from '@/components/common/Modal';
 import { createStaff } from '@/api/auth/staffApi';
 import Alert from '@/components/ui/Alert';
 import Button from '@/components/ui/Button';
@@ -19,8 +19,7 @@ import { validateEmail, validateFullName, validateNewPassword, validatePhone } f
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { CreateStaffRequest, StaffPosition, StaffResponse, StaffRole } from '@/types/auth/staff';
 import type { CinemaOption } from '@/types/cinema/cinema';
-import BranchPicker from '../components/BranchPicker';
-import SectionCard from '@/components/common/SectionCard';
+import BranchPicker from './BranchPicker';
 import { useCinemaOptions } from '../hooks/useCinemaOptions';
 import { STAFF_POSITION_OPTIONS } from '../utils/labels';
 import { ADMIN_USER_LIST_KEY } from '../utils/queryKeys';
@@ -52,9 +51,13 @@ function hasFieldErrors(fieldErrors: CreateStaffFieldErrors): boolean {
    return Object.values(fieldErrors).some((message) => message !== undefined);
 }
 
-export function CreateStaffPage(): ReactElement {
+interface CreateStaffModalProps {
+   onClose: () => void;
+   onCreated: (fullName: string) => void;
+}
+
+export function CreateStaffModal({ onClose, onCreated }: CreateStaffModalProps): ReactElement {
    const queryClient: QueryClient = useQueryClient();
-   const navigate: NavigateFunction = useNavigate();
    const isAdmin: boolean = useAuthStore((authState) => authState.hasRole('ROLE_ADMIN'));
    const cinemaOptionsQuery: UseQueryResult<CinemaOption[]> = useCinemaOptions();
    const [email, setEmail] = useState<string>('');
@@ -69,9 +72,9 @@ export function CreateStaffPage(): ReactElement {
    const [primaryCinemaId, setPrimaryCinemaId] = useState<number | null>(null);
    const [fieldErrors, setFieldErrors] = useState<CreateStaffFieldErrors>({});
 
-   function handleCreated(staffResponse: StaffResponse): void {
+   function handleCreated(): void {
       void queryClient.invalidateQueries({ queryKey: ADMIN_USER_LIST_KEY });
-      navigate(`/admin/users/${staffResponse.userId}`, { replace: true });
+      onCreated(fullName.trim());
    }
 
    const createMutation: UseMutationResult<StaffResponse, unknown, CreateStaffRequest> = useMutation<
@@ -129,18 +132,12 @@ export function CreateStaffPage(): ReactElement {
    }
 
    return (
-      <div className="w-full max-w-3xl space-y-6">
-         <Link to="/admin/users" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700">
-            <ArrowLeft className="size-4" aria-hidden="true" />
-            Về danh sách người dùng
-         </Link>
-
-         <SectionCard
-            title="Thêm nhân viên"
-            description="Mật khẩu ban đầu do bạn đặt, nhân viên nhận email xác thực và nên đổi mật khẩu sau khi đăng nhập."
-         >
-            <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-               {isGeneralServerError && <Alert variant="error">{serverMessage}</Alert>}
+      <Modal title="Thêm nhân viên" size="lg" isFlush isDismissDisabled={createMutation.isPending} onClose={onClose}>
+         <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col" noValidate>
+            <div className="relative min-h-0 flex-1 space-y-5 overflow-y-auto p-5 focus-visible:outline-none">
+               <p className="text-sm text-ink-500">
+                  Mật khẩu ban đầu do bạn đặt, nhân viên nhận email xác thực và nên đổi mật khẩu sau khi đăng nhập.
+               </p>
                <TextField
                   id="staff-email"
                   label="Email"
@@ -223,17 +220,23 @@ export function CreateStaffPage(): ReactElement {
                      error={fieldErrors.branches}
                   />
                </div>
+            </div>
+            <div className="flex flex-col gap-3 border-t border-ink-200 px-5 py-3 sm:flex-row sm:items-center">
+               <div className="min-w-0 flex-1">
+                  {isGeneralServerError && <Alert variant="error">{serverMessage}</Alert>}
+               </div>
                <Button
                   type="submit"
+                  className="w-full sm:w-auto"
                   isLoading={createMutation.isPending}
                   icon={<UserPlus className="size-4" aria-hidden="true" />}
                >
                   Tạo tài khoản nhân viên
                </Button>
-            </form>
-         </SectionCard>
-      </div>
+            </div>
+         </form>
+      </Modal>
    );
 }
 
-export default CreateStaffPage;
+export default CreateStaffModal;
