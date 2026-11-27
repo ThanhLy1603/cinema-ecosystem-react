@@ -98,6 +98,7 @@ export function PriceRuleFormPanel({ panelState, onSaved, onClose }: PriceRuleFo
                )}
                <TextField
                   id="price-rule-name"
+                  expandable
                   label="Tên quy tắc"
                   value={priceRuleFormValues.ruleName}
                   onChange={(ruleName) => updateField('ruleName', ruleName)}

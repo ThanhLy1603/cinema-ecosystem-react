@@ -8,7 +8,7 @@ import {
 
 const MIN_DURATION_MINUTES: number = 1;
 const MAX_DURATION_MINUTES: number = 600;
-const MAX_GENRES: number = 10;
+export const MAX_GENRES: number = 10;
 const MAX_CASTS: number = 60;
 const URL_MAX_LENGTH: number = 500;
 

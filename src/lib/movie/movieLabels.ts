@@ -4,7 +4,7 @@ import type { AgeRating, CastRoleType, MovieStatus } from '@/types/movie/movie';
 export const AGE_RATINGS: AgeRating[] = ['P', 'C13', 'C16', 'C18'];
 
 export const AGE_RATING_DESCRIPTIONS: Record<AgeRating, string> = {
-   P: 'Phổ biến, mọi lứa tuổi',
+   P: 'Phổ biến mọi lứa tuổi',
    C13: 'Cấm khán giả dưới 13 tuổi',
    C16: 'Cấm khán giả dưới 16 tuổi',
    C18: 'Cấm khán giả dưới 18 tuổi',
@@ -12,9 +12,9 @@ export const AGE_RATING_DESCRIPTIONS: Record<AgeRating, string> = {
 
 export const AGE_RATING_WARNINGS: Record<AgeRating, string | null> = {
    P: null,
-   C13: 'Phim phổ biến đến người xem từ đủ 13 tuổi trở lên (T13). Khán giả dưới 13 tuổi không được vào xem.',
-   C16: 'Phim phổ biến đến người xem từ đủ 16 tuổi trở lên (T16). Khán giả dưới 16 tuổi không được vào xem.',
-   C18: 'Phim chỉ phổ biến đến người xem từ đủ 18 tuổi trở lên (T18). Khán giả dưới 18 tuổi không được vào xem.',
+   C13: 'Phim phổ biến đến người xem từ đủ 13 tuổi trở lên. Khán giả dưới 13 tuổi không được vào xem.',
+   C16: 'Phim phổ biến đến người xem từ đủ 16 tuổi trở lên. Khán giả dưới 16 tuổi không được vào xem.',
+   C18: 'Phim chỉ phổ biến đến người xem từ đủ 18 tuổi trở lên. Khán giả dưới 18 tuổi không được vào xem.',
 };
 
 export const AGE_RATING_BADGE_CLASSES: Record<AgeRating, string> = {
@@ -26,7 +26,10 @@ export const AGE_RATING_BADGE_CLASSES: Record<AgeRating, string> = {
 
 export const MOVIE_STATUSES: MovieStatus[] = ['NOW_SHOWING', 'COMING_SOON', 'ENDED'];
 
+export const ADMIN_MOVIE_STATUSES: MovieStatus[] = [...MOVIE_STATUSES, 'DRAFT'];
+
 export const MOVIE_STATUS_LABELS: Record<MovieStatus, string> = {
+   DRAFT: 'Bản nháp',
    NOW_SHOWING: 'Đang chiếu',
    COMING_SOON: 'Sắp chiếu',
    ENDED: 'Ngừng chiếu',
@@ -40,15 +43,15 @@ export const CAST_ROLE_LABELS: Record<CastRoleType, string> = {
 
 export const AGE_RATING_OPTIONS: SelectOption[] = AGE_RATINGS.map((ageRating) => ({
    value: ageRating,
-   label: `${ageRating} - ${AGE_RATING_DESCRIPTIONS[ageRating]}`,
+   label: AGE_RATING_DESCRIPTIONS[ageRating],
 }));
 
 export const AGE_RATING_FILTER_OPTIONS: SelectOption[] = [
    { value: '', label: 'Mọi độ tuổi' },
-   ...AGE_RATINGS.map((ageRating) => ({ value: ageRating, label: ageRating })),
+   ...AGE_RATINGS.map((ageRating) => ({ value: ageRating, label: AGE_RATING_DESCRIPTIONS[ageRating] })),
 ];
 
-export const MOVIE_STATUS_OPTIONS: SelectOption[] = MOVIE_STATUSES.map((movieStatus) => ({
+export const MOVIE_STATUS_OPTIONS: SelectOption[] = ADMIN_MOVIE_STATUSES.map((movieStatus) => ({
    value: movieStatus,
    label: MOVIE_STATUS_LABELS[movieStatus],
 }));

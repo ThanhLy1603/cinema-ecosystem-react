@@ -18,9 +18,15 @@ interface ModalProps {
    closeOnBackdrop?: boolean;
    showCloseButton?: boolean;
    hideTitle?: boolean;
-   size?: 'md' | 'xl';
+   size?: 'md' | 'xl' | 'wide';
    isFlush?: boolean;
 }
+
+const SIZE_CLASSES: Record<NonNullable<ModalProps['size']>, string> = {
+   md: 'max-w-md',
+   xl: 'max-w-xl',
+   wide: 'max-w-6xl',
+};
 
 export function Modal({
    title,
@@ -77,7 +83,7 @@ export function Modal({
          aria-labelledby={titleId}
          className={cn(
             'm-auto max-h-[calc(100dvh-2rem)] w-[calc(100%-2rem)] rounded-[1.5rem] bg-white p-0 shadow-soft backdrop:bg-ink-900/60 backdrop:backdrop-blur-xs',
-            size === 'xl' ? 'max-w-xl' : 'max-w-md',
+            SIZE_CLASSES[size],
             isFlush ? 'overflow-hidden open:flex open:flex-col' : 'overflow-y-auto',
          )}
       >

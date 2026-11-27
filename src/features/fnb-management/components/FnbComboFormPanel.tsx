@@ -118,6 +118,7 @@ export function FnbComboFormPanel({ panelState, onSaved, onClose }: FnbComboForm
                {itemOptionsQuery.isError && <Alert variant="error">{getErrorMessage(itemOptionsQuery.error)}</Alert>}
                <TextField
                   id="fnb-combo-name"
+                  expandable
                   label="Tên combo"
                   value={name}
                   onChange={setName}

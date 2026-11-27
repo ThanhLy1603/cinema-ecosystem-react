@@ -110,6 +110,7 @@ export function CinemaForm({
             <div className="sm:col-span-2">
                <TextField
                   id="cinema-name"
+                  expandable
                   label="Tên cụm rạp"
                   value={name}
                   onChange={setName}
@@ -138,6 +139,7 @@ export function CinemaForm({
             <div className="sm:col-span-2">
                <TextField
                   id="cinema-address"
+                  expandable
                   label="Địa chỉ"
                   icon={MapPin}
                   value={address}

@@ -1,4 +1,4 @@
-import { AGE_RATINGS, MOVIE_STATUSES } from '@/lib/movie/movieLabels';
+import { ADMIN_MOVIE_STATUSES, AGE_RATINGS } from '@/lib/movie/movieLabels';
 
 export interface AdminMovieFilters {
    keyword: string;
@@ -31,7 +31,7 @@ export function parseMovieFilters(searchParams: URLSearchParams, canViewDeleted:
       genreId: genreId > 0 ? String(genreId) : '',
       status: isDeletedView
          ? ''
-         : (MOVIE_STATUSES.find((movieStatus) => movieStatus === searchParams.get('status')) ?? ''),
+         : (ADMIN_MOVIE_STATUSES.find((movieStatus) => movieStatus === searchParams.get('status')) ?? ''),
       rated: AGE_RATINGS.find((ageRating) => ageRating === searchParams.get('rated')) ?? '',
       deleted: isDeletedView ? 'true' : '',
    };

@@ -112,6 +112,7 @@ export function MediaUploadField({
       <div className="space-y-3">
          {pendingFile === null ? (
             <TextField
+               expandable
                id={id}
                label={label}
                value={value.url}

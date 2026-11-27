@@ -3,7 +3,7 @@ import { Clapperboard, Clock, Gift, UtensilsCrossed } from 'lucide-react';
 import type { ReactElement, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { getPublicPromotions } from '@/api/promotion/promotionApi';
-import AgeRatingLabel from '@/components/common/AgeRatingLabel';
+import AgeRatingBadge from '@/components/common/AgeRatingBadge';
 import { formatVnd } from '@/lib/common/currencyFormat';
 import { formatDuration, formatReleaseDate } from '@/lib/movie/movieFormat';
 import { getMovieDetailPath } from '@/lib/movie/moviePath';
@@ -68,7 +68,7 @@ function RailMovieCard({ movie }: RailMovieCardProps): ReactElement {
                {movie.title}
             </h3>
             <div className="space-y-1 text-xs text-ink-700">
-               <AgeRatingLabel ageRating={movie.rated} />
+               <AgeRatingBadge ageRating={movie.rated} />
                <p className="inline-flex items-center gap-1">
                   <Clock className="size-3.5" aria-hidden="true" />
                   {formatDuration(movie.durationMinutes)}

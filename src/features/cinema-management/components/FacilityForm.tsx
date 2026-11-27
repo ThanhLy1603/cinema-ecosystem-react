@@ -100,6 +100,7 @@ export function FacilityForm({ facility, onDone, onCancel }: FacilityFormProps):
          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <TextField
                id={`facility-name-${facility?.id ?? 'new'}`}
+               expandable
                label="Tên tiện ích"
                value={name}
                onChange={setName}
@@ -122,6 +123,7 @@ export function FacilityForm({ facility, onDone, onCancel }: FacilityFormProps):
             <div className="sm:col-span-2">
                <TextField
                   id={`facility-description-${facility?.id ?? 'new'}`}
+                  expandable
                   label="Mô tả"
                   value={description}
                   onChange={setDescription}

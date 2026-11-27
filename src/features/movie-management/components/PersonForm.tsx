@@ -93,6 +93,7 @@ export function PersonForm({ person, onDone, onCancel }: PersonFormProps): React
          <div className="grid grid-cols-1 gap-4">
             <TextField
                id={`person-name-${person?.id ?? 'new'}`}
+               expandable
                label="Tên nghệ sĩ"
                value={name}
                onChange={setName}

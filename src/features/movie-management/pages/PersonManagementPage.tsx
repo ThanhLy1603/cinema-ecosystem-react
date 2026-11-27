@@ -5,10 +5,11 @@ import {
    type QueryClient,
    type UseQueryResult,
 } from '@tanstack/react-query';
-import { Plus, RotateCcw, UserRound } from 'lucide-react';
+import { FileSpreadsheet, Plus, RotateCcw, UserRound } from 'lucide-react';
 import { useState, type ReactElement } from 'react';
 import { Navigate } from 'react-router-dom';
 import { deletePerson, searchAdminPersons } from '@/api/movie/movieApi';
+import { exportPersons } from '@/api/movie/movieExportApi';
 import Modal from '@/components/common/Modal';
 import Pagination from '@/components/common/Pagination';
 import Alert from '@/components/ui/Alert';
@@ -17,10 +18,12 @@ import { getErrorMessage } from '@/lib/common/apiError';
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { PageResponse } from '@/types/common/api';
 import type { Person } from '@/types/movie/movie';
+import CatalogImportModal from '../components/CatalogImportModal';
 import CatalogRowActions from '../components/CatalogRowActions';
 import CatalogTable, { type CatalogColumn } from '../components/CatalogTable';
 import ConfirmDeleteDialog from '../components/ConfirmDeleteDialog';
 import EmptyPanel from '../components/EmptyPanel';
+import ExportExcelButton from '../components/ExportExcelButton';
 import KeywordFilterBar from '../components/KeywordFilterBar';
 import MovieSectionTabs from '../components/MovieSectionTabs';
 import PersonForm from '../components/PersonForm';
@@ -62,6 +65,7 @@ export function PersonManagementPage(): ReactElement {
    const [personPanelState, setPersonPanelState] = useState<PersonPanelState | null>(null);
    const [pendingDeletePerson, setPendingDeletePerson] = useState<Person | null>(null);
    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+   const [isImportOpen, setIsImportOpen] = useState<boolean>(false);
    const personsQuery: UseQueryResult<PageResponse<Person>> = useQuery<PageResponse<Person>>({
       queryKey: [...ADMIN_PERSONS_KEY, keyword, page],
       queryFn: () => searchAdminPersons(keyword || undefined, page, PAGE_SIZE),
@@ -90,6 +94,11 @@ export function PersonManagementPage(): ReactElement {
       void queryClient.invalidateQueries({ queryKey: PERSON_OPTIONS_KEY });
       setPendingDeletePerson(null);
       setSuccessMessage('Đã xóa nghệ sĩ');
+   }
+
+   function openImport(): void {
+      setSuccessMessage(null);
+      setIsImportOpen(true);
    }
 
    function renderActions(person: Person): ReactElement {
@@ -129,12 +138,25 @@ export function PersonManagementPage(): ReactElement {
             <div>
                <h1 className="text-2xl font-bold text-ink-900">Đạo diễn và diễn viên</h1>
                <p className="mt-1 text-sm text-ink-500">
-                  Gán vai trò cho từng phim ở trang chỉnh sửa phim. Chỉ quản trị viên mới được xóa nghệ sĩ.
+                  Gán vai trò cho từng phim khi thêm hoặc sửa phim. Chỉ quản trị viên mới được xóa nghệ sĩ.
                </p>
             </div>
-            <Button icon={<Plus className="size-4" aria-hidden="true" />} onClick={() => openPanel({ mode: 'create' })}>
-               Thêm nghệ sĩ
-            </Button>
+            <div className="flex flex-wrap items-center gap-2">
+               <ExportExcelButton filePrefix="danh-sach-nghe-si" exportFile={() => exportPersons(keyword)} />
+               <Button
+                  variant="secondary"
+                  icon={<FileSpreadsheet className="size-4" aria-hidden="true" />}
+                  onClick={openImport}
+               >
+                  Nhập từ Excel
+               </Button>
+               <Button
+                  icon={<Plus className="size-4" aria-hidden="true" />}
+                  onClick={() => openPanel({ mode: 'create' })}
+               >
+                  Thêm nghệ sĩ
+               </Button>
+            </div>
          </header>
 
          <KeywordFilterBar
@@ -190,6 +212,8 @@ export function PersonManagementPage(): ReactElement {
                được khi chưa tham gia phim nào.
             </ConfirmDeleteDialog>
          )}
+
+         {isImportOpen && <CatalogImportModal catalogImportType="persons" onClose={() => setIsImportOpen(false)} />}
       </div>
    );
 }

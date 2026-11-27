@@ -10,7 +10,7 @@ import {
    UtensilsCrossed,
 } from 'lucide-react';
 import { useState, type ReactElement } from 'react';
-import AgeRatingLabel from '@/components/common/AgeRatingLabel';
+import AgeRatingBadge from '@/components/common/AgeRatingBadge';
 import Button from '@/components/ui/Button';
 import LinkButton from '@/components/ui/LinkButton';
 import { formatVnd } from '@/lib/common/currencyFormat';
@@ -162,7 +162,7 @@ export function BookingSummaryAside({
                <div className="min-w-0 space-y-2">
                   <h2 className="text-base font-extrabold uppercase leading-snug text-brand-700">{movieTitle}</h2>
                   <div className="space-y-1 text-xs text-ink-600">
-                     <AgeRatingLabel ageRating={rated} />
+                     <AgeRatingBadge ageRating={rated} />
                      <p>{formatDuration(durationMinutes)}</p>
                   </div>
                </div>

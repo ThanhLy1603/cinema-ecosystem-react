@@ -54,6 +54,7 @@ export function GenreForm({ genre, onDone, onCancel }: GenreFormProps): ReactEle
          )}
          <TextField
             id={`genre-name-${genre?.id ?? 'new'}`}
+            expandable
             label="Tên thể loại"
             value={name}
             onChange={setName}

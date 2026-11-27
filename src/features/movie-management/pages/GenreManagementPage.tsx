@@ -1,7 +1,8 @@
 import { useQueryClient, type QueryClient, type UseQueryResult } from '@tanstack/react-query';
-import { Plus, RotateCcw } from 'lucide-react';
+import { FileSpreadsheet, Plus, RotateCcw } from 'lucide-react';
 import { useState, type ReactElement } from 'react';
 import { deleteGenre } from '@/api/movie/movieApi';
+import { exportGenres } from '@/api/movie/movieExportApi';
 import Modal from '@/components/common/Modal';
 import Pagination from '@/components/common/Pagination';
 import Alert from '@/components/ui/Alert';
@@ -11,10 +12,12 @@ import { normalizeSearchText } from '@/lib/common/searchText';
 import { PUBLIC_MOVIES_KEY } from '@/lib/movie/movieQueryKeys';
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { Genre } from '@/types/movie/movie';
+import CatalogImportModal from '../components/CatalogImportModal';
 import CatalogRowActions from '../components/CatalogRowActions';
 import CatalogTable, { type CatalogColumn } from '../components/CatalogTable';
 import ConfirmDeleteDialog from '../components/ConfirmDeleteDialog';
 import EmptyPanel from '../components/EmptyPanel';
+import ExportExcelButton from '../components/ExportExcelButton';
 import GenreForm from '../components/GenreForm';
 import KeywordFilterBar from '../components/KeywordFilterBar';
 import MovieSectionTabs from '../components/MovieSectionTabs';
@@ -47,6 +50,7 @@ export function GenreManagementPage(): ReactElement {
    const [genrePanelState, setGenrePanelState] = useState<GenrePanelState | null>(null);
    const [pendingDeleteGenre, setPendingDeleteGenre] = useState<Genre | null>(null);
    const [successMessage, setSuccessMessage] = useState<string | null>(null);
+   const [isImportOpen, setIsImportOpen] = useState<boolean>(false);
 
    const normalizedKeyword: string = normalizeSearchText(keyword);
    const matchedGenres: Genre[] = (genresQuery.data ?? []).filter((genre) => matchesKeyword(genre, normalizedKeyword));
@@ -73,6 +77,11 @@ export function GenreManagementPage(): ReactElement {
       void queryClient.invalidateQueries({ queryKey: PUBLIC_MOVIES_KEY });
       setPendingDeleteGenre(null);
       setSuccessMessage('Đã xóa thể loại');
+   }
+
+   function openImport(): void {
+      setSuccessMessage(null);
+      setIsImportOpen(true);
    }
 
    function renderActions(genre: Genre): ReactElement {
@@ -112,12 +121,25 @@ export function GenreManagementPage(): ReactElement {
             <div>
                <h1 className="text-2xl font-bold text-ink-900">Danh mục thể loại</h1>
                <p className="mt-1 text-sm text-ink-500">
-                  Gán thể loại cho từng phim ở trang chỉnh sửa phim. Chỉ quản trị viên mới được xóa thể loại.
+                  Gán thể loại cho từng phim khi thêm hoặc sửa phim. Chỉ quản trị viên mới được xóa thể loại.
                </p>
             </div>
-            <Button icon={<Plus className="size-4" aria-hidden="true" />} onClick={() => openPanel({ mode: 'create' })}>
-               Thêm thể loại
-            </Button>
+            <div className="flex flex-wrap items-center gap-2">
+               <ExportExcelButton filePrefix="danh-sach-the-loai" exportFile={() => exportGenres(keyword)} />
+               <Button
+                  variant="secondary"
+                  icon={<FileSpreadsheet className="size-4" aria-hidden="true" />}
+                  onClick={openImport}
+               >
+                  Nhập từ Excel
+               </Button>
+               <Button
+                  icon={<Plus className="size-4" aria-hidden="true" />}
+                  onClick={() => openPanel({ mode: 'create' })}
+               >
+                  Thêm thể loại
+               </Button>
+            </div>
          </header>
 
          <KeywordFilterBar
@@ -167,6 +189,8 @@ export function GenreManagementPage(): ReactElement {
                được khi chưa gán cho phim nào.
             </ConfirmDeleteDialog>
          )}
+
+         {isImportOpen && <CatalogImportModal catalogImportType="genres" onClose={() => setIsImportOpen(false)} />}
       </div>
    );
 }

@@ -11,7 +11,7 @@ import TextField from '@/components/ui/TextField';
 import { getErrorData, getErrorMessage, getFieldErrors } from '@/lib/common/apiError';
 import { parseMoneyInput } from '@/lib/common/moneyInput';
 import { formatDuration } from '@/lib/movie/movieFormat';
-import { MOVIE_STATUS_LABELS } from '@/lib/movie/movieLabels';
+import { AGE_RATING_DESCRIPTIONS, MOVIE_STATUS_LABELS } from '@/lib/movie/movieLabels';
 import {
    addMinutesToInstant,
    isValidDate,
@@ -80,7 +80,7 @@ function buildInitialValues(panelState: ShowtimePanelState): ShowtimeFormValues 
 
 function buildMovieLabel(movieInfo: MovieInfo): string {
    const statusSuffix: string = movieInfo.status === 'COMING_SOON' ? ` · ${MOVIE_STATUS_LABELS.COMING_SOON}` : '';
-   return `${movieInfo.title} (${movieInfo.rated}) · ${formatDuration(movieInfo.durationMinutes)}${statusSuffix}`;
+   return `${movieInfo.title} · ${AGE_RATING_DESCRIPTIONS[movieInfo.rated]} · ${formatDuration(movieInfo.durationMinutes)}${statusSuffix}`;
 }
 
 function computeSlotPreview(
@@ -101,7 +101,7 @@ function buildMovieOptions(movieInfos: MovieInfo[], editingShowtime: Showtime | 
       label: buildMovieLabel(movieInfo),
    }));
    if (editingShowtime && !movieInfos.some((movieInfo) => movieInfo.id === editingShowtime.movieId)) {
-      const editedMovieLabel: string = `${editingShowtime.movieTitle} (${editingShowtime.rated}) · ${formatDuration(editingShowtime.movieDurationMinutes)}`;
+      const editedMovieLabel: string = `${editingShowtime.movieTitle} · ${AGE_RATING_DESCRIPTIONS[editingShowtime.rated]} · ${formatDuration(editingShowtime.movieDurationMinutes)}`;
       return [{ value: String(editingShowtime.movieId), label: editedMovieLabel }, ...movieOptions];
    }
    return movieOptions;

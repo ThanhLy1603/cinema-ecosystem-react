@@ -3,7 +3,7 @@ import { CalendarX, ChevronLeft, ChevronRight, Clapperboard, Phone } from 'lucid
 import { useState, type ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 import { getPublicShowtimes } from '@/api/showtime/showtimeApi';
-import AgeRatingLabel from '@/components/common/AgeRatingLabel';
+import AgeRatingBadge from '@/components/common/AgeRatingBadge';
 import SectionHeading from '@/components/common/SectionHeading';
 import Alert from '@/components/ui/Alert';
 import { getErrorMessage } from '@/lib/common/apiError';
@@ -207,7 +207,7 @@ export function HomeSchedule({ cinemas }: HomeScheduleProps): ReactElement | nul
                               )}
                            </Link>
                            <div className="min-w-0 space-y-1">
-                              <AgeRatingLabel ageRating={movieShowtimes.rated} className="text-xs text-ink-700" />
+                              <AgeRatingBadge ageRating={movieShowtimes.rated} />
                               <h3 className="truncate text-lg font-bold text-ink-900">
                                  <Link to={getMovieDetailPath(movieShowtimes.movieSlug)}>{movieShowtimes.title}</Link>
                               </h3>

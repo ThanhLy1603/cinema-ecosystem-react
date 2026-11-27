@@ -71,6 +71,7 @@ export function HallForm({ cinemaId, hall, onDone, onCancel }: HallFormProps): R
          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <TextField
                id={`hall-name-${hall?.id ?? 'new'}`}
+               expandable
                label="Tên phòng chiếu"
                value={name}
                onChange={setName}

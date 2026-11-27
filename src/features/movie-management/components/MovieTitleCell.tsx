@@ -1,16 +1,14 @@
 import { Clapperboard } from 'lucide-react';
 import type { ReactElement, ReactNode } from 'react';
-import { Link } from 'react-router-dom';
 import type { Movie } from '@/types/movie/movie';
-import type { MovieListReturnState } from '../utils/listReturnPath';
 
 interface MovieTitleCellProps {
    movie: Movie;
-   movieListReturnState: MovieListReturnState;
+   onEdit: (movie: Movie) => void;
    children?: ReactNode;
 }
 
-export function MovieTitleCell({ movie, movieListReturnState, children }: MovieTitleCellProps): ReactElement {
+export function MovieTitleCell({ movie, onEdit, children }: MovieTitleCellProps): ReactElement {
    const content: ReactElement = (
       <>
          {movie.posterUrl ? (
@@ -36,14 +34,14 @@ export function MovieTitleCell({ movie, movieListReturnState, children }: MovieT
       return <div className="flex items-center gap-3">{content}</div>;
    }
    return (
-      <Link
-         to={`/admin/movies/${movie.id}`}
-         state={movieListReturnState}
+      <button
+         type="button"
+         onClick={() => onEdit(movie)}
          title={movie.title}
-         className="group flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-200"
+         className="group flex w-full items-center gap-3 rounded-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-200"
       >
          {content}
-      </Link>
+      </button>
    );
 }
 

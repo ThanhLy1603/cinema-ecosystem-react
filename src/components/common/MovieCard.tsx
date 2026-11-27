@@ -1,7 +1,7 @@
 import { Clapperboard } from 'lucide-react';
 import type { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import AgeRatingLabel from '@/components/common/AgeRatingLabel';
+import AgeRatingBadge from '@/components/common/AgeRatingBadge';
 import StarRating from '@/components/common/StarRating';
 import LinkButton from '@/components/ui/LinkButton';
 import { formatDuration } from '@/lib/movie/movieFormat';
@@ -48,7 +48,7 @@ export function MovieCard({ movie, movieRatingSummary }: MovieCardProps): ReactE
                <h3 className="line-clamp-2 text-base font-extrabold leading-snug text-ink-900 transition-colors group-hover:text-brand-700">
                   <Link to={getMovieDetailPath(movie.slug)}>{movie.title}</Link>
                </h3>
-               <AgeRatingLabel ageRating={movie.rated} className="text-xs text-ink-700" />
+               <AgeRatingBadge ageRating={movie.rated} />
                <p className="line-clamp-1 text-xs text-ink-600">{genreLabel}</p>
                <StarRating movieRatingSummary={movieRatingSummary} />
             </div>

@@ -9,6 +9,7 @@ interface MovieStatusBadgeProps {
 }
 
 const STATUS_CLASSES: Record<MovieStatus, string> = {
+   DRAFT: 'bg-white text-ink-600 ring-ink-300',
    NOW_SHOWING: 'bg-emerald-50 text-emerald-700 ring-emerald-200',
    COMING_SOON: 'bg-amber-50 text-ink-800 ring-amber-200',
    ENDED: 'bg-ink-100 text-ink-600 ring-ink-200',

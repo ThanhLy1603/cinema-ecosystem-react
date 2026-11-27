@@ -1,14 +1,13 @@
 import { useState, type ReactElement } from 'react';
-import { useLocation, type Location } from 'react-router-dom';
 import AgeRatingBadge from '@/components/common/AgeRatingBadge';
 import { formatDuration, formatReleaseDate } from '@/lib/movie/movieFormat';
 import type { Movie } from '@/types/movie/movie';
-import type { MovieListReturnState } from '../utils/listReturnPath';
 import DeleteMovieDialog from './DeleteMovieDialog';
 import MovieActions from './MovieActions';
 import MovieAdminCard from './MovieAdminCard';
 import MovieEmptyState from './MovieEmptyState';
 import MovieGenreBadges from './MovieGenreBadges';
+import MovieSelectCheckbox from './MovieSelectCheckbox';
 import MovieStatusBadge from './MovieStatusBadge';
 import MovieTitleCell from './MovieTitleCell';
 
@@ -24,6 +23,10 @@ interface MovieTableProps {
    isDeletedView?: boolean;
    hasActiveFilters?: boolean;
    onResetFilters: () => void;
+   onCreateMovie: () => void;
+   onEditMovie: (movie: Movie) => void;
+   selectedMovieIds: number[];
+   onSelectionChange: (selectedMovieIds: number[]) => void;
 }
 
 export function MovieTable({
@@ -33,9 +36,11 @@ export function MovieTable({
    isDeletedView = false,
    hasActiveFilters = false,
    onResetFilters,
+   onCreateMovie,
+   onEditMovie,
+   selectedMovieIds,
+   onSelectionChange,
 }: MovieTableProps): ReactElement {
-   const location: Location = useLocation();
-   const movieListReturnState: MovieListReturnState = { movieListSearch: location.search };
    const [pendingDeleteMovie, setPendingDeleteMovie] = useState<Movie | null>(null);
 
    function handleDeleted(): void {
@@ -47,10 +52,37 @@ export function MovieTable({
       return (
          <MovieActions
             movie={movie}
-            movieListReturnState={movieListReturnState}
+            onEdit={onEditMovie}
             isAdmin={isAdmin}
             onDelete={setPendingDeleteMovie}
             onRestored={onMovieRemoved}
+         />
+      );
+   }
+
+   const isAllSelected: boolean = movies.every((movie) => selectedMovieIds.includes(movie.id));
+
+   function toggleAll(): void {
+      onSelectionChange(isAllSelected ? [] : movies.map((movie) => movie.id));
+   }
+
+   function toggleMovie(movieId: number): void {
+      onSelectionChange(
+         selectedMovieIds.includes(movieId)
+            ? selectedMovieIds.filter((selectedMovieId) => selectedMovieId !== movieId)
+            : [...selectedMovieIds, movieId],
+      );
+   }
+
+   function renderSelection(movie: Movie): ReactElement | null {
+      if (isDeletedView) {
+         return null;
+      }
+      return (
+         <MovieSelectCheckbox
+            label={`Chọn phim ${movie.title}`}
+            checked={selectedMovieIds.includes(movie.id)}
+            onToggle={() => toggleMovie(movie.id)}
          />
       );
    }
@@ -61,6 +93,7 @@ export function MovieTable({
             isDeletedView={isDeletedView}
             hasActiveFilters={hasActiveFilters}
             onResetFilters={onResetFilters}
+            onCreateMovie={onCreateMovie}
          />
       );
    }
@@ -68,8 +101,18 @@ export function MovieTable({
    return (
       <div>
          <ul className="space-y-3 md:hidden">
+            {!isDeletedView && (
+               <li className="flex items-center gap-2 px-3 text-sm font-semibold text-ink-700">
+                  <MovieSelectCheckbox
+                     label="Chọn tất cả phim trong trang"
+                     checked={isAllSelected}
+                     onToggle={toggleAll}
+                  />
+                  Chọn tất cả
+               </li>
+            )}
             {movies.map((movie) => (
-               <MovieAdminCard key={movie.id} movie={movie} movieListReturnState={movieListReturnState}>
+               <MovieAdminCard key={movie.id} movie={movie} onEdit={onEditMovie} selection={renderSelection(movie)}>
                   {renderActions(movie)}
                </MovieAdminCard>
             ))}
@@ -79,6 +122,15 @@ export function MovieTable({
             <table className="w-full text-left text-sm">
                <thead className="border-b border-ink-100 bg-ink-50/80 text-xs text-ink-500">
                   <tr>
+                     {!isDeletedView && (
+                        <th className="w-12 px-2 py-2.5">
+                           <MovieSelectCheckbox
+                              label="Chọn tất cả phim trong trang"
+                              checked={isAllSelected}
+                              onToggle={toggleAll}
+                           />
+                        </th>
+                     )}
                      <th data-align="left" className={HEADER_CLASSES}>
                         Phim
                      </th>
@@ -93,8 +145,9 @@ export function MovieTable({
                <tbody className="divide-y divide-ink-100">
                   {movies.map((movie) => (
                      <tr key={movie.id} className="hover:bg-ink-50/60">
+                        {!isDeletedView && <td className="px-2 py-3">{renderSelection(movie)}</td>}
                         <td data-align="left" className={`${CELL_CLASSES} max-w-[300px]`}>
-                           <MovieTitleCell movie={movie} movieListReturnState={movieListReturnState}>
+                           <MovieTitleCell movie={movie} onEdit={onEditMovie}>
                               <span className="mt-1 block xl:hidden">
                                  <AgeRatingBadge ageRating={movie.rated} />
                               </span>

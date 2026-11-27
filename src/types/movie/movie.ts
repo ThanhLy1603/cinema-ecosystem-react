@@ -1,6 +1,6 @@
 export type AgeRating = 'P' | 'C13' | 'C16' | 'C18';
 
-export type MovieStatus = 'COMING_SOON' | 'NOW_SHOWING' | 'ENDED';
+export type MovieStatus = 'DRAFT' | 'COMING_SOON' | 'NOW_SHOWING' | 'ENDED';
 
 export type CastRoleType = 'DIRECTOR' | 'ACTOR' | 'PRODUCER';
 

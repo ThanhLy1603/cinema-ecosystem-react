@@ -7,7 +7,6 @@ import Button from '@/components/ui/Button';
 import LinkButton from '@/components/ui/LinkButton';
 import { cn } from '@/lib/common/utils';
 import { formatDuration, formatReleaseDate } from '@/lib/movie/movieFormat';
-import { AGE_RATING_DESCRIPTIONS } from '@/lib/movie/movieLabels';
 import { getMovieBookingPath } from '@/lib/movie/moviePath';
 import { toTrailerSource, type TrailerSource } from '@/lib/movie/trailer';
 import type { CastRoleType, MovieCast, MovieDetail } from '@/types/movie/movie';
@@ -152,9 +151,8 @@ export function MovieDetailHeader({ movieDetail, children }: MovieDetailHeaderPr
                      <span className="mx-2 opacity-60">|</span>
                      {formatDuration(movieDetail.durationMinutes)}
                   </p>
-                  <p className="mt-3 flex items-center gap-2 text-sm">
+                  <p className="mt-3 text-sm">
                      <AgeRatingBadge ageRating={movieDetail.rated} />
-                     {AGE_RATING_DESCRIPTIONS[movieDetail.rated]}
                   </p>
                </div>
 

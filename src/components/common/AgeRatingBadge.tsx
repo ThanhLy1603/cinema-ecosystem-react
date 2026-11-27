@@ -11,14 +11,13 @@ interface AgeRatingBadgeProps {
 export function AgeRatingBadge({ ageRating, className }: AgeRatingBadgeProps): ReactElement {
    return (
       <span
-         title={AGE_RATING_DESCRIPTIONS[ageRating]}
          className={cn(
-            'inline-flex min-w-9 items-center justify-center rounded-md px-2 py-0.5 text-xs font-extrabold tracking-wide',
+            'inline-block w-fit rounded-md px-2 py-0.5 text-center text-xs font-semibold leading-snug',
             AGE_RATING_BADGE_CLASSES[ageRating],
             className,
          )}
       >
-         {ageRating}
+         {AGE_RATING_DESCRIPTIONS[ageRating]}
       </span>
    );
 }

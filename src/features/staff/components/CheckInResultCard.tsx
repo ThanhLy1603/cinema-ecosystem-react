@@ -1,6 +1,6 @@
 import { Building2, CalendarDays, Circle, CircleCheck, Clock, DoorOpen, Undo2 } from 'lucide-react';
 import { useState, type ReactElement } from 'react';
-import AgeRatingLabel from '@/components/common/AgeRatingLabel';
+import AgeRatingBadge from '@/components/common/AgeRatingBadge';
 import SeatTypeIcon from '@/components/common/SeatTypeIcon';
 import { formatVnd } from '@/lib/common/currencyFormat';
 import { cn } from '@/lib/common/utils';
@@ -183,7 +183,7 @@ export function CheckInResultCard({
                   <div className="min-w-0 flex-1 space-y-3">
                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                         <h4 className="text-sm font-bold text-ink-900">{booking.movieTitle}</h4>
-                        <AgeRatingLabel ageRating={booking.rated} className="text-xs text-ink-700" />
+                        <AgeRatingBadge ageRating={booking.rated} />
                      </div>
                      <div className="grid grid-cols-1 gap-x-8 gap-y-3 md:grid-cols-2">
                         <ul className="space-y-1.5 text-sm text-ink-800">

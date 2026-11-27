@@ -33,7 +33,7 @@ export function MovieFilterBar({ movieFilters, genres, onChange }: MovieFilterBa
    return (
       <form
          onSubmit={handleSubmit}
-         className="grid grid-cols-1 items-end gap-4 rounded-2xl bg-white p-5 shadow-lg ring-1 ring-ink-100 md:grid-cols-[1fr_13rem_13rem_auto]"
+         className="grid grid-cols-1 items-end gap-4 rounded-2xl bg-white p-5 shadow-lg ring-1 ring-ink-100 md:grid-cols-[1fr_13rem_16rem_auto]"
       >
          <TextField
             id="movie-keyword"

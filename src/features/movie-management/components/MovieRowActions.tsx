@@ -6,32 +6,26 @@ import { cn } from '@/lib/common/utils';
 import { getMovieDetailPath } from '@/lib/movie/moviePath';
 import type { Movie } from '@/types/movie/movie';
 import { ROW_ACTION_CLASSES } from '../utils/actionClasses';
-import type { MovieListReturnState } from '../utils/listReturnPath';
 
 interface MovieRowActionsProps {
    movie: Movie;
-   movieListReturnState: MovieListReturnState;
+   onEdit: (movie: Movie) => void;
    canDelete: boolean;
    onDelete: (movie: Movie) => void;
 }
 
-export function MovieRowActions({
-   movie,
-   movieListReturnState,
-   canDelete,
-   onDelete,
-}: MovieRowActionsProps): ReactElement {
+export function MovieRowActions({ movie, onEdit, canDelete, onDelete }: MovieRowActionsProps): ReactElement {
    return (
       <div className="flex items-center justify-center gap-1.5">
-         <Link
-            to={`/admin/movies/${movie.id}`}
-            state={movieListReturnState}
+         <button
+            type="button"
+            onClick={() => onEdit(movie)}
             aria-label={`Chỉnh sửa phim ${movie.title}`}
             title="Chỉnh sửa"
             className={cn(ROW_ACTION_CLASSES, ACTION_TONE_CLASSES.edit)}
          >
             <Pencil className="size-4" aria-hidden="true" />
-         </Link>
+         </button>
          {movie.slug && (
             <Link
                to={getMovieDetailPath(movie.slug)}

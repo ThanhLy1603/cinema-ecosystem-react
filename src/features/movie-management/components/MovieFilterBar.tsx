@@ -63,7 +63,7 @@ export function MovieFilterBar({ adminMovieFilters, genres, onChange }: MovieFil
                placeholder="Tất cả thể loại"
             />
          </div>
-         <div className="sm:flex-1 xl:w-44 xl:flex-none">
+         <div className="sm:flex-1 xl:w-64 xl:flex-none">
             <SelectField
                id="admin-movie-rated-filter"
                label="Độ tuổi"

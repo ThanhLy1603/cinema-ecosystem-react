@@ -1,5 +1,5 @@
 import { CircleAlert, Eye, EyeOff, X, type LucideIcon } from 'lucide-react';
-import { useRef, useState, type ReactElement } from 'react';
+import { useRef, useState, type KeyboardEvent, type ReactElement } from 'react';
 import { cn } from '@/lib/common/utils';
 
 interface TextFieldProps {
@@ -20,6 +20,7 @@ interface TextFieldProps {
    autoFocus?: boolean;
    hideLabel?: boolean;
    clearable?: boolean;
+   expandable?: boolean;
 }
 
 export function TextField({
@@ -40,6 +41,7 @@ export function TextField({
    autoFocus = false,
    hideLabel = false,
    clearable = false,
+   expandable = false,
 }: TextFieldProps): ReactElement {
    const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
    const isPasswordField: boolean = type === 'password';
@@ -48,6 +50,21 @@ export function TextField({
    const hasError: boolean = Boolean(error);
    const inputRef = useRef<HTMLInputElement>(null);
    const canClear: boolean = clearable && !disabled && !isPasswordField && value.length > 0;
+
+   const stateClassName: string = cn(
+      'w-full rounded-lg border bg-white text-sm text-ink-900 shadow-sm outline-none transition-colors placeholder:text-ink-300 disabled:bg-ink-50 disabled:text-ink-400',
+      hasError
+         ? 'border-danger-400 focus:border-danger-500 focus:ring-2 focus:ring-danger-100'
+         : 'border-ink-200 hover:border-ink-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100',
+   );
+
+   function submitOnEnter(keyboardEvent: KeyboardEvent<HTMLTextAreaElement>): void {
+      if (keyboardEvent.key !== 'Enter' || keyboardEvent.nativeEvent.isComposing) {
+         return;
+      }
+      keyboardEvent.preventDefault();
+      keyboardEvent.currentTarget.form?.querySelector<HTMLButtonElement>('button[type="submit"]')?.click();
+   }
 
    function clearValue(): void {
       onChange('');
@@ -77,30 +94,50 @@ export function TextField({
                   aria-hidden="true"
                />
             )}
-            <input
-               ref={inputRef}
-               id={id}
-               name={id}
-               type={inputType}
-               value={value}
-               onChange={(changeEvent) => onChange(changeEvent.target.value)}
-               placeholder={placeholder}
-               autoComplete={autoComplete}
-               disabled={disabled}
-               maxLength={maxLength}
-               max={max}
-               autoFocus={autoFocus}
-               aria-invalid={hasError}
-               aria-describedby={error || hint ? messageId : undefined}
-               className={cn(
-                  'h-10 w-full rounded-lg border bg-white text-sm text-ink-900 shadow-sm outline-none transition-colors placeholder:text-ink-300 disabled:bg-ink-50 disabled:text-ink-400',
-                  Icon ? 'pl-10' : 'pl-3',
-                  isPasswordField ? 'pr-11' : canClear ? 'pr-9' : 'pr-3',
-                  hasError
-                     ? 'border-danger-400 focus:border-danger-500 focus:ring-2 focus:ring-danger-100'
-                     : 'border-ink-200 hover:border-ink-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100',
-               )}
-            />
+            {expandable ? (
+               <textarea
+                  id={id}
+                  name={id}
+                  rows={1}
+                  value={value}
+                  onChange={(changeEvent) => onChange(changeEvent.target.value.replace(/[\r\n]+/g, ' '))}
+                  onKeyDown={submitOnEnter}
+                  placeholder={placeholder}
+                  autoComplete="off"
+                  disabled={disabled}
+                  maxLength={maxLength}
+                  autoFocus={autoFocus}
+                  aria-invalid={hasError}
+                  aria-describedby={error || hint ? messageId : undefined}
+                  className={cn(
+                     stateClassName,
+                     'block field-sizing-content max-h-[min(20rem,50dvh)] min-h-10 resize-y break-words px-3 py-[9px] leading-5',
+                  )}
+               />
+            ) : (
+               <input
+                  ref={inputRef}
+                  id={id}
+                  name={id}
+                  type={inputType}
+                  value={value}
+                  onChange={(changeEvent) => onChange(changeEvent.target.value)}
+                  placeholder={placeholder}
+                  autoComplete={autoComplete}
+                  disabled={disabled}
+                  maxLength={maxLength}
+                  max={max}
+                  autoFocus={autoFocus}
+                  aria-invalid={hasError}
+                  aria-describedby={error || hint ? messageId : undefined}
+                  className={cn(
+                     stateClassName,
+                     'h-10',
+                     Icon ? 'pl-10' : 'pl-3',
+                     isPasswordField ? 'pr-11' : canClear ? 'pr-9' : 'pr-3',
+                  )}
+               />
+            )}
             {canClear && (
                <button
                   type="button"

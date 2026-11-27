@@ -46,6 +46,7 @@ export function TextAreaField({
             name={id}
             value={value}
             rows={rows}
+            style={{ minHeight: `calc(${rows}lh + 1.125rem)` }}
             onChange={(changeEvent) => onChange(changeEvent.target.value)}
             placeholder={placeholder}
             disabled={disabled}
@@ -53,7 +54,7 @@ export function TextAreaField({
             aria-invalid={hasError}
             aria-describedby={error || hint ? messageId : undefined}
             className={cn(
-               'w-full resize-y rounded-lg border bg-white px-3 py-2 text-sm text-ink-900 shadow-sm outline-none transition-colors placeholder:text-ink-300 disabled:bg-ink-50 disabled:text-ink-400',
+               'block field-sizing-content max-h-[min(20rem,50dvh)] w-full resize-y rounded-lg border bg-white px-3 py-2 text-sm text-ink-900 shadow-sm outline-none transition-colors placeholder:text-ink-300 disabled:bg-ink-50 disabled:text-ink-400',
                hasError
                   ? 'border-danger-400 focus:border-danger-500 focus:ring-2 focus:ring-danger-100'
                   : 'border-ink-200 hover:border-ink-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-100',

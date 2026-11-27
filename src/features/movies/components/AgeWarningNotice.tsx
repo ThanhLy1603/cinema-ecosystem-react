@@ -1,7 +1,7 @@
 import { ShieldAlert, ShieldCheck, type LucideIcon } from 'lucide-react';
 import type { ReactElement } from 'react';
 import AgeRatingBadge from '@/components/common/AgeRatingBadge';
-import { AGE_RATING_DESCRIPTIONS, AGE_RATING_WARNINGS } from '@/lib/movie/movieLabels';
+import { AGE_RATING_WARNINGS } from '@/lib/movie/movieLabels';
 import { cn } from '@/lib/common/utils';
 import type { AgeRating } from '@/types/movie/movie';
 
@@ -25,9 +25,8 @@ export function AgeWarningNotice({ ageRating }: AgeWarningNoticeProps): ReactEle
       >
          <Icon className="mt-0.5 size-5 shrink-0" aria-hidden="true" />
          <div className="space-y-1">
-            <p className="flex items-center gap-2 font-bold">
+            <p>
                <AgeRatingBadge ageRating={ageRating} />
-               {AGE_RATING_DESCRIPTIONS[ageRating]}
             </p>
             {warning !== null && <p>{warning} Vui lòng mang theo giấy tờ tùy thân khi đến rạp.</p>}
          </div>

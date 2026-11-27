@@ -3,6 +3,7 @@ import { useEffect, useRef, type MouseEvent, type ReactElement } from 'react';
 import AgeRatingBadge from '@/components/common/AgeRatingBadge';
 import { MINUTES_PER_DAY, formatClockRange, getMinutesFromDayStart, todayInVietnam } from '@/lib/common/vietnamTime';
 import { cn } from '@/lib/common/utils';
+import { AGE_RATING_DESCRIPTIONS } from '@/lib/movie/movieLabels';
 import type { Hall } from '@/types/cinema/cinema';
 import type { Showtime } from '@/types/showtime/showtime';
 import {
@@ -121,7 +122,7 @@ export function ShowtimeTimeline({
                onClick={(mouseEvent) => handleShowtimeClick(showtime, mouseEvent)}
                aria-label={`${showtime.movieTitle}, ${showtime.hallName}, ${clockRange}${isConflicting ? ', đang trùng giờ' : ''}`}
                aria-pressed={isSelected}
-               title={`${showtime.movieTitle}\n${clockRange}`}
+               title={`${showtime.movieTitle}\n${clockRange}\n${AGE_RATING_DESCRIPTIONS[showtime.rated]}`}
                className={cn(
                   'absolute top-3 bottom-3 flex flex-col justify-between overflow-hidden rounded-lg border px-2 py-1.5 text-left shadow-sm transition-all hover:z-20 hover:shadow-md focus-visible:z-20 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-200',
                   getBlockEdgeClasses(timelineBlockLayout),
@@ -134,8 +135,8 @@ export function ShowtimeTimeline({
             >
                <span className="block truncate text-xs font-bold leading-tight">{showtime.movieTitle}</span>
                <span className="flex items-center gap-1.5 text-xs font-semibold">
-                  <AgeRatingBadge ageRating={showtime.rated} className="min-w-0 px-1 py-0 text-[10px]" />
-                  <span className="truncate">{clockRange}</span>
+                  <span className="shrink-0">{clockRange}</span>
+                  <AgeRatingBadge ageRating={showtime.rated} className="min-w-0 truncate px-1 py-0 text-[10px]" />
                </span>
             </button>
          </div>

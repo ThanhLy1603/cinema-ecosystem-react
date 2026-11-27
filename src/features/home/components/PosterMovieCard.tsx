@@ -1,7 +1,7 @@
 import { Clapperboard, Clock } from 'lucide-react';
 import type { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
-import AgeRatingLabel from '@/components/common/AgeRatingLabel';
+import AgeRatingBadge from '@/components/common/AgeRatingBadge';
 import { formatDuration, formatReleaseDate } from '@/lib/movie/movieFormat';
 import { getMovieDetailPath } from '@/lib/movie/moviePath';
 import type { Movie } from '@/types/movie/movie';
@@ -44,7 +44,7 @@ export function PosterMovieCard({ movie }: PosterMovieCardProps): ReactElement {
                <Link to={getMovieDetailPath(movie.slug)}>{movie.title}</Link>
             </h3>
             <div className="space-y-1 text-xs text-ink-700">
-               <AgeRatingLabel ageRating={movie.rated} />
+               <AgeRatingBadge ageRating={movie.rated} />
                <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
                   <span className="inline-flex items-center gap-1">
                      <Clock className="size-3.5" aria-hidden="true" />

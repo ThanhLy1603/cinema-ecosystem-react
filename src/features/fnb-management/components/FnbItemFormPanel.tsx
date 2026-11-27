@@ -95,6 +95,7 @@ export function FnbItemFormPanel({ panelState, onSaved, onClose }: FnbItemFormPa
                {deferredUpload.uploadError && <Alert variant="error">{deferredUpload.uploadError}</Alert>}
                <TextField
                   id="fnb-item-name"
+                  expandable
                   label="Tên món"
                   value={name}
                   onChange={setName}

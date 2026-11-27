@@ -47,8 +47,6 @@ const OperationsHistoryPage = lazy(() => import('@/features/operations-managemen
 const RevenueReportPage = lazy(() => import('@/features/operations-management/pages/RevenueReportPage'));
 const FnbManagementPage = lazy(() => import('@/features/fnb-management/pages/FnbManagementPage'));
 const GenreManagementPage = lazy(() => import('@/features/movie-management/pages/GenreManagementPage'));
-const MovieCreatePage = lazy(() => import('@/features/movie-management/pages/MovieCreatePage'));
-const MovieEditPage = lazy(() => import('@/features/movie-management/pages/MovieEditPage'));
 const MovieManagementPage = lazy(() => import('@/features/movie-management/pages/MovieManagementPage'));
 const PersonManagementPage = lazy(() => import('@/features/movie-management/pages/PersonManagementPage'));
 const MovieDetailPage = lazy(() => import('@/features/movies/pages/MovieDetailPage'));
@@ -164,8 +162,6 @@ export function AppRoutes(): ReactElement {
                   <Route path="movies" element={<MovieManagementPage />} />
                   <Route path="movies/genres" element={<GenreManagementPage />} />
                   <Route path="movies/persons" element={<PersonManagementPage />} />
-                  <Route path="movies/new" element={<MovieCreatePage />} />
-                  <Route path="movies/:movieId" element={<MovieEditPage />} />
                   <Route path="fnb" element={<FnbManagementPage />} />
                   <Route path="showtimes" element={<ShowtimeManagementPage />} />
                   <Route path="price-rules" element={<PriceRuleManagementPage />} />

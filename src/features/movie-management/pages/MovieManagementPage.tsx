@@ -1,16 +1,23 @@
 import { keepPreviousData, useQuery, type UseQueryResult } from '@tanstack/react-query';
-import { Plus } from 'lucide-react';
-import type { ReactElement } from 'react';
+import { FileSpreadsheet, Images, Plus } from 'lucide-react';
+import { useState, type ReactElement } from 'react';
 import { Navigate, useSearchParams, type SetURLSearchParams } from 'react-router-dom';
 import { searchAdminMovies } from '@/api/movie/movieApi';
+import { exportMovies } from '@/api/movie/movieExportApi';
 import Pagination from '@/components/common/Pagination';
 import Alert from '@/components/ui/Alert';
-import LinkButton from '@/components/ui/LinkButton';
+import Button from '@/components/ui/Button';
 import { getErrorMessage } from '@/lib/common/apiError';
 import { useAuthStore } from '@/stores/useAuthStore';
 import type { PageResponse } from '@/types/common/api';
-import type { AdminMovieSearchParams, AgeRating, Genre, Movie, MovieStatus } from '@/types/movie/movie';
+import type { AdminMovieSearchParams, AgeRating, Genre, Movie, MovieDetail, MovieStatus } from '@/types/movie/movie';
+import ExportExcelButton from '../components/ExportExcelButton';
+import MovieBulkMediaModal from '../components/MovieBulkMediaModal';
+import MovieBulkStatusBar from '../components/MovieBulkStatusBar';
+import MovieCreateModal from '../components/MovieCreateModal';
+import MovieEditModal from '../components/MovieEditModal';
 import MovieFilterBar from '../components/MovieFilterBar';
+import MovieImportModal from '../components/MovieImportModal';
 import MovieSectionTabs from '../components/MovieSectionTabs';
 import MovieTable from '../components/MovieTable';
 import MovieViewTabs from '../components/MovieViewTabs';
@@ -26,6 +33,8 @@ import {
 } from '../utils/filterParams';
 import { ACTIVE_MOVIE_VIEW_TABS, DELETED_MOVIE_VIEW_TAB, type MovieViewTab } from '../utils/labels';
 import { ADMIN_MOVIE_LIST_KEY } from '../utils/queryKeys';
+
+type MovieModal = 'CREATE' | 'IMPORT' | 'MEDIA';
 
 const PAGE_SIZE: number = 20;
 
@@ -61,8 +70,48 @@ export function MovieManagementPage(): ReactElement {
       placeholderData: keepPreviousData,
    });
    const refreshMovies: () => void = useMovieRefresh(null);
+   const [openModal, setOpenModal] = useState<MovieModal | null>(null);
+   const [editingMovieId, setEditingMovieId] = useState<number | null>(null);
+   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+   const [selectedMovieIds, setSelectedMovieIds] = useState<number[]>([]);
+   const visibleSelectedMovieIds: number[] = (moviesQuery.data?.content ?? [])
+      .map((movie) => movie.id)
+      .filter((movieId) => selectedMovieIds.includes(movieId));
+
+   function clearSelection(): void {
+      setSelectedMovieIds([]);
+   }
+
+   function showModal(movieModal: MovieModal): void {
+      setSuccessMessage(null);
+      setOpenModal(movieModal);
+   }
+
+   function closeModal(): void {
+      setOpenModal(null);
+   }
+
+   function handleMovieCreated(movieDetail: MovieDetail): void {
+      closeModal();
+      setSuccessMessage(`Đã tạo phim ${movieDetail.title}.`);
+   }
+
+   function showEditModal(movie: Movie): void {
+      setSuccessMessage(null);
+      setEditingMovieId(movie.id);
+   }
+
+   function closeEditModal(): void {
+      setEditingMovieId(null);
+   }
+
+   function handleMovieSaved(movieDetail: MovieDetail): void {
+      closeEditModal();
+      setSuccessMessage(`Đã lưu phim ${movieDetail.title}.`);
+   }
 
    function handleFiltersChange(nextAdminMovieFilters: AdminMovieFilters): void {
+      setSelectedMovieIds([]);
       setSearchParams(buildMovieSearchParams(nextAdminMovieFilters, 0), { replace: true });
    }
 
@@ -71,6 +120,7 @@ export function MovieManagementPage(): ReactElement {
    }
 
    function handlePageChange(nextPage: number): void {
+      setSelectedMovieIds([]);
       setSearchParams(buildMovieSearchParams(adminMovieFilters, nextPage), { replace: true });
    }
 
@@ -92,10 +142,29 @@ export function MovieManagementPage(): ReactElement {
                   Danh mục phim, nhãn độ tuổi, thể loại và đội ngũ làm phim của cả hệ thống.
                </p>
             </div>
-            <LinkButton to="/admin/movies/new" icon={<Plus className="size-4" aria-hidden="true" />}>
-               Thêm phim
-            </LinkButton>
+            <div className="flex flex-wrap items-center gap-2">
+               <ExportExcelButton filePrefix="danh-sach-phim" exportFile={() => exportMovies(adminMovieSearchParams)} />
+               <Button
+                  variant="secondary"
+                  icon={<FileSpreadsheet className="size-4" aria-hidden="true" />}
+                  onClick={() => showModal('IMPORT')}
+               >
+                  Nhập từ Excel
+               </Button>
+               <Button
+                  variant="secondary"
+                  icon={<Images className="size-4" aria-hidden="true" />}
+                  onClick={() => showModal('MEDIA')}
+               >
+                  Tải ảnh hàng loạt
+               </Button>
+               <Button icon={<Plus className="size-4" aria-hidden="true" />} onClick={() => showModal('CREATE')}>
+                  Thêm phim
+               </Button>
+            </div>
          </header>
+
+         {successMessage && <Alert variant="success">{successMessage}</Alert>}
 
          <MovieViewTabs
             movieViewTabs={movieViewTabs}
@@ -108,6 +177,10 @@ export function MovieManagementPage(): ReactElement {
             genres={genresQuery.data ?? []}
             onChange={handleFiltersChange}
          />
+
+         {adminMovieFilters.deleted !== 'true' && (
+            <MovieBulkStatusBar selectedMovieIds={visibleSelectedMovieIds} onClearSelection={clearSelection} />
+         )}
 
          {moviesQuery.isError && <Alert variant="error">{getErrorMessage(moviesQuery.error)}</Alert>}
          {isPageOutOfRange && (
@@ -122,6 +195,10 @@ export function MovieManagementPage(): ReactElement {
                   isDeletedView={adminMovieFilters.deleted === 'true'}
                   hasActiveFilters={hasActiveMovieFilters({ ...adminMovieFilters, deleted: '' })}
                   onResetFilters={handleResetFilters}
+                  onCreateMovie={() => showModal('CREATE')}
+                  onEditMovie={showEditModal}
+                  selectedMovieIds={visibleSelectedMovieIds}
+                  onSelectionChange={setSelectedMovieIds}
                />
                <Pagination
                   page={moviesQuery.data.page}
@@ -132,6 +209,13 @@ export function MovieManagementPage(): ReactElement {
             </>
          )}
          {moviesQuery.isPending && <p className="text-sm text-ink-500">Đang tải danh sách...</p>}
+
+         {openModal === 'CREATE' && <MovieCreateModal onClose={closeModal} onCreated={handleMovieCreated} />}
+         {openModal === 'IMPORT' && <MovieImportModal onClose={closeModal} onOpenMedia={() => showModal('MEDIA')} />}
+         {openModal === 'MEDIA' && <MovieBulkMediaModal onClose={closeModal} />}
+         {editingMovieId !== null && (
+            <MovieEditModal movieId={editingMovieId} onClose={closeEditModal} onSaved={handleMovieSaved} />
+         )}
       </div>
    );
 }
