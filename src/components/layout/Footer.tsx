@@ -20,7 +20,7 @@ const ACCOUNT_LINKS: FooterLink[] = [
    { label: 'Đăng nhập', to: '/login' },
    { label: 'Đăng ký thành viên', to: '/register' },
    { label: 'Vé của tôi', to: '/tickets' },
-   { label: 'Cộng đồng & Blog', to: '/community' },
+   { label: 'Cộng đồng và Blog', to: '/community' },
 ];
 
 const PAYMENT_PARTNERS: string[] = ['MoMo', 'VNPAY', 'VietQR', 'Visa / Master'];

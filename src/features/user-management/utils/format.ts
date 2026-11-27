@@ -2,7 +2,7 @@ import type { AuditLog } from '@/types/auth/admin';
 
 export function formatDateTime(isoDateTime: string | undefined): string {
    if (!isoDateTime) {
-      return 'Chưa có';
+      return '';
    }
    return new Date(isoDateTime).toLocaleString('vi-VN', { dateStyle: 'short', timeStyle: 'short' });
 }

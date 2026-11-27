@@ -28,12 +28,12 @@ function StatCard({ label, value, icon, to, hint }: StatCardProps): ReactElement
    return (
       <Link
          to={to}
-         className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100 transition-all hover:-translate-y-0.5 hover:shadow-lg"
+         className="flex h-full items-center gap-4 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100 transition-all hover:-translate-y-0.5 hover:shadow-lg"
       >
          <span className="grid size-12 shrink-0 place-items-center rounded-xl bg-brand-100 text-brand-700">{icon}</span>
          <span className="min-w-0">
-            <span className="block text-xs font-bold uppercase tracking-wide text-ink-500">{label}</span>
-            <span className="block text-2xl font-extrabold text-ink-900">{value}</span>
+            <span className="block text-xs font-bold text-ink-500">{label}</span>
+            <span className="block text-2xl font-bold text-ink-900">{value}</span>
             {hint && <span className="block text-xs text-ink-600">{hint}</span>}
          </span>
       </Link>
@@ -48,7 +48,7 @@ function renderShowtime(showtimeOverview: ShowtimeOverview): ReactElement {
    return (
       <li key={showtimeOverview.showtimeId} className="space-y-2 px-4 py-3">
          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <span className="font-extrabold text-ink-900">{showtimeOverview.movieTitle}</span>
+            <span className="font-bold text-ink-900">{showtimeOverview.movieTitle}</span>
             <span className="text-sm text-ink-700">
                {showtimeOverview.hallName}
                {showtimeOverview.screenType ? ` · ${showtimeOverview.screenType}` : ''}
@@ -57,7 +57,7 @@ function renderShowtime(showtimeOverview: ShowtimeOverview): ReactElement {
                {formatClockRange(showtimeOverview.startTime, showtimeOverview.endTime)}
             </span>
             {showtimeOverview.nowShowing && (
-               <span className="rounded-md bg-accent-100 px-2 py-0.5 text-xs font-extrabold text-accent-700">
+               <span className="rounded-md bg-accent-100 px-2 py-0.5 text-xs font-bold text-accent-700">
                   Đang chiếu
                </span>
             )}
@@ -143,7 +143,7 @@ export function StaffOverviewPanel({ cinemaId }: StaffOverviewPanelProps): React
          </ul>
 
          <section aria-labelledby="staff-showtimes-heading" className="space-y-3">
-            <h2 id="staff-showtimes-heading" className="text-sm font-extrabold uppercase tracking-wider text-ink-500">
+            <h2 id="staff-showtimes-heading" className="text-base font-bold text-ink-900">
                Suất chiếu còn lại trong ngày
             </h2>
             {staffOverview.showtimes.length === 0 ? (

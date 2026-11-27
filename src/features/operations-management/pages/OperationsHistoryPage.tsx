@@ -128,8 +128,8 @@ export function OperationsHistoryPage(): ReactElement {
    return (
       <div className="space-y-5">
          <header className="space-y-1">
-            <h1 className="text-xl font-semibold tracking-tight text-ink-900">Lịch sử vận hành</h1>
-            <p className="text-sm text-ink-500">
+            <h1 className="text-2xl font-bold text-ink-900">Lịch sử vận hành</h1>
+            <p className="mt-1 text-sm text-ink-500">
                Xem lịch sử soát vé, giao bắp nước và các thao tác nhạy cảm theo chi nhánh, nhân viên và ngày.
             </p>
          </header>

@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient, type QueryClient, type UseMutationResult } from '@tanstack/react-query';
+import { useMutation, type UseMutationResult } from '@tanstack/react-query';
 import {
    ChevronDown,
    LayoutDashboard,
@@ -10,14 +10,14 @@ import {
    UserCog,
 } from 'lucide-react';
 import { useCallback, useRef, useState, type ReactElement } from 'react';
-import { Link, useLocation, useNavigate, type Location, type NavigateFunction } from 'react-router-dom';
+import { Link, useLocation, type Location } from 'react-router-dom';
 import { logout, logoutAll } from '@/api/auth/authApi';
 import { getErrorMessage } from '@/lib/common/apiError';
 import UserAvatar from '@/components/common/UserAvatar';
 import { getPrimaryRoleLabel } from '@/lib/auth/roleLabels';
+import { useFinishSignOut } from '@/lib/auth/useFinishSignOut';
 import { cn } from '@/lib/common/utils';
 import { useOutsideClick } from '@/lib/common/useOutsideClick';
-import { useAuthStore } from '@/stores/useAuthStore';
 import type { User } from '@/types/auth/auth';
 
 interface UserMenuProps {
@@ -28,19 +28,15 @@ export function UserMenu({ user }: UserMenuProps): ReactElement {
    const [isOpen, setIsOpen] = useState<boolean>(false);
    const [signOutErrorMessage, setSignOutErrorMessage] = useState<string | null>(null);
    const containerRef = useRef<HTMLDivElement>(null);
-   const queryClient: QueryClient = useQueryClient();
-   const navigate: NavigateFunction = useNavigate();
    const location: Location = useLocation();
-   const clearSession: () => void = useAuthStore((authState) => authState.logout);
+   const finishSession: () => void = useFinishSignOut();
 
    const closeMenu: () => void = useCallback((): void => setIsOpen(false), []);
    useOutsideClick(containerRef, closeMenu);
 
    function finishSignOut(): void {
-      clearSession();
-      queryClient.clear();
       setIsOpen(false);
-      navigate('/', { replace: true });
+      finishSession();
    }
 
    function handleSignOutError(error: unknown): void {
@@ -72,7 +68,7 @@ export function UserMenu({ user }: UserMenuProps): ReactElement {
             onClick={() => setIsOpen(!isOpen)}
             aria-haspopup="menu"
             aria-expanded={isOpen}
-            className="flex items-center gap-2.5 rounded-xl border border-white bg-white py-1 pl-1 pr-1.5 shadow-sm sm:pr-3 transition-colors hover:bg-ink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-300"
+            className="flex items-center gap-2.5 rounded-xl border border-white bg-white py-1 pl-1 pr-1.5 shadow-sm sm:pr-3 transition-colors hover:bg-ink-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-300 in-[.theme-console]:border-ink-200 in-[.theme-console]:bg-ink-100"
          >
             <UserAvatar user={user} className="size-7" />
             <span className="hidden max-w-[140px] truncate text-sm font-semibold text-ink-800 sm:block xl:hidden 2xl:block">
@@ -94,7 +90,7 @@ export function UserMenu({ user }: UserMenuProps): ReactElement {
                   <div className="min-w-0">
                      <p className="truncate text-sm font-bold text-ink-900">{user.fullName}</p>
                      <p className="truncate text-xs text-ink-500">{user.email}</p>
-                     <span className="mt-1.5 inline-flex rounded-full bg-white px-2 py-0.5 text-[11px] font-semibold text-brand-700 ring-1 ring-brand-200">
+                     <span className="mt-1.5 inline-flex rounded-full bg-white px-2 py-0.5 text-[11px] font-semibold text-brand-700 in-[.theme-console]:text-xs ring-1 ring-brand-200">
                         {getPrimaryRoleLabel(user)}
                         {user.tier ? ` · ${user.tier}` : ''}
                      </span>
@@ -171,7 +167,10 @@ export function UserMenu({ user }: UserMenuProps): ReactElement {
                      {logoutMutation.isPending ? 'Đang đăng xuất...' : 'Đăng xuất'}
                   </button>
                   {signOutErrorMessage && (
-                     <p role="alert" className="px-3 pb-1 pt-2 text-[13px] font-medium text-danger-700">
+                     <p
+                        role="alert"
+                        className="px-3 pb-1 pt-2 text-[13px] font-medium text-danger-700 in-[.theme-console]:text-xs"
+                     >
                         {signOutErrorMessage}
                      </p>
                   )}

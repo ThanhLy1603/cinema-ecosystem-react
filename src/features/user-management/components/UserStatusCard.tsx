@@ -56,7 +56,7 @@ export function UserStatusCard({ adminUser, isSelf }: UserStatusCardProps): Reac
                )}
                {canLock && !isConfirmingLock && (
                   <Button
-                     variant="secondary"
+                     variant="remove"
                      icon={<Lock className="size-4" aria-hidden="true" />}
                      onClick={() => setIsConfirmingLock(true)}
                   >
@@ -66,6 +66,7 @@ export function UserStatusCard({ adminUser, isSelf }: UserStatusCardProps): Reac
                {canLock && isConfirmingLock && (
                   <>
                      <Button
+                        variant="destructive"
                         isLoading={statusMutation.isPending}
                         onClick={() => statusMutation.mutate({ status: 'SUSPENDED' })}
                      >

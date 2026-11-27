@@ -36,7 +36,7 @@ export function DeleteCinemaCard({ cinemaId }: DeleteCinemaCardProps): ReactElem
          </p>
          {!isConfirming ? (
             <Button
-               variant="secondary"
+               variant="remove"
                icon={<Trash2 className="size-4" aria-hidden="true" />}
                onClick={() => setIsConfirming(true)}
             >
@@ -44,7 +44,11 @@ export function DeleteCinemaCard({ cinemaId }: DeleteCinemaCardProps): ReactElem
             </Button>
          ) : (
             <div className="flex flex-wrap gap-3">
-               <Button isLoading={deleteMutation.isPending} onClick={() => deleteMutation.mutate()}>
+               <Button
+                  variant="destructive"
+                  isLoading={deleteMutation.isPending}
+                  onClick={() => deleteMutation.mutate()}
+               >
                   Xác nhận xóa
                </Button>
                <Button variant="ghost" onClick={() => setIsConfirming(false)}>

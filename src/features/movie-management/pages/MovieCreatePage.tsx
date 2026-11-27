@@ -3,7 +3,6 @@ import { ArrowLeft } from 'lucide-react';
 import type { ReactElement } from 'react';
 import { Link, useNavigate, type NavigateFunction } from 'react-router-dom';
 import { createMovie } from '@/api/movie/movieApi';
-import SectionCard from '@/components/common/SectionCard';
 import { getErrorMessage } from '@/lib/common/apiError';
 import type { Genre, MovieDetail, MovieRequest, PersonOption } from '@/types/movie/movie';
 import MovieForm from '../components/MovieForm';
@@ -38,28 +37,21 @@ export function MovieCreatePage(): ReactElement {
    const hasFieldErrors: boolean = Object.keys(serverFieldErrors).length > 0;
 
    return (
-      <div className="w-full max-w-4xl space-y-6">
+      <div className="w-full max-w-7xl space-y-6">
          <Link to="/admin/movies" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700">
             <ArrowLeft className="size-4" aria-hidden="true" />
             Về danh sách phim
          </Link>
-         <h1 className="text-xl font-semibold tracking-tight text-ink-900">Thêm phim</h1>
-         <SectionCard
-            title="Thông tin phim"
-            description="Nhãn độ tuổi là bắt buộc và hiển thị cho khách khi chọn phim."
-         >
-            <MovieForm
-               genres={genresQuery.data ?? []}
-               personOptions={personOptionsQuery.data ?? []}
-               isSubmitting={createMutation.isPending}
-               submitLabel="Tạo phim"
-               errorMessage={
-                  createMutation.isError && !hasFieldErrors ? getErrorMessage(createMutation.error) : undefined
-               }
-               serverFieldErrors={serverFieldErrors}
-               onSubmit={(movieRequest) => createMutation.mutate(movieRequest)}
-            />
-         </SectionCard>
+         <h1 className="text-2xl font-bold text-ink-900">Thêm phim</h1>
+         <MovieForm
+            genres={genresQuery.data ?? []}
+            personOptions={personOptionsQuery.data ?? []}
+            isSubmitting={createMutation.isPending}
+            submitLabel="Tạo phim"
+            errorMessage={createMutation.isError && !hasFieldErrors ? getErrorMessage(createMutation.error) : undefined}
+            serverFieldErrors={serverFieldErrors}
+            onSubmit={(movieRequest) => createMutation.mutate(movieRequest)}
+         />
       </div>
    );
 }

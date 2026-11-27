@@ -21,7 +21,7 @@ export function FnbDeleteButton({ confirmMessage, remove, onDeleted }: FnbDelete
    if (!isConfirming) {
       return (
          <Button
-            variant="secondary"
+            variant="remove"
             size="sm"
             icon={<Trash2 className="size-3.5" aria-hidden="true" />}
             onClick={() => setIsConfirming(true)}
@@ -33,9 +33,14 @@ export function FnbDeleteButton({ confirmMessage, remove, onDeleted }: FnbDelete
 
    return (
       <div className="space-y-2 text-left">
-         <p className="max-w-[220px] text-[13px] font-medium text-danger-800">{confirmMessage}</p>
+         <p className="max-w-[220px] text-xs font-medium text-danger-800">{confirmMessage}</p>
          <div className="flex gap-2">
-            <Button size="sm" isLoading={deleteMutation.isPending} onClick={() => deleteMutation.mutate()}>
+            <Button
+               variant="destructive"
+               size="sm"
+               isLoading={deleteMutation.isPending}
+               onClick={() => deleteMutation.mutate()}
+            >
                Xác nhận
             </Button>
             <Button variant="ghost" size="sm" onClick={() => setIsConfirming(false)}>

@@ -55,14 +55,14 @@ function renderItem(bulkShowtimeItem: BulkShowtimeItem, itemIndex: number): Reac
             </p>
             <span
                className={cn(
-                  'rounded-full px-2.5 py-0.5 text-[11px] font-bold ring-1',
+                  'rounded-full px-2.5 py-0.5 text-xs font-bold ring-1',
                   STATUS_CLASSES[bulkShowtimeItem.status],
                )}
             >
                {STATUS_LABELS[bulkShowtimeItem.status]}
             </span>
          </div>
-         {problem && <p className="text-[13px] text-ink-600">{problem}</p>}
+         {problem && <p className="text-sm text-ink-600">{problem}</p>}
       </li>
    );
 }

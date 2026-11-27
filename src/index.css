@@ -165,7 +165,8 @@
    }
 }
 
-.theme-shinkai {
+.theme-shinkai,
+.theme-console {
    --color-brand-50: #f1fcf4;
    --color-brand-100: #dff7e6;
    --color-brand-200: #bdeccb;
@@ -224,6 +225,120 @@
       radial-gradient(1000px 700px at 100% 42%, rgb(170 208 232 / 0.32), transparent 65%),
       radial-gradient(1100px 800px at 10% 78%, rgb(214 230 170 / 0.24), transparent 65%),
       linear-gradient(180deg, #eef5f1 0%, #e6eff0 55%, #eaf1ec 100%);
+}
+
+.theme-console {
+   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+   --font-mono: var(--font-sans);
+
+   --radius-md: 0.5rem;
+   --radius-lg: 0.75rem;
+   --radius-xl: 1rem;
+   --radius-2xl: 1rem;
+   --radius-3xl: 1rem;
+
+   --font-weight-bold: 700;
+   --font-weight-extrabold: 700;
+   --font-weight-black: 700;
+
+   --shadow-soft: 0 25px 50px -12px rgb(15 23 42 / 0.25);
+   --shadow-card: 0 1px 3px rgb(15 23 42 / 0.05);
+   --shadow-md: 0 1px 3px rgb(15 23 42 / 0.06);
+
+   font-family: var(--font-sans);
+   color: var(--color-ink-800);
+}
+
+.theme-console .ring-ink-100 {
+   --tw-ring-color: var(--color-ink-200);
+}
+
+.theme-console :is(button, [role='option'], [role='tab']):not(:disabled) {
+   cursor: pointer;
+}
+
+.theme-console main > * {
+   width: 100%;
+   max-width: none;
+}
+
+.theme-console main h1 {
+   font-size: 1.25rem;
+   line-height: 1.75rem;
+   font-weight: 700;
+   letter-spacing: -0.025em;
+   color: var(--color-ink-900);
+}
+
+@media (min-width: 640px) {
+   .theme-console main h1 {
+      font-size: 1.5rem;
+      line-height: 2rem;
+   }
+}
+
+.theme-console
+   :is(
+      input:not([type='checkbox'], [type='radio'], [type='file'], [type='range']),
+      textarea,
+      button[role='combobox']
+   ):not(:disabled) {
+   background-color: var(--color-ink-50);
+}
+
+.theme-console
+   :is(
+      input:not([type='checkbox'], [type='radio'], [type='file'], [type='range']),
+      textarea,
+      button[role='combobox']
+   ):not(:disabled):focus {
+   background-color: #fff;
+}
+
+@media screen {
+   .theme-console main thead {
+      background-color: var(--color-ink-50);
+      color: var(--color-ink-500);
+      border-bottom: 1px solid var(--color-ink-200);
+   }
+
+   .theme-console main thead th {
+      padding-block: 0.875rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: normal;
+      text-transform: none;
+   }
+
+   .theme-console main tbody td {
+      padding-block: 1rem;
+   }
+
+   .theme-console main table th,
+   .theme-console main table td {
+      border: 1px solid var(--color-ink-200);
+      text-align: center;
+   }
+
+   .theme-console main table [data-align='left'] {
+      text-align: left;
+   }
+
+   .theme-console main .ring-1 > table tr > :first-child {
+      border-left-width: 0;
+   }
+
+   .theme-console main .ring-1 > table tr > :last-child {
+      border-right-width: 0;
+   }
+
+   .theme-console main .ring-1 > table > thead > tr:first-child > * {
+      border-top-width: 0;
+   }
+
+   .theme-console main .ring-1 > table > tbody:last-child > tr:last-child > * {
+      border-bottom-width: 0;
+   }
 }
 
 @media print {

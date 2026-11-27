@@ -117,7 +117,7 @@ export function AppRoutes(): ReactElement {
                   path="/community"
                   element={
                      <ComingSoonPage
-                        title="Cộng đồng & Blog"
+                        title="Cộng đồng và Blog"
                         description="Nơi chia sẻ đánh giá phim và bài viết điện ảnh đang được xây dựng."
                         icon={MessagesSquare}
                      />
@@ -176,7 +176,7 @@ export function AppRoutes(): ReactElement {
                      path="promotions"
                      element={
                         <ComingSoonPage
-                           title="Quản lý khuyến mãi & F&B"
+                           title="Quản lý khuyến mãi và bắp nước"
                            description="Chương trình khuyến mãi theo hạng thành viên và danh mục bắp nước sẽ được cập nhật tại đây."
                            icon={Tag}
                            backTo="/admin"
@@ -188,7 +188,7 @@ export function AppRoutes(): ReactElement {
                      path="community"
                      element={
                         <ComingSoonPage
-                           title="Quản lý cộng đồng & blog"
+                           title="Quản lý cộng đồng và blog"
                            description="Soạn bài viết điện ảnh và kiểm duyệt bình luận, đánh giá sẽ sớm có mặt."
                            icon={MessagesSquare}
                            backTo="/admin"

@@ -11,7 +11,7 @@ export function SeatTypeSurchargeCard(): ReactElement {
    return (
       <section className="space-y-4 rounded-lg bg-white p-5 shadow-card ring-1 ring-ink-200/80">
          <div>
-            <h2 className="text-[15px] font-semibold text-ink-900">Phụ thu theo loại ghế</h2>
+            <h2 className="text-base font-bold text-ink-900">Phụ thu theo loại ghế</h2>
             <p className="mt-1 text-sm text-ink-500">
                Mức phụ thu gắn với từng loại ghế, luôn được cộng vào giá vé của ghế đó.
             </p>

@@ -152,19 +152,23 @@ export function FnbComboSection({ isAdmin }: FnbComboSectionProps): ReactElement
          {fnbCombos.length > 0 && (
             <div className="overflow-x-auto rounded-lg bg-white shadow-card ring-1 ring-ink-200/80">
                <table className="w-full min-w-[860px] text-left text-sm">
-                  <thead className="border-b border-ink-100 bg-ink-50/80 text-[11px] uppercase tracking-wider text-ink-500">
+                  <thead className="border-b border-ink-100 bg-ink-50/80 text-xs text-ink-500">
                      <tr>
-                        <th className="px-4 py-2.5 font-semibold">Combo</th>
-                        <th className="px-4 py-2.5 font-semibold">Thành phần</th>
-                        <th className="px-4 py-2.5 text-right font-semibold">Giá</th>
+                        <th data-align="left" className="px-4 py-2.5 font-semibold">
+                           Combo
+                        </th>
+                        <th data-align="left" className="px-4 py-2.5 font-semibold">
+                           Thành phần
+                        </th>
+                        <th className="px-4 py-2.5 font-semibold">Giá</th>
                         <th className="px-4 py-2.5 font-semibold">Trạng thái</th>
-                        <th className="px-4 py-2.5" />
+                        <th className="px-4 py-2.5"></th>
                      </tr>
                   </thead>
                   <tbody className="divide-y divide-ink-100">
                      {fnbCombos.map((fnbCombo) => (
                         <tr key={fnbCombo.id} className="align-middle hover:bg-ink-50/60">
-                           <td className="px-4 py-3">
+                           <td data-align="left" className="px-4 py-3">
                               <div className="flex items-center gap-3">
                                  {fnbCombo.imageUrl ? (
                                     <img
@@ -180,10 +184,10 @@ export function FnbComboSection({ isAdmin }: FnbComboSectionProps): ReactElement
                                  <p className="font-semibold text-ink-900">{fnbCombo.name}</p>
                               </div>
                            </td>
-                           <td className="max-w-[280px] px-4 py-3 text-[13px] text-ink-600">
+                           <td data-align="left" className="max-w-[280px] px-4 py-3 text-sm text-ink-600">
                               {describeComboItems(fnbCombo.items)}
                            </td>
-                           <td className="whitespace-nowrap px-4 py-3 text-right">
+                           <td className="whitespace-nowrap px-4 py-3">
                               <p className="font-semibold text-ink-900">{formatVnd(fnbCombo.price)}</p>
                               <p className="text-xs text-ink-500">Mua lẻ {formatVnd(fnbCombo.itemsTotalPrice)}</p>
                            </td>
@@ -191,7 +195,7 @@ export function FnbComboSection({ isAdmin }: FnbComboSectionProps): ReactElement
                               <div className="space-y-1">
                                  <FnbStatusBadge fnbStatus={fnbCombo.status} isDeleted={fnbCombo.deleted} />
                                  {!fnbCombo.deleted && fnbCombo.status === 'AVAILABLE' && !fnbCombo.orderable && (
-                                    <p className="flex items-center gap-1 text-xs font-medium text-amber-700">
+                                    <p className="flex items-center justify-center gap-1 text-xs font-medium text-amber-700">
                                        <TriangleAlert className="size-3.5" aria-hidden="true" />
                                        Có món hết hàng, chưa bán được
                                     </p>
@@ -199,7 +203,7 @@ export function FnbComboSection({ isAdmin }: FnbComboSectionProps): ReactElement
                               </div>
                            </td>
                            <td className="px-4 py-3">
-                              <div className="flex items-start justify-end gap-2">
+                              <div className="flex items-start justify-center gap-2">
                                  {fnbCombo.deleted ? (
                                     <RestoreButton
                                        restore={() => restoreFnbCombo(fnbCombo.id)}
@@ -208,7 +212,7 @@ export function FnbComboSection({ isAdmin }: FnbComboSectionProps): ReactElement
                                  ) : (
                                     <>
                                        <Button
-                                          variant="secondary"
+                                          variant="edit"
                                           size="sm"
                                           icon={<Pencil className="size-3.5" aria-hidden="true" />}
                                           onClick={() => openEditPanel(fnbCombo)}

@@ -114,7 +114,7 @@ export function FnbPickupResultCard({
                   >
                      <Minus className="size-4" aria-hidden="true" />
                   </button>
-                  <span className="w-12 text-center text-base font-extrabold text-ink-900">
+                  <span className="w-12 text-center text-base font-bold text-ink-900">
                      {deliverQuantity}/{fnbPickupLine.remainingQuantity}
                   </span>
                   <button
@@ -135,7 +135,7 @@ export function FnbPickupResultCard({
    function renderBooking(booking: FnbPickupBooking): ReactElement {
       return (
          <div className="space-y-3 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100">
-            <h3 className="flex flex-wrap items-baseline justify-between gap-2 text-sm font-extrabold uppercase tracking-wide text-ink-700">
+            <h3 className="flex flex-wrap items-baseline justify-between gap-2 text-sm font-bold text-ink-900">
                <span>Bắp nước / Combo</span>
                <span className="font-mono text-xs font-bold normal-case text-ink-600">
                   Mã đơn: {booking.bookingCode}
@@ -147,7 +147,7 @@ export function FnbPickupResultCard({
                   {booking.remainingQuantity > 0 && (
                      <p className="flex items-center justify-between border-t border-ink-200 bg-ink-50 px-4 py-3 text-sm font-bold text-ink-900">
                         <span>Còn chưa giao</span>
-                        <span className="text-lg font-extrabold text-brand-700">
+                        <span className="text-lg font-bold text-brand-700">
                            {booking.remainingQuantity}/{booking.totalQuantity} phần
                         </span>
                      </p>
@@ -169,7 +169,7 @@ export function FnbPickupResultCard({
             >
                {ResultIcon && <ResultIcon className="size-6 shrink-0" aria-hidden="true" />}
                <div className="min-w-0">
-                  <h2 className="text-base font-extrabold leading-tight">{resultStyle.title}</h2>
+                  <h2 className="text-base font-bold text-ink-900">{resultStyle.title}</h2>
                   <p className="text-xs font-medium leading-snug">{scanResponse.message}</p>
                </div>
             </div>
@@ -181,7 +181,7 @@ export function FnbPickupResultCard({
             {scanResponse.canDeliver && (
                <Button onClick={handleDeliver} disabled={isBusy || selectedTotal === 0} className="h-12 px-6 text-base">
                   Xác nhận giao
-                  <span className="ml-3 rounded-md bg-white/25 px-2 py-0.5 text-sm font-extrabold">
+                  <span className="ml-3 rounded-md bg-white/25 px-2 py-0.5 text-sm font-bold">
                      {selectedTotal} phần
                   </span>
                </Button>

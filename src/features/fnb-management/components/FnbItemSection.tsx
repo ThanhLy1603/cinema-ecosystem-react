@@ -160,19 +160,21 @@ export function FnbItemSection({ isAdmin }: FnbItemSectionProps): ReactElement {
          {fnbItems.length > 0 && (
             <div className="overflow-x-auto rounded-lg bg-white shadow-card ring-1 ring-ink-200/80">
                <table className="w-full min-w-[760px] text-left text-sm">
-                  <thead className="border-b border-ink-100 bg-ink-50/80 text-[11px] uppercase tracking-wider text-ink-500">
+                  <thead className="border-b border-ink-100 bg-ink-50/80 text-xs text-ink-500">
                      <tr>
-                        <th className="px-4 py-2.5 font-semibold">Món</th>
+                        <th data-align="left" className="px-4 py-2.5 font-semibold">
+                           Món
+                        </th>
                         <th className="px-4 py-2.5 font-semibold">Nhóm</th>
-                        <th className="px-4 py-2.5 text-right font-semibold">Giá</th>
+                        <th className="px-4 py-2.5 font-semibold">Giá</th>
                         <th className="px-4 py-2.5 font-semibold">Trạng thái</th>
-                        <th className="px-4 py-2.5" />
+                        <th className="px-4 py-2.5"></th>
                      </tr>
                   </thead>
                   <tbody className="divide-y divide-ink-100">
                      {fnbItems.map((fnbItem) => (
                         <tr key={fnbItem.id} className="align-middle hover:bg-ink-50/60">
-                           <td className="px-4 py-3">
+                           <td data-align="left" className="px-4 py-3">
                               <div className="flex items-center gap-3">
                                  {fnbItem.imageUrl ? (
                                     <img
@@ -191,14 +193,14 @@ export function FnbItemSection({ isAdmin }: FnbItemSectionProps): ReactElement {
                            <td className="whitespace-nowrap px-4 py-3 text-ink-700">
                               {FNB_CATEGORY_LABELS[fnbItem.category]}
                            </td>
-                           <td className="whitespace-nowrap px-4 py-3 text-right font-semibold text-ink-900">
+                           <td className="whitespace-nowrap px-4 py-3 font-semibold text-ink-900">
                               {formatVnd(fnbItem.price)}
                            </td>
                            <td className="px-4 py-3">
                               <FnbStatusBadge fnbStatus={fnbItem.status} isDeleted={fnbItem.deleted} />
                            </td>
                            <td className="px-4 py-3">
-                              <div className="flex items-start justify-end gap-2">
+                              <div className="flex items-start justify-center gap-2">
                                  {fnbItem.deleted ? (
                                     <RestoreButton
                                        restore={() => restoreFnbItem(fnbItem.id)}
@@ -207,7 +209,7 @@ export function FnbItemSection({ isAdmin }: FnbItemSectionProps): ReactElement {
                                  ) : (
                                     <>
                                        <Button
-                                          variant="secondary"
+                                          variant="edit"
                                           size="sm"
                                           icon={<Pencil className="size-3.5" aria-hidden="true" />}
                                           onClick={() => openEditPanel(fnbItem)}

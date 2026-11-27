@@ -179,7 +179,7 @@ export function CinemaForm({
          </div>
 
          <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-ink-800">Tiện ích</h3>
+            <h3 className="text-sm font-bold text-ink-900">Tiện ích</h3>
             <FacilityPicker facilities={facilities} selectedFacilityIds={facilityIds} onChange={setFacilityIds} />
          </div>
 

@@ -19,7 +19,7 @@ export function RestoreButton({ restore, onRestored }: RestoreButtonProps): Reac
    return (
       <div className="space-y-2">
          <Button
-            variant="secondary"
+            variant="restore"
             className="h-9 px-3"
             isLoading={restoreMutation.isPending}
             icon={<RotateCcw className="size-4" aria-hidden="true" />}

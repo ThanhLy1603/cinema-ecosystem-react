@@ -68,7 +68,7 @@ export function FnbPickupQueueList({
             className="overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-ink-100"
          >
             <header className="flex flex-wrap items-center gap-x-4 gap-y-1 border-b border-ink-100 bg-ink-50 px-4 py-3">
-               <h3 className="flex items-center gap-2 text-sm font-extrabold text-ink-900">
+               <h3 className="flex items-center gap-2 text-sm font-bold text-ink-900">
                   <Film className="size-4 text-brand-600" aria-hidden="true" />
                   {fnbPickupShowtimeGroup.movieTitle}
                </h3>

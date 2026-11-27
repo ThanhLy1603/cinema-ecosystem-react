@@ -44,7 +44,7 @@ function PriceRuleRow({ priceRule, canManage, onEdit, onChanged }: PriceRuleRowP
                {validityLabel && <p className="text-xs text-ink-500">Áp dụng: {validityLabel}</p>}
             </div>
             <div className="flex items-center gap-3">
-               <span className="rounded-full bg-brand-50 px-3 py-1 text-sm font-extrabold text-brand-700 ring-1 ring-brand-100">
+               <span className="rounded-full bg-brand-50 px-3 py-1 text-sm font-bold text-brand-700 ring-1 ring-brand-100">
                   +{formatVnd(priceRule.surchargeAmount)}
                </span>
                {canManage && priceRule.deleted && (
@@ -53,7 +53,7 @@ function PriceRuleRow({ priceRule, canManage, onEdit, onChanged }: PriceRuleRowP
                {canManage && !priceRule.deleted && !isConfirmingDelete && (
                   <>
                      <Button
-                        variant="secondary"
+                        variant="edit"
                         className="h-9 px-3"
                         icon={<Pencil className="size-4" aria-hidden="true" />}
                         onClick={() => onEdit(priceRule)}
@@ -61,7 +61,7 @@ function PriceRuleRow({ priceRule, canManage, onEdit, onChanged }: PriceRuleRowP
                         Sửa
                      </Button>
                      <Button
-                        variant="ghost"
+                        variant="remove"
                         className="h-9 px-3"
                         aria-label={`Xóa quy tắc ${priceRule.ruleName}`}
                         icon={<Trash2 className="size-4" aria-hidden="true" />}
@@ -72,6 +72,7 @@ function PriceRuleRow({ priceRule, canManage, onEdit, onChanged }: PriceRuleRowP
                {canManage && !priceRule.deleted && isConfirmingDelete && (
                   <>
                      <Button
+                        variant="destructive"
                         className="h-9 px-3"
                         isLoading={deleteMutation.isPending}
                         onClick={() => deleteMutation.mutate()}
@@ -102,7 +103,7 @@ export function PriceRuleSection({
       <section className="space-y-4 rounded-lg bg-white p-5 shadow-card ring-1 ring-ink-200/80">
          <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
-               <h2 className="text-[15px] font-semibold text-ink-900">
+               <h2 className="text-base font-bold text-ink-900">
                   Phụ thu theo {PRICE_RULE_TYPE_LABELS[ruleType].toLowerCase()}
                </h2>
                <p className="mt-1 text-sm text-ink-500">{PRICE_RULE_TYPE_DESCRIPTIONS[ruleType]}</p>

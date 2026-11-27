@@ -2,6 +2,7 @@ import { useMutation, type UseMutationResult } from '@tanstack/react-query';
 import { FileVideo, Upload, X } from 'lucide-react';
 import { useEffect, useRef, useState, type ChangeEvent, type ReactElement } from 'react';
 import { getUploadErrorMessage, getUploadSignature, validateMediaFile } from '@/api/media/mediaApi';
+import YoutubePreview from '@/components/common/YoutubePreview';
 import Alert from '@/components/ui/Alert';
 import Button from '@/components/ui/Button';
 import TextField from '@/components/ui/TextField';
@@ -122,7 +123,7 @@ export function MediaUploadField({
             />
          ) : (
             <div className="space-y-1.5">
-               <p className="flex items-baseline justify-between text-sm font-semibold text-ink-800">
+               <p className="flex items-baseline justify-between text-sm font-semibold text-ink-800 in-[.theme-console]:text-ink-700">
                   <span>{label}</span>
                   {optional && <span className="text-xs font-normal text-ink-400">Không bắt buộc</span>}
                </p>
@@ -150,7 +151,7 @@ export function MediaUploadField({
                   />
                </div>
                {error && (
-                  <p role="alert" className="text-[13px] font-medium text-danger-700">
+                  <p role="alert" className="text-[13px] font-medium text-danger-700 in-[.theme-console]:text-xs">
                      {error}
                   </p>
                )}
@@ -192,16 +193,13 @@ export function MediaUploadField({
                className="max-h-48 rounded-xl ring-1 ring-ink-100"
             />
          )}
-         {trailerPreviewSource?.kind === 'youtube' && (
-            <div className="aspect-video w-full max-w-md overflow-hidden rounded-xl ring-1 ring-ink-100">
-               <iframe
-                  src={trailerPreviewSource.url}
-                  title={`Xem trước ${label}`}
-                  allow="encrypted-media; picture-in-picture"
-                  allowFullScreen
-                  className="size-full"
-               />
-            </div>
+         {trailerPreviewSource?.youtubeId && (
+            <YoutubePreview
+               key={trailerPreviewSource.youtubeId}
+               youtubeId={trailerPreviewSource.youtubeId}
+               embedUrl={trailerPreviewSource.url}
+               title={`Xem trước ${label}`}
+            />
          )}
       </div>
    );

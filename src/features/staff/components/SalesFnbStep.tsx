@@ -107,10 +107,10 @@ export function SalesFnbStep({ onBack, onContinue }: SalesFnbStepProps): ReactEl
          <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-white p-4 shadow-md ring-1 ring-ink-100">
             <p className="flex items-center gap-3 text-sm font-bold text-ink-900">
                Tiền bắp nước
-               <span className="rounded-md bg-accent-100 px-2 py-0.5 text-xs font-extrabold text-accent-700">
+               <span className="rounded-md bg-accent-100 px-2 py-0.5 text-xs font-bold text-accent-700">
                   {selectedQuantity} phần
                </span>
-               <span className="text-xl font-extrabold text-brand-700">{formatVnd(selectedTotal)}</span>
+               <span className="text-lg font-bold text-brand-700">{formatVnd(selectedTotal)}</span>
             </p>
             <Button
                className="h-12 px-6 text-base"

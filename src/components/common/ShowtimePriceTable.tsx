@@ -14,10 +14,8 @@ interface SurchargeColumn {
    amount: number;
 }
 
-const EMPTY_CELL: string = '—';
-
-function formatSurcharge(amount: number): string {
-   return amount > 0 ? `+${formatVnd(amount)}` : EMPTY_CELL;
+function formatSurcharge(amount: number): ReactElement | string {
+   return amount > 0 ? `+${formatVnd(amount)}` : <span className="in-[.theme-console]:hidden">—</span>;
 }
 
 function buildSurchargeColumns(showtimePrice: ShowtimePrice): SurchargeColumn[] {
@@ -36,8 +34,8 @@ export function ShowtimePriceTable({ showtimePrice, className }: ShowtimePriceTa
          <div className="overflow-x-auto rounded-xl ring-1 ring-ink-100">
             <table className="w-full min-w-[560px] border-collapse text-sm">
                <thead>
-                  <tr className="bg-ink-50 text-left text-[11px] font-bold uppercase tracking-wider text-ink-500">
-                     <th scope="col" className="px-3 py-2.5">
+                  <tr className="bg-ink-50 text-left text-[11px] font-bold uppercase tracking-wider text-ink-500 in-[.theme-console]:text-xs in-[.theme-console]:normal-case in-[.theme-console]:tracking-normal">
+                     <th data-align="left" scope="col" className="px-3 py-2.5">
                         Loại ghế
                      </th>
                      <th scope="col" className="px-3 py-2.5 text-right">
@@ -59,7 +57,7 @@ export function ShowtimePriceTable({ showtimePrice, className }: ShowtimePriceTa
                <tbody>
                   {showtimePrice.seatTypePrices.map((seatTypePrice: SeatTypePrice) => (
                      <tr key={seatTypePrice.seatTypeCode} className="border-t border-ink-100">
-                        <th scope="row" className="px-3 py-2.5 text-left font-semibold text-ink-900">
+                        <th data-align="left" scope="row" className="px-3 py-2.5 text-left font-semibold text-ink-900">
                            {seatTypePrice.seatTypeName}
                         </th>
                         <td className="px-3 py-2.5 text-right text-ink-700">{formatVnd(showtimePrice.basePrice)}</td>
@@ -71,7 +69,7 @@ export function ShowtimePriceTable({ showtimePrice, className }: ShowtimePriceTa
                               {formatSurcharge(surchargeColumn.amount)}
                            </td>
                         ))}
-                        <td className="px-3 py-2.5 text-right text-base font-extrabold text-brand-700">
+                        <td className="px-3 py-2.5 text-right text-base font-extrabold text-brand-700 in-[.theme-console]:text-sm in-[.theme-console]:font-bold">
                            {formatVnd(seatTypePrice.totalPrice)}
                         </td>
                      </tr>

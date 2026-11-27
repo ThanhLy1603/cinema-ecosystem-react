@@ -31,13 +31,13 @@ export function ShowtimeConflictList({
                   <p className="font-bold">
                      {showtimeConflict.movieTitle ?? `Suất chiếu #${showtimeConflict.showtimeId}`}
                   </p>
-                  <p className="text-[13px]">
+                  <p className="text-sm">
                      Chiếu {formatClockRange(showtimeConflict.startTime, showtimeConflict.endTime)} · phòng bận đến{' '}
                      <strong>{toVietnamTimeOfDay(showtimeConflict.occupiedUntil)}</strong>
                   </p>
                   <span
                      className={cn(
-                        'mt-1 inline-block rounded-full px-2 py-0.5 text-[11px] font-bold',
+                        'mt-1 inline-block rounded-full px-2 py-0.5 text-xs font-bold',
                         showtimeConflict.conflictType === 'OVERLAP'
                            ? 'bg-danger-600 text-white'
                            : 'bg-amber-100 text-amber-800',

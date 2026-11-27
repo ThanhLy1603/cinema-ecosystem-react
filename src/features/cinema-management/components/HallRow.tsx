@@ -40,13 +40,13 @@ export function HallRow({ hall, onEdit }: HallRowProps): ReactElement {
             <div className="flex flex-wrap gap-2">
                <Link
                   to={`/admin/halls/${hall.id}/seat-map`}
-                  className="inline-flex h-9 items-center gap-2 rounded-xl bg-brand-50 px-3 text-sm font-semibold text-brand-700 ring-1 ring-brand-100 transition-colors hover:bg-brand-100"
+                  className="inline-flex h-9 items-center gap-2 rounded-lg bg-sky-50 px-3 text-sm font-semibold text-sky-700 ring-1 ring-inset ring-sky-200 transition-colors hover:bg-sky-600 hover:text-white hover:ring-sky-600"
                >
                   <Armchair className="size-4" aria-hidden="true" />
                   Sơ đồ ghế
                </Link>
                <Button
-                  variant="secondary"
+                  variant="edit"
                   className="h-9 px-3"
                   icon={<Pencil className="size-4" aria-hidden="true" />}
                   onClick={() => onEdit(hall.id)}
@@ -55,7 +55,7 @@ export function HallRow({ hall, onEdit }: HallRowProps): ReactElement {
                </Button>
                {!isConfirmingDelete && (
                   <Button
-                     variant="secondary"
+                     variant="remove"
                      className="h-9 px-3"
                      icon={<Trash2 className="size-4" aria-hidden="true" />}
                      onClick={() => setIsConfirmingDelete(true)}
@@ -69,6 +69,7 @@ export function HallRow({ hall, onEdit }: HallRowProps): ReactElement {
             <div className="flex flex-wrap items-center gap-3 rounded-xl bg-danger-50 px-4 py-3 text-sm text-danger-800">
                <span className="font-medium">Xóa phòng chiếu này? Sơ đồ ghế được giữ lại và có thể khôi phục sau.</span>
                <Button
+                  variant="destructive"
                   className="h-9 px-4"
                   isLoading={deleteMutation.isPending}
                   onClick={() => deleteMutation.mutate()}

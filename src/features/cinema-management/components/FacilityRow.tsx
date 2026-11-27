@@ -53,7 +53,7 @@ export function FacilityRow({ facility, canManage, onEdit }: FacilityRowProps): 
             {canManage && !facility.deleted && !isConfirmingDelete && (
                <div className="flex gap-2">
                   <Button
-                     variant="secondary"
+                     variant="edit"
                      className="h-9 px-3"
                      icon={<Pencil className="size-4" aria-hidden="true" />}
                      onClick={() => onEdit(facility.id)}
@@ -61,7 +61,7 @@ export function FacilityRow({ facility, canManage, onEdit }: FacilityRowProps): 
                      Sửa
                   </Button>
                   <Button
-                     variant="secondary"
+                     variant="remove"
                      className="h-9 px-3"
                      icon={<Trash2 className="size-4" aria-hidden="true" />}
                      onClick={() => setIsConfirmingDelete(true)}
@@ -77,6 +77,7 @@ export function FacilityRow({ facility, canManage, onEdit }: FacilityRowProps): 
                   Xóa tiện ích này? Tiện ích sẽ ẩn khỏi các cụm rạp và có thể khôi phục sau.
                </span>
                <Button
+                  variant="destructive"
                   className="h-9 px-4"
                   isLoading={deleteMutation.isPending}
                   onClick={() => deleteMutation.mutate()}

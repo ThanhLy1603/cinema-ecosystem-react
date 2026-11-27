@@ -143,8 +143,8 @@ export function CheckInPage(): ReactElement {
    return (
       <div className="space-y-8">
          <header className="space-y-1">
-            <h1 className="text-2xl font-extrabold text-ink-900 sm:text-3xl">Soát vé</h1>
-            <p className="text-sm text-ink-700">
+            <h1 className="text-2xl font-bold text-ink-900">Soát vé</h1>
+            <p className="mt-1 text-sm text-ink-500">
                Quét mã QR trên vé của khách, nhập mã đơn hoặc dùng máy quét mã vạch để cho khách vào phòng chiếu.
             </p>
          </header>
@@ -188,7 +188,7 @@ export function CheckInPage(): ReactElement {
          </div>
 
          <section aria-labelledby="check-in-queue-heading" className="space-y-3">
-            <h2 id="check-in-queue-heading" className="text-sm font-extrabold uppercase tracking-wider text-ink-500">
+            <h2 id="check-in-queue-heading" className="text-base font-bold text-ink-900">
                Vé chờ soát trong 24 giờ tới
             </h2>
             <CheckInQueueList
@@ -200,7 +200,7 @@ export function CheckInPage(): ReactElement {
          </section>
 
          <section aria-labelledby="check-in-history-heading" className="space-y-3">
-            <h2 id="check-in-history-heading" className="text-sm font-extrabold uppercase tracking-wider text-ink-500">
+            <h2 id="check-in-history-heading" className="text-base font-bold text-ink-900">
                Lịch sử xác nhận vào rạp gần đây
             </h2>
             <CheckInHistoryList

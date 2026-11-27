@@ -5,6 +5,7 @@ import type { OperationsAuditLog, OperationsFnbDelivery, OperationsScanLog } fro
 
 interface TableShellProps {
    headers: string[];
+   leftHeaders: string[];
    isEmpty: boolean;
    children: ReactNode;
 }
@@ -13,7 +14,7 @@ function formatInstant(isoInstant: string): string {
    return `${toVietnamTimeOfDay(isoInstant)} ${formatDisplayDate(toVietnamDate(isoInstant))}`;
 }
 
-function TableShell({ headers, isEmpty, children }: TableShellProps): ReactElement {
+function TableShell({ headers, leftHeaders, isEmpty, children }: TableShellProps): ReactElement {
    if (isEmpty) {
       return (
          <p className="rounded-xl bg-white p-6 text-center text-sm text-ink-500 ring-1 ring-ink-100">
@@ -24,10 +25,14 @@ function TableShell({ headers, isEmpty, children }: TableShellProps): ReactEleme
    return (
       <div className="overflow-x-auto rounded-xl bg-white ring-1 ring-ink-100">
          <table className="w-full text-sm">
-            <thead className="bg-ink-50 text-left text-xs uppercase tracking-wide text-ink-500">
+            <thead className="bg-ink-50 text-xs text-ink-500">
                <tr>
                   {headers.map((header: string) => (
-                     <th key={header} className="px-4 py-2.5 font-semibold">
+                     <th
+                        key={header}
+                        data-align={leftHeaders.includes(header) ? 'left' : undefined}
+                        className="px-4 py-2.5 font-semibold"
+                     >
                         {header}
                      </th>
                   ))}
@@ -47,13 +52,16 @@ export function ScanLogTable({ operationsScanLogs }: ScanLogTableProps): ReactEl
    return (
       <TableShell
          headers={['Thời gian', 'Chi nhánh', 'Nhân viên', 'Mã đơn', 'Thao tác', 'Kết quả', 'Số ghế']}
+         leftHeaders={['Nhân viên']}
          isEmpty={operationsScanLogs.length === 0}
       >
          {operationsScanLogs.map((operationsScanLog: OperationsScanLog) => (
             <tr key={operationsScanLog.id}>
                <td className="whitespace-nowrap px-4 py-2.5">{formatInstant(operationsScanLog.createdAt)}</td>
                <td className="px-4 py-2.5">{operationsScanLog.cinemaName}</td>
-               <td className="px-4 py-2.5">{operationsScanLog.staffName}</td>
+               <td data-align="left" className="px-4 py-2.5">
+                  {operationsScanLog.staffName}
+               </td>
                <td className="px-4 py-2.5 font-mono text-xs font-bold">
                   {operationsScanLog.bookingCode ?? operationsScanLog.scannedCode}
                </td>
@@ -63,7 +71,7 @@ export function ScanLogTable({ operationsScanLogs }: ScanLogTableProps): ReactEl
                      {CHECK_IN_RESULT_LABELS[operationsScanLog.resultCode]}
                   </span>
                </td>
-               <td className="px-4 py-2.5 text-right font-bold">{operationsScanLog.ticketCount}</td>
+               <td className="px-4 py-2.5 font-bold">{operationsScanLog.ticketCount}</td>
             </tr>
          ))}
       </TableShell>
@@ -78,16 +86,21 @@ export function FnbDeliveryTable({ operationsFnbDeliveries }: FnbDeliveryTablePr
    return (
       <TableShell
          headers={['Thời gian', 'Chi nhánh', 'Nhân viên', 'Mã đơn', 'Sản phẩm', 'Số lượng']}
+         leftHeaders={['Nhân viên', 'Sản phẩm']}
          isEmpty={operationsFnbDeliveries.length === 0}
       >
          {operationsFnbDeliveries.map((operationsFnbDelivery: OperationsFnbDelivery) => (
             <tr key={operationsFnbDelivery.id}>
                <td className="whitespace-nowrap px-4 py-2.5">{formatInstant(operationsFnbDelivery.createdAt)}</td>
                <td className="px-4 py-2.5">{operationsFnbDelivery.cinemaName}</td>
-               <td className="px-4 py-2.5">{operationsFnbDelivery.staffName}</td>
+               <td data-align="left" className="px-4 py-2.5">
+                  {operationsFnbDelivery.staffName}
+               </td>
                <td className="px-4 py-2.5 font-mono text-xs font-bold">{operationsFnbDelivery.bookingCode}</td>
-               <td className="px-4 py-2.5">{operationsFnbDelivery.productName}</td>
-               <td className="px-4 py-2.5 text-right font-bold">{operationsFnbDelivery.quantity}</td>
+               <td data-align="left" className="px-4 py-2.5">
+                  {operationsFnbDelivery.productName}
+               </td>
+               <td className="px-4 py-2.5 font-bold">{operationsFnbDelivery.quantity}</td>
             </tr>
          ))}
       </TableShell>
@@ -102,20 +115,25 @@ export function AuditLogTable({ operationsAuditLogs }: AuditLogTableProps): Reac
    return (
       <TableShell
          headers={['Thời gian', 'Chi nhánh', 'Người thực hiện', 'Thao tác', 'Đối tượng', 'Chi tiết']}
+         leftHeaders={['Người thực hiện', 'Chi tiết']}
          isEmpty={operationsAuditLogs.length === 0}
       >
          {operationsAuditLogs.map((operationsAuditLog: OperationsAuditLog) => (
             <tr key={operationsAuditLog.id}>
                <td className="whitespace-nowrap px-4 py-2.5">{formatInstant(operationsAuditLog.createdAt)}</td>
                <td className="px-4 py-2.5">{operationsAuditLog.cinemaName ?? ''}</td>
-               <td className="px-4 py-2.5">{operationsAuditLog.actorName ?? ''}</td>
+               <td data-align="left" className="px-4 py-2.5">
+                  {operationsAuditLog.actorName ?? ''}
+               </td>
                <td className="px-4 py-2.5">
                   <span className="rounded-md bg-ink-100 px-2 py-0.5 text-xs font-bold text-ink-800">
                      {AUDIT_ACTION_LABELS[operationsAuditLog.action]}
                   </span>
                </td>
                <td className="px-4 py-2.5 font-mono text-xs font-bold">{operationsAuditLog.targetCode ?? ''}</td>
-               <td className="px-4 py-2.5 text-ink-700">{operationsAuditLog.detail ?? ''}</td>
+               <td data-align="left" className="px-4 py-2.5 text-ink-700">
+                  {operationsAuditLog.detail ?? ''}
+               </td>
             </tr>
          ))}
       </TableShell>

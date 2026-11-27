@@ -9,11 +9,18 @@ interface PaginationProps {
    onPageChange: (page: number) => void;
 }
 
-export function Pagination({ page, totalPages, totalElements, onPageChange }: PaginationProps): ReactElement {
+export function Pagination({ page, totalPages, totalElements, onPageChange }: PaginationProps): ReactElement | null {
    const lastPage: number = Math.max(totalPages - 1, 0);
 
+   if (totalElements === 0) {
+      return null;
+   }
+
    return (
-      <nav aria-label="Phân trang" className="flex flex-wrap items-center justify-between gap-3 text-sm text-ink-600">
+      <nav
+         aria-label="Phân trang"
+         className="flex flex-wrap items-center justify-between gap-3 text-sm text-ink-600 in-[.theme-console]:rounded-2xl in-[.theme-console]:border in-[.theme-console]:border-ink-200 in-[.theme-console]:bg-white in-[.theme-console]:px-4 in-[.theme-console]:py-3 in-[.theme-console]:shadow-card"
+      >
          <p>
             Trang <strong className="text-ink-900">{page + 1}</strong> / {Math.max(totalPages, 1)} ·{' '}
             {totalElements.toLocaleString('vi-VN')} kết quả

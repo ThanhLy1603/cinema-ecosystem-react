@@ -48,11 +48,7 @@ export function GenreForm({ genre, onDone, onCancel }: GenreFormProps): ReactEle
    }
 
    return (
-      <form
-         onSubmit={handleSubmit}
-         className="space-y-4 rounded-2xl border border-brand-100 bg-brand-50/40 p-5"
-         noValidate
-      >
+      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
          {genreMutation.isError && !isNameTaken && (
             <Alert variant="error">{getErrorMessage(genreMutation.error)}</Alert>
          )}
@@ -65,16 +61,16 @@ export function GenreForm({ genre, onDone, onCancel }: GenreFormProps): ReactEle
             autoFocus
             error={nameError ?? (isNameTaken ? getErrorMessage(genreMutation.error) : undefined)}
          />
-         <div className="flex flex-wrap gap-3">
+         <div className="flex flex-wrap justify-end gap-3">
+            <Button variant="secondary" onClick={onCancel}>
+               Hủy
+            </Button>
             <Button
                type="submit"
                isLoading={genreMutation.isPending}
                icon={<Save className="size-4" aria-hidden="true" />}
             >
                {genre ? 'Lưu thể loại' : 'Thêm thể loại'}
-            </Button>
-            <Button variant="ghost" onClick={onCancel}>
-               Hủy
             </Button>
          </div>
       </form>

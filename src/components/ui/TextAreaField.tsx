@@ -34,7 +34,10 @@ export function TextAreaField({
 
    return (
       <div className="space-y-1">
-         <label htmlFor={id} className="flex items-baseline justify-between text-[13px] font-semibold text-ink-700">
+         <label
+            htmlFor={id}
+            className="flex items-baseline justify-between text-[13px] font-semibold text-ink-700 in-[.theme-console]:text-sm"
+         >
             <span>{label}</span>
             {optional && <span className="text-xs font-normal text-ink-400">Không bắt buộc</span>}
          </label>
@@ -60,14 +63,14 @@ export function TextAreaField({
             <p
                id={messageId}
                role="alert"
-               className="flex items-center gap-1.5 text-[13px] font-medium text-danger-700"
+               className="flex items-center gap-1.5 text-[13px] font-medium text-danger-700 in-[.theme-console]:text-xs"
             >
                <CircleAlert className="size-3.5 shrink-0" aria-hidden="true" />
                {error}
             </p>
          ) : (
             hint && (
-               <p id={messageId} className="text-[13px] text-ink-500">
+               <p id={messageId} className="text-[13px] text-ink-500 in-[.theme-console]:text-xs">
                   {hint}
                </p>
             )

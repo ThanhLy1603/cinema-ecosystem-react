@@ -135,8 +135,8 @@ export function FnbPickupPage(): ReactElement {
    return (
       <div className="space-y-8">
          <header className="space-y-1">
-            <h1 className="text-2xl font-extrabold text-ink-900 sm:text-3xl">Giao bắp nước</h1>
-            <p className="text-sm text-ink-700">
+            <h1 className="text-2xl font-bold text-ink-900">Giao bắp nước</h1>
+            <p className="mt-1 text-sm text-ink-500">
                Quét cùng mã QR trên vé của khách để xem combo và món đã đặt, rồi xác nhận giao toàn bộ hoặc từng phần.
             </p>
          </header>
@@ -185,7 +185,7 @@ export function FnbPickupPage(): ReactElement {
          </div>
 
          <section aria-labelledby="fnb-pickup-queue-heading" className="space-y-3">
-            <h2 id="fnb-pickup-queue-heading" className="text-sm font-extrabold uppercase tracking-wider text-ink-500">
+            <h2 id="fnb-pickup-queue-heading" className="text-base font-bold text-ink-900">
                Đơn chờ giao theo suất chiếu
             </h2>
             <FnbPickupQueueList
@@ -197,10 +197,7 @@ export function FnbPickupPage(): ReactElement {
          </section>
 
          <section aria-labelledby="fnb-pickup-history-heading" className="space-y-3">
-            <h2
-               id="fnb-pickup-history-heading"
-               className="text-sm font-extrabold uppercase tracking-wider text-ink-500"
-            >
+            <h2 id="fnb-pickup-history-heading" className="text-base font-bold text-ink-900">
                Lịch sử giao gần đây
             </h2>
             <FnbPickupHistoryList

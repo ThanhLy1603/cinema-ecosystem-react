@@ -16,8 +16,8 @@ import {
    type CheckInResultStyle,
 } from '../utils/checkInLabels';
 
-const SECTION_HEADING_CLASS_NAME: string = 'text-sm font-extrabold uppercase tracking-wide text-ink-700';
-const TABLE_HEAD_CELL_CLASS_NAME: string = 'px-4 py-2.5 text-left text-xs font-bold text-ink-600';
+const SECTION_HEADING_CLASS_NAME: string = 'text-sm font-bold text-ink-700';
+const TABLE_HEAD_CELL_CLASS_NAME: string = 'px-4 py-2.5 text-xs font-bold text-ink-600';
 
 interface CheckInResultCardProps {
    scanResponse: TicketScanResponse;
@@ -94,16 +94,16 @@ export function CheckInResultCard({
             className={cn('border-t border-ink-100', scanTicket.checkedIn && 'bg-ink-50 text-ink-500')}
          >
             <td className="px-4 py-3">
-               <span className="flex items-center gap-3">
+               <span className="flex items-center justify-center gap-3">
                   <SeatTypeIcon
                      seatTypeCode={scanTicket.seatTypeCode}
                      className={cn('h-6 w-8 shrink-0 drop-shadow-sm', scanTicket.checkedIn && 'opacity-50')}
                   />
-                  <span className="text-base font-extrabold">{scanTicket.seatLabel}</span>
+                  <span className="text-base font-bold">{scanTicket.seatLabel}</span>
                </span>
             </td>
             <td className="px-4 py-3">{scanTicket.seatTypeName ?? 'Ghế'}</td>
-            <td className="px-4 py-3 font-semibold">{scanTicket.price === null ? '—' : formatVnd(scanTicket.price)}</td>
+            <td className="px-4 py-3 font-semibold">{scanTicket.price !== null && formatVnd(scanTicket.price)}</td>
             <td className="px-4 py-3">
                <span
                   className={cn(
@@ -117,7 +117,7 @@ export function CheckInResultCard({
                </span>
             </td>
             <td className="px-4 py-3">
-               <span className="flex items-center justify-end gap-3">
+               <span className="flex items-center justify-center gap-3">
                   {isSelectable && (
                      <>
                         <button
@@ -182,9 +182,7 @@ export function CheckInResultCard({
                   )}
                   <div className="min-w-0 flex-1 space-y-3">
                      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                        <h4 className="text-xl font-extrabold uppercase leading-tight text-ink-900">
-                           {booking.movieTitle}
-                        </h4>
+                        <h4 className="text-sm font-bold text-ink-900">{booking.movieTitle}</h4>
                         <AgeRatingLabel ageRating={booking.rated} className="text-xs text-ink-700" />
                      </div>
                      <div className="grid grid-cols-1 gap-x-8 gap-y-3 md:grid-cols-2">
@@ -214,15 +212,10 @@ export function CheckInResultCard({
                            <InfoRow label="Phương thức:">
                               {booking.paymentMethod
                                  ? (PAYMENT_METHOD_LABELS[booking.paymentMethod] ?? booking.paymentMethod)
-                                 : '—'}
+                                 : ''}
                            </InfoRow>
                            <div className="flex justify-end pt-1">
-                              <span
-                                 className={cn(
-                                    'rounded-md border px-2.5 py-1 text-xs font-extrabold uppercase',
-                                    statusTone,
-                                 )}
-                              >
+                              <span className={cn('rounded-md border px-2.5 py-1 text-xs font-bold', statusTone)}>
                                  {SCAN_BOOKING_STATUS_LABELS[booking.bookingStatus]}
                               </span>
                            </div>
@@ -244,7 +237,7 @@ export function CheckInResultCard({
                            <th className={TABLE_HEAD_CELL_CLASS_NAME}>Loại</th>
                            <th className={TABLE_HEAD_CELL_CLASS_NAME}>Đơn giá</th>
                            <th className={TABLE_HEAD_CELL_CLASS_NAME}>Trạng thái</th>
-                           <th className={cn(TABLE_HEAD_CELL_CLASS_NAME, 'text-right')}>Hành động</th>
+                           <th className={TABLE_HEAD_CELL_CLASS_NAME}></th>
                         </tr>
                      </thead>
                      <tbody>{booking.tickets.map(renderSeatRow)}</tbody>
@@ -252,11 +245,11 @@ export function CheckInResultCard({
                   <p className="flex items-center justify-between border-t border-ink-200 bg-ink-50 px-4 py-3 text-sm font-bold text-ink-900">
                      <span className="flex items-center gap-2">
                         Tổng tiền vé
-                        <span className="rounded-md bg-brand-100 px-2 py-0.5 text-xs font-extrabold text-brand-800">
+                        <span className="rounded-md bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-800">
                            {totalTicketCount} ghế
                         </span>
                      </span>
-                     <span className="text-lg font-extrabold text-brand-700">{formatVnd(ticketTotal)}</span>
+                     <span className="text-lg font-bold text-brand-700">{formatVnd(ticketTotal)}</span>
                   </p>
                </div>
             </section>
@@ -274,7 +267,7 @@ export function CheckInResultCard({
          >
             {ResultIcon && <ResultIcon className="size-6 shrink-0" aria-hidden="true" />}
             <div className="min-w-0">
-               <h2 className="text-base font-extrabold leading-tight">{resultStyle.title}</h2>
+               <h2 className="text-base font-bold text-ink-900">{resultStyle.title}</h2>
                <p className="text-xs font-medium leading-snug">{scanResponse.message}</p>
             </div>
          </div>
@@ -289,7 +282,7 @@ export function CheckInResultCard({
                   className="h-12 px-6 text-base"
                >
                   Xác nhận vào rạp
-                  <span className="ml-3 rounded-md bg-white/25 px-2 py-0.5 text-sm font-extrabold">
+                  <span className="ml-3 rounded-md bg-white/25 px-2 py-0.5 text-sm font-bold">
                      {selectedPendingCount}/{pendingTicketIds.length} ghế
                   </span>
                </Button>

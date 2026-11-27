@@ -89,7 +89,7 @@ export function CinemaPublicPage(): ReactElement {
          <CinemaShowtimeSection cinemaId={cinemaDetail.id} />
 
          <section className="space-y-5 rounded-2xl border border-ink-200 bg-white p-6 shadow-xs sm:p-8">
-            <h2 className="text-xl font-bold text-ink-900">Phòng chiếu & sơ đồ ghế</h2>
+            <h2 className="text-xl font-bold text-ink-900">Phòng chiếu và sơ đồ ghế</h2>
             {cinemaDetail.halls.length === 0 && (
                <p className="text-sm text-ink-500">Cụm rạp này chưa mở phòng chiếu nào.</p>
             )}

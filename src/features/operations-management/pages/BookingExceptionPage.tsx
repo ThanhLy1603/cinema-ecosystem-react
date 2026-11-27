@@ -118,7 +118,7 @@ export function BookingExceptionPage(): ReactElement {
             <span className="font-bold text-ink-900">Ghế {bookingTicket.seatLabel}</span>
             <span className="flex items-center gap-2">
                {bookingTicket.checkedIn && (
-                  <span className="rounded-md bg-accent-100 px-2 py-0.5 text-xs font-extrabold text-accent-700">
+                  <span className="rounded-md bg-accent-100 px-2 py-0.5 text-xs font-bold text-accent-700">
                      Đã vào rạp
                   </span>
                )}
@@ -134,11 +134,11 @@ export function BookingExceptionPage(): ReactElement {
       return (
          <section className="space-y-5 rounded-xl bg-white p-5 ring-1 ring-ink-100">
             <header className="flex flex-wrap items-center gap-3">
-               <h2 className="font-mono text-lg font-extrabold text-ink-900">{booking.bookingCode}</h2>
-               <span className="rounded-md bg-ink-100 px-2 py-0.5 text-xs font-extrabold text-ink-800">
+               <h2 className="font-mono text-base font-bold text-ink-900">{booking.bookingCode}</h2>
+               <span className="rounded-md bg-ink-100 px-2 py-0.5 text-xs font-bold text-ink-800">
                   {STATUS_LABELS[booking.status]}
                </span>
-               <span className="rounded-md bg-brand-100 px-2 py-0.5 text-xs font-extrabold text-brand-800">
+               <span className="rounded-md bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-800">
                   {foundBookingException.salesChannel === 'COUNTER' ? 'Bán tại quầy' : 'Bán online'}
                </span>
                {foundBookingException.paymentMethod && (
@@ -149,7 +149,7 @@ export function BookingExceptionPage(): ReactElement {
             </header>
 
             <div className="space-y-0.5 text-sm text-ink-700">
-               <p className="font-extrabold uppercase text-ink-900">{showtime.movieTitle}</p>
+               <p className="font-bold text-ink-900">{showtime.movieTitle}</p>
                <p>
                   {showtime.cinemaName} · {showtime.hallName} · {showtime.screenType}
                </p>
@@ -182,7 +182,7 @@ export function BookingExceptionPage(): ReactElement {
             )}
             <p className="flex items-center justify-between border-t border-ink-200 pt-3 text-sm font-bold text-ink-900">
                <span>Tổng thanh toán</span>
-               <span className="text-xl font-extrabold text-brand-700">{formatVnd(booking.finalAmount)}</span>
+               <span className="text-lg font-bold text-brand-700">{formatVnd(booking.finalAmount)}</span>
             </p>
 
             {foundBookingException.refundedAt && (
@@ -211,7 +211,7 @@ export function BookingExceptionPage(): ReactElement {
    function renderActions(foundBookingException: BookingException): ReactElement {
       return (
          <div className="space-y-4 border-t border-ink-200 pt-4">
-            <h3 className="text-xs font-extrabold uppercase tracking-wider text-ink-500">Xử lý ngoại lệ</h3>
+            <h3 className="text-sm font-bold text-ink-900">Xử lý ngoại lệ</h3>
             <div className="flex flex-wrap gap-3">
                <Button
                   variant="secondary"
@@ -221,7 +221,7 @@ export function BookingExceptionPage(): ReactElement {
                   onClick={() => undoMutation.mutate()}
                >
                   Hoàn tác soát vé
-                  <span className="ml-2 rounded-md bg-ink-100 px-1.5 py-0.5 text-xs font-extrabold">
+                  <span className="ml-2 rounded-md bg-ink-100 px-1.5 py-0.5 text-xs font-bold">
                      {foundBookingException.checkedInTicketCount} ghế
                   </span>
                </Button>
@@ -291,8 +291,8 @@ export function BookingExceptionPage(): ReactElement {
    return (
       <div className="space-y-5">
          <header className="space-y-1">
-            <h1 className="text-xl font-semibold tracking-tight text-ink-900">Xử lý ngoại lệ</h1>
-            <p className="text-sm text-ink-500">
+            <h1 className="text-2xl font-bold text-ink-900">Xử lý ngoại lệ</h1>
+            <p className="mt-1 text-sm text-ink-500">
                Tra đơn theo mã đơn rồi hoàn tác soát vé, cấp lại vé hoặc hoàn tiền. Mọi thao tác đều ghi nhật ký.
             </p>
          </header>

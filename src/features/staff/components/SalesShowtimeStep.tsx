@@ -68,7 +68,7 @@ export function SalesShowtimeStep({ cinemaId, onSelectShowtime }: SalesShowtimeS
                isStarted ? 'border-accent-300 bg-accent-50' : 'border-ink-200 bg-white',
             )}
          >
-            <span className="block text-base font-extrabold text-ink-900">
+            <span className="block text-base font-bold text-ink-900">
                {formatClockRange(publicShowtime.startTime, publicShowtime.endTime)}
             </span>
             <span className="block text-xs text-ink-600">
@@ -97,7 +97,7 @@ export function SalesShowtimeStep({ cinemaId, onSelectShowtime }: SalesShowtimeS
             )}
             <div className="min-w-0 flex-1 space-y-3">
                <div className="flex flex-wrap items-center gap-3">
-                  <h3 className="text-lg font-extrabold uppercase text-ink-900">{publicMovieShowtimes.title}</h3>
+                  <h3 className="text-sm font-bold text-ink-900">{publicMovieShowtimes.title}</h3>
                   <AgeRatingBadge ageRating={publicMovieShowtimes.rated} />
                   <span className="text-xs text-ink-500">{publicMovieShowtimes.durationMinutes} phút</span>
                </div>

@@ -1,7 +1,8 @@
 import { useMutation, type UseMutationResult } from '@tanstack/react-query';
-import { CopyPlus, Check, Eye, X } from 'lucide-react';
-import { useEffect, useState, type ReactElement } from 'react';
+import { Check, Eye } from 'lucide-react';
+import { useState, type ReactElement } from 'react';
 import { copyShowtimeDay, duplicateShowtime } from '@/api/showtime/showtimeApi';
+import Modal from '@/components/common/Modal';
 import Alert from '@/components/ui/Alert';
 import Button from '@/components/ui/Button';
 import { getErrorMessage } from '@/lib/common/apiError';
@@ -92,17 +93,6 @@ export function BulkShowtimePanel({ panelState, halls, onChanged, onClose }: Bul
       }
    }
 
-   function closeOnEscape(): () => void {
-      function handleKeyDown(keyboardEvent: KeyboardEvent): void {
-         if (keyboardEvent.key === 'Escape') {
-            onClose();
-         }
-      }
-      window.addEventListener('keydown', handleKeyDown);
-      return (): void => window.removeEventListener('keydown', handleKeyDown);
-   }
-   useEffect(closeOnEscape, [onClose]);
-
    function changeRepeatValue(nextDateRepeatValue: DateRepeatValue): void {
       setDateRepeatValue(nextDateRepeatValue);
       setBulkShowtimeResult(null);
@@ -143,133 +133,106 @@ export function BulkShowtimePanel({ panelState, halls, onChanged, onClose }: Bul
    }
 
    return (
-      <div className="fixed inset-0 z-50 flex justify-end">
-         <button
-            type="button"
-            aria-label="Đóng biểu mẫu"
-            onClick={onClose}
-            className="absolute inset-0 bg-ink-900/30 backdrop-blur-xs"
-         />
-         <section
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="bulk-showtime-title"
-            className="relative z-10 flex h-full w-full max-w-xl flex-col bg-white shadow-soft"
-         >
-            <header className="flex items-start justify-between gap-4 border-b border-ink-100 px-6 py-5">
-               <div className="flex items-center gap-3">
-                  <span className="grid size-10 place-items-center rounded-xl bg-brand-50 text-brand-700">
-                     <CopyPlus className="size-5" aria-hidden="true" />
-                  </span>
-                  <h2 id="bulk-showtime-title" className="text-[15px] font-semibold text-ink-900">
-                     {panelState.mode === 'duplicate' ? 'Nhân bản / lặp lại suất chiếu' : 'Sao chép lịch cả ngày'}
-                  </h2>
-               </div>
-               <button
-                  type="button"
-                  onClick={onClose}
-                  aria-label="Đóng"
-                  className="grid size-9 place-items-center rounded-xl text-ink-500 transition-colors hover:bg-ink-50 hover:text-ink-900"
-               >
-                  <X className="size-5" aria-hidden="true" />
-               </button>
-            </header>
+      <Modal
+         title={panelState.mode === 'duplicate' ? 'Nhân bản / lặp lại suất chiếu' : 'Sao chép lịch cả ngày'}
+         onClose={onClose}
+         size="xl"
+         isFlush
+      >
+         <div className="min-h-0 flex-1 space-y-5 overflow-y-auto px-5 py-5">
+            {renderSourceSummary()}
 
-            <div className="flex-1 space-y-5 overflow-y-auto px-6 py-6">
-               {renderSourceSummary()}
-
-               {panelState.mode === 'duplicate' && (
-                  <fieldset className="space-y-2" disabled={isFinished}>
-                     <legend className="text-sm font-semibold text-ink-800">Phòng chiếu đích</legend>
-                     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                        {halls.map((hall) => (
-                           <label
-                              key={hall.id}
-                              className={cn(
-                                 'flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 text-sm transition-colors',
-                                 selectedHallIds.includes(hall.id)
-                                    ? 'border-brand-400 bg-brand-50'
-                                    : 'border-ink-200 bg-white hover:border-brand-300',
-                                 hall.status !== 'ACTIVE' && 'cursor-not-allowed opacity-50',
-                              )}
-                           >
-                              <input
-                                 type="checkbox"
-                                 checked={selectedHallIds.includes(hall.id)}
-                                 disabled={hall.status !== 'ACTIVE'}
-                                 onChange={() => toggleHall(hall.id)}
-                                 className="size-4 accent-brand-600"
-                              />
-                              <span className="font-semibold text-ink-900">{hall.name}</span>
-                              <span className="ml-auto text-xs text-ink-500">
-                                 {hall.status === 'ACTIVE' ? hall.screenType : 'Bảo trì'}
-                              </span>
-                           </label>
-                        ))}
-                     </div>
-                     {hallError && (
-                        <p role="alert" className="text-[13px] font-medium text-danger-700">
-                           {hallError}
-                        </p>
-                     )}
-                  </fieldset>
-               )}
-
-               <fieldset disabled={isFinished}>
-                  <legend className="mb-2 text-sm font-semibold text-ink-800">Ngày đích</legend>
-                  <DateRepeatPicker
-                     idPrefix="bulk-showtime"
-                     dateRepeatValue={dateRepeatValue}
-                     dates={dates}
-                     error={dateError}
-                     onChange={changeRepeatValue}
-                  />
+            {panelState.mode === 'duplicate' && (
+               <fieldset className="space-y-2" disabled={isFinished}>
+                  <legend className="text-sm font-semibold text-ink-800">Phòng chiếu đích</legend>
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                     {halls.map((hall) => (
+                        <label
+                           key={hall.id}
+                           className={cn(
+                              'flex cursor-pointer items-center gap-3 rounded-xl border px-3 py-2.5 text-sm transition-colors',
+                              selectedHallIds.includes(hall.id)
+                                 ? 'border-brand-400 bg-brand-50'
+                                 : 'border-ink-200 bg-white hover:border-brand-300',
+                              hall.status !== 'ACTIVE' && 'cursor-not-allowed opacity-50',
+                           )}
+                        >
+                           <input
+                              type="checkbox"
+                              checked={selectedHallIds.includes(hall.id)}
+                              disabled={hall.status !== 'ACTIVE'}
+                              onChange={() => toggleHall(hall.id)}
+                              className="size-4 accent-brand-600"
+                           />
+                           <span className="font-semibold text-ink-900">{hall.name}</span>
+                           <span className="ml-auto text-xs text-ink-500">
+                              {hall.status === 'ACTIVE' ? hall.screenType : 'Bảo trì'}
+                           </span>
+                        </label>
+                     ))}
+                  </div>
+                  {hallError && (
+                     <p role="alert" className="text-xs font-medium text-danger-700">
+                        {hallError}
+                     </p>
+                  )}
                </fieldset>
+            )}
 
-               {runMutation.isError && <Alert variant="error">{getErrorMessage(runMutation.error)}</Alert>}
-               {bulkShowtimeResult && bulkShowtimeResult.totalCount === 0 && (
-                  <Alert variant="info">Ngày nguồn chưa có suất chiếu nào để sao chép.</Alert>
-               )}
-               {bulkShowtimeResult && bulkShowtimeResult.totalCount > 0 && (
-                  <BulkResultList bulkShowtimeResult={bulkShowtimeResult} />
-               )}
-               {isFinished && bulkShowtimeResult && bulkShowtimeResult.acceptedCount > 0 && (
-                  <Alert variant="success">
-                     Đã tạo {bulkShowtimeResult.acceptedCount} suất chiếu.
-                     {bulkShowtimeResult.totalCount > bulkShowtimeResult.acceptedCount &&
-                        ' Các suất trùng giờ hoặc không hợp lệ đã được bỏ qua.'}
-                  </Alert>
-               )}
-            </div>
+            <fieldset disabled={isFinished}>
+               <legend className="mb-2 text-sm font-semibold text-ink-800">Ngày đích</legend>
+               <DateRepeatPicker
+                  idPrefix="bulk-showtime"
+                  dateRepeatValue={dateRepeatValue}
+                  dates={dates}
+                  error={dateError}
+                  onChange={changeRepeatValue}
+               />
+            </fieldset>
 
-            <footer className="flex flex-wrap items-center justify-end gap-3 border-t border-ink-100 px-6 py-4">
-               <Button variant="ghost" onClick={onClose}>
-                  {isFinished ? 'Đóng' : 'Hủy'}
+            {runMutation.isError && <Alert variant="error">{getErrorMessage(runMutation.error)}</Alert>}
+            {bulkShowtimeResult && bulkShowtimeResult.totalCount === 0 && (
+               <Alert variant="info">Ngày nguồn chưa có suất chiếu nào để sao chép.</Alert>
+            )}
+            {bulkShowtimeResult && bulkShowtimeResult.totalCount > 0 && (
+               <BulkResultList bulkShowtimeResult={bulkShowtimeResult} />
+            )}
+            {isFinished && bulkShowtimeResult && bulkShowtimeResult.acceptedCount > 0 && (
+               <Alert variant="success">
+                  Đã tạo {bulkShowtimeResult.acceptedCount} suất chiếu.
+                  {bulkShowtimeResult.totalCount > bulkShowtimeResult.acceptedCount &&
+                     ' Các suất trùng giờ hoặc không hợp lệ đã được bỏ qua.'}
+               </Alert>
+            )}
+         </div>
+
+         <footer className="flex flex-wrap items-center justify-end gap-3 border-t border-ink-100 px-5 py-4">
+            <Button variant="secondary" onClick={onClose}>
+               {isFinished ? 'Đóng' : 'Hủy'}
+            </Button>
+            {!isFinished && (
+               <Button
+                  variant="secondary"
+                  disabled={!canRun}
+                  isLoading={runMutation.isPending && runMutation.variables?.dryRun === true}
+                  icon={<Eye className="size-4" aria-hidden="true" />}
+                  onClick={() => runMutation.mutate({ dryRun: true, dates })}
+               >
+                  Xem trước
                </Button>
-               {!isFinished && (
-                  <Button
-                     variant="secondary"
-                     disabled={!canRun}
-                     isLoading={runMutation.isPending && runMutation.variables?.dryRun === true}
-                     icon={<Eye className="size-4" aria-hidden="true" />}
-                     onClick={() => runMutation.mutate({ dryRun: true, dates })}
-                  >
-                     Xem trước
-                  </Button>
-               )}
-               {!isFinished && bulkShowtimeResult?.dryRun === true && bulkShowtimeResult.acceptedCount > 0 && (
-                  <Button
-                     disabled={!canRun}
-                     isLoading={runMutation.isPending && runMutation.variables?.dryRun === false}
-                     icon={<Check className="size-4" aria-hidden="true" />}
-                     onClick={() => runMutation.mutate({ dryRun: false, dates })}
-                  >
-                     Tạo {bulkShowtimeResult.acceptedCount} suất
-                  </Button>
-               )}
-            </footer>
-         </section>
-      </div>
+            )}
+            {!isFinished && bulkShowtimeResult?.dryRun === true && bulkShowtimeResult.acceptedCount > 0 && (
+               <Button
+                  disabled={!canRun}
+                  isLoading={runMutation.isPending && runMutation.variables?.dryRun === false}
+                  icon={<Check className="size-4" aria-hidden="true" />}
+                  onClick={() => runMutation.mutate({ dryRun: false, dates })}
+               >
+                  Tạo {bulkShowtimeResult.acceptedCount} suất
+               </Button>
+            )}
+         </footer>
+      </Modal>
    );
 }
 

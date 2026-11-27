@@ -64,7 +64,7 @@ export function RevenueReportPage(): ReactElement {
                      {revenueChannel.orderCount} đơn
                   </span>
                </span>
-               <span className="font-extrabold text-ink-900">{formatVnd(revenueChannel.amount)}</span>
+               <span className="font-bold text-ink-900">{formatVnd(revenueChannel.amount)}</span>
             </div>
             <div className="h-2.5 overflow-hidden rounded-full bg-ink-100" aria-hidden="true">
                <div
@@ -79,9 +79,11 @@ export function RevenueReportPage(): ReactElement {
    function renderStaff(staffRevenue: StaffRevenue): ReactElement {
       return (
          <tr key={staffRevenue.staffUserId}>
-            <td className="px-4 py-2.5 font-semibold text-ink-900">{staffRevenue.staffName}</td>
-            <td className="px-4 py-2.5 text-right">{staffRevenue.orderCount}</td>
-            <td className="px-4 py-2.5 text-right font-bold text-ink-900">{formatVnd(staffRevenue.amount)}</td>
+            <td data-align="left" className="px-4 py-2.5 font-semibold text-ink-900">
+               {staffRevenue.staffName}
+            </td>
+            <td className="px-4 py-2.5">{staffRevenue.orderCount}</td>
+            <td className="px-4 py-2.5 font-bold text-ink-900">{formatVnd(staffRevenue.amount)}</td>
          </tr>
       );
    }
@@ -91,23 +93,25 @@ export function RevenueReportPage(): ReactElement {
       return (
          <tr key={shift.id}>
             <td className="whitespace-nowrap px-4 py-2.5">{formatInstant(shift.openedAt)}</td>
-            <td className="px-4 py-2.5">{shift.staffName}</td>
+            <td data-align="left" className="px-4 py-2.5">
+               {shift.staffName}
+            </td>
             <td className="px-4 py-2.5">{shift.cinemaName}</td>
             <td className="px-4 py-2.5">
                <span className="rounded-md bg-ink-100 px-2 py-0.5 text-xs font-bold text-ink-800">
                   {shift.status === 'OPEN' ? 'Đang mở' : 'Đã đóng'}
                </span>
             </td>
-            <td className="px-4 py-2.5 text-right font-bold text-ink-900">{formatVnd(shift.totalSales)}</td>
-            <td className="px-4 py-2.5 text-right">
+            <td className="px-4 py-2.5 font-bold text-ink-900">{formatVnd(shift.totalSales)}</td>
+            <td className="px-4 py-2.5">
                {shift.cashDifference === null ? (
                   ''
                ) : (
                   <span
                      className={
                         shift.cashDifference === 0
-                           ? 'rounded-md bg-brand-100 px-2 py-0.5 text-xs font-extrabold text-brand-800'
-                           : 'rounded-md bg-red-100 px-2 py-0.5 text-xs font-extrabold text-red-700'
+                           ? 'rounded-md bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-800'
+                           : 'rounded-md bg-red-100 px-2 py-0.5 text-xs font-bold text-red-700'
                      }
                   >
                      {shift.cashDifference > 0 ? '+' : ''}
@@ -115,8 +119,8 @@ export function RevenueReportPage(): ReactElement {
                   </span>
                )}
             </td>
-            <td className="px-4 py-2.5 text-right">
-               <Button size="sm" variant="secondary" onClick={() => setViewedShiftId(isViewed ? null : shift.id)}>
+            <td className="px-4 py-2.5">
+               <Button size="sm" variant="view" onClick={() => setViewedShiftId(isViewed ? null : shift.id)}>
                   {isViewed ? 'Ẩn' : 'Chi tiết'}
                </Button>
             </td>
@@ -127,8 +131,8 @@ export function RevenueReportPage(): ReactElement {
    return (
       <div className="space-y-5">
          <header className="space-y-1">
-            <h1 className="text-xl font-semibold tracking-tight text-ink-900">Báo cáo doanh thu</h1>
-            <p className="text-sm text-ink-500">
+            <h1 className="text-2xl font-bold text-ink-900">Báo cáo doanh thu</h1>
+            <p className="mt-1 text-sm text-ink-500">
                Doanh thu theo kênh bán, theo nhân viên và theo ca. Đơn đã hoàn tiền không được tính.
             </p>
          </header>
@@ -147,22 +151,22 @@ export function RevenueReportPage(): ReactElement {
             <>
                <section className="flex flex-wrap items-center gap-x-8 gap-y-2 rounded-xl bg-white p-5 ring-1 ring-ink-100">
                   <div>
-                     <p className="text-xs font-bold uppercase tracking-wide text-ink-500">Tổng doanh thu</p>
-                     <p className="text-3xl font-extrabold text-brand-700">{formatVnd(revenueReport.totalAmount)}</p>
+                     <p className="text-xs font-bold text-ink-500">Tổng doanh thu</p>
+                     <p className="text-2xl font-bold text-brand-700">{formatVnd(revenueReport.totalAmount)}</p>
                   </div>
                   <div>
-                     <p className="text-xs font-bold uppercase tracking-wide text-ink-500">Tổng số đơn</p>
-                     <p className="text-3xl font-extrabold text-ink-900">{revenueReport.totalOrders}</p>
+                     <p className="text-xs font-bold text-ink-500">Tổng số đơn</p>
+                     <p className="text-2xl font-bold text-ink-900">{revenueReport.totalOrders}</p>
                   </div>
                </section>
 
                <section className="space-y-3 rounded-xl bg-white p-5 ring-1 ring-ink-100">
-                  <h2 className="text-sm font-extrabold uppercase tracking-wider text-ink-500">Theo kênh bán</h2>
+                  <h2 className="text-base font-bold text-ink-900">Theo kênh bán</h2>
                   <ul className="space-y-4">{revenueReport.channels.map(renderChannel)}</ul>
                </section>
 
                <section className="space-y-3">
-                  <h2 className="text-sm font-extrabold uppercase tracking-wider text-ink-500">Theo nhân viên quầy</h2>
+                  <h2 className="text-base font-bold text-ink-900">Theo nhân viên quầy</h2>
                   {revenueReport.staff.length === 0 ? (
                      <p className="rounded-xl bg-white p-5 text-sm text-ink-500 ring-1 ring-ink-100">
                         Chưa có doanh thu bán tại quầy.
@@ -170,11 +174,13 @@ export function RevenueReportPage(): ReactElement {
                   ) : (
                      <div className="overflow-x-auto rounded-xl bg-white ring-1 ring-ink-100">
                         <table className="w-full text-sm">
-                           <thead className="bg-ink-50 text-left text-xs uppercase tracking-wide text-ink-500">
+                           <thead className="bg-ink-50 text-xs text-ink-500">
                               <tr>
-                                 <th className="px-4 py-2.5 font-semibold">Nhân viên</th>
-                                 <th className="px-4 py-2.5 text-right font-semibold">Số đơn</th>
-                                 <th className="px-4 py-2.5 text-right font-semibold">Doanh thu</th>
+                                 <th data-align="left" className="px-4 py-2.5 font-semibold">
+                                    Nhân viên
+                                 </th>
+                                 <th className="px-4 py-2.5 font-semibold">Số đơn</th>
+                                 <th className="px-4 py-2.5 font-semibold">Doanh thu</th>
                               </tr>
                            </thead>
                            <tbody className="divide-y divide-ink-100">{revenueReport.staff.map(renderStaff)}</tbody>
@@ -184,7 +190,7 @@ export function RevenueReportPage(): ReactElement {
                </section>
 
                <section className="space-y-3">
-                  <h2 className="text-sm font-extrabold uppercase tracking-wider text-ink-500">Theo ca làm việc</h2>
+                  <h2 className="text-base font-bold text-ink-900">Theo ca làm việc</h2>
                   {revenueReport.shifts.length === 0 ? (
                      <p className="rounded-xl bg-white p-5 text-sm text-ink-500 ring-1 ring-ink-100">
                         Không có ca nào được mở trong khoảng này.
@@ -192,15 +198,17 @@ export function RevenueReportPage(): ReactElement {
                   ) : (
                      <div className="overflow-x-auto rounded-xl bg-white ring-1 ring-ink-100">
                         <table className="w-full text-sm">
-                           <thead className="bg-ink-50 text-left text-xs uppercase tracking-wide text-ink-500">
+                           <thead className="bg-ink-50 text-xs text-ink-500">
                               <tr>
                                  <th className="px-4 py-2.5 font-semibold">Mở ca</th>
-                                 <th className="px-4 py-2.5 font-semibold">Nhân viên</th>
+                                 <th data-align="left" className="px-4 py-2.5 font-semibold">
+                                    Nhân viên
+                                 </th>
                                  <th className="px-4 py-2.5 font-semibold">Chi nhánh</th>
                                  <th className="px-4 py-2.5 font-semibold">Trạng thái</th>
-                                 <th className="px-4 py-2.5 text-right font-semibold">Doanh thu ca</th>
-                                 <th className="px-4 py-2.5 text-right font-semibold">Chênh lệch tiền mặt</th>
-                                 <th className="px-4 py-2.5" />
+                                 <th className="px-4 py-2.5 font-semibold">Doanh thu ca</th>
+                                 <th className="px-4 py-2.5 font-semibold">Chênh lệch tiền mặt</th>
+                                 <th className="px-4 py-2.5"></th>
                               </tr>
                            </thead>
                            <tbody className="divide-y divide-ink-100">{revenueReport.shifts.map(renderShift)}</tbody>

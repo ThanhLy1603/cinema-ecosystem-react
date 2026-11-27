@@ -26,7 +26,7 @@ function ReceiptRow({ label, value, isStrong = false }: ReceiptRowProps): ReactE
    return (
       <div className="flex justify-between gap-4 text-sm">
          <dt className="text-ink-600">{label}</dt>
-         <dd className={isStrong ? 'text-lg font-extrabold text-ink-900' : 'font-semibold text-ink-900'}>{value}</dd>
+         <dd className={isStrong ? 'text-lg font-bold text-ink-900' : 'font-semibold text-ink-900'}>{value}</dd>
       </div>
    );
 }
@@ -51,7 +51,7 @@ export function FnbSalesReceipt({ counterFnbReceipt, onNewSale }: FnbSalesReceip
    return (
       <div className="space-y-5">
          <div className="rounded-xl border-l-4 border-brand-600 bg-brand-50 px-4 py-3 text-brand-800 print:hidden">
-            <h2 className="text-base font-extrabold">Đã bán bắp nước thành công</h2>
+            <h2 className="text-base font-bold text-ink-900">Đã bán bắp nước thành công</h2>
             <p className="text-xs font-medium">
                Đơn {counterFnbReceipt.orderCode} đã thanh toán {formatVnd(counterFnbReceipt.totalAmount)}.
                {counterFnbReceipt.changeAmount !== null && counterFnbReceipt.changeAmount > 0
@@ -65,13 +65,13 @@ export function FnbSalesReceipt({ counterFnbReceipt, onNewSale }: FnbSalesReceip
             className="mx-auto max-w-md space-y-4 rounded-2xl bg-white p-6 shadow-md ring-1 ring-ink-100"
          >
             <header className="space-y-1 text-center">
-               <p className="text-lg font-extrabold text-ink-900">CinemaSphere</p>
+               <p className="text-lg font-bold text-ink-900">CinemaSphere</p>
                <p className="text-sm text-ink-700">{counterFnbReceipt.cinemaName}</p>
                <p className="text-xs text-ink-500">Hóa đơn bắp nước bán tại quầy</p>
             </header>
 
             <section className="space-y-1 border-t border-dashed border-ink-300 pt-4">
-               <h3 className="text-xs font-extrabold uppercase tracking-wider text-ink-500">Bắp nước</h3>
+               <h3 className="text-sm font-bold text-ink-900">Bắp nước</h3>
                <ul className="space-y-1 text-sm text-ink-800">
                   {counterFnbReceipt.lines.map((counterFnbReceiptLine: CounterFnbReceiptLine) => (
                      <li
@@ -102,7 +102,7 @@ export function FnbSalesReceipt({ counterFnbReceipt, onNewSale }: FnbSalesReceip
             </dl>
 
             <section className="space-y-1 border-t border-dashed border-ink-300 pt-4 text-center">
-               <p className="font-mono text-base font-extrabold text-ink-900">{counterFnbReceipt.orderCode}</p>
+               <p className="font-mono text-base font-bold text-ink-900">{counterFnbReceipt.orderCode}</p>
                <p className="text-xs text-ink-600">Khách nhận bắp nước ngay tại quầy.</p>
             </section>
 

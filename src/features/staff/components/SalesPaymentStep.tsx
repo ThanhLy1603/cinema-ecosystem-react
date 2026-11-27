@@ -133,20 +133,20 @@ export function SalesPaymentStep({ cinemaId, onBack, onPaid }: SalesPaymentStepP
             </button>
 
             <section className="space-y-3 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100">
-               <h2 className="text-sm font-extrabold uppercase tracking-wide text-ink-700">Khách hàng</h2>
+               <h2 className="text-base font-bold text-ink-900">Khách hàng</h2>
                {customer ? (
                   <div className="flex flex-wrap items-center gap-3 rounded-xl bg-brand-50 p-4">
                      <UserRound className="size-6 text-brand-700" aria-hidden="true" />
                      <div className="min-w-0 flex-1">
-                        <p className="font-extrabold text-ink-900">{customer.fullName}</p>
+                        <p className="font-bold text-ink-900">{customer.fullName}</p>
                         <p className="text-xs text-ink-600">
                            {customer.phone ?? 'Chưa có số điện thoại'} · {customer.email}
                         </p>
                      </div>
-                     <span className="rounded-md bg-white px-2 py-0.5 text-xs font-extrabold text-brand-800">
+                     <span className="rounded-md bg-white px-2 py-0.5 text-xs font-bold text-brand-800">
                         {customer.tier}
                      </span>
-                     <span className="rounded-md bg-accent-100 px-2 py-0.5 text-xs font-extrabold text-accent-700">
+                     <span className="rounded-md bg-accent-100 px-2 py-0.5 text-xs font-bold text-accent-700">
                         {customer.loyaltyPoints.toLocaleString('vi-VN')} điểm
                      </span>
                      <button
@@ -210,9 +210,7 @@ export function SalesPaymentStep({ cinemaId, onBack, onPaid }: SalesPaymentStepP
 
          <aside className="space-y-4 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100">
             <div className="space-y-1">
-               <h2 className="text-lg font-extrabold uppercase leading-tight text-ink-900">
-                  {bookingDetail.showtime.movieTitle}
-               </h2>
+               <h2 className="text-base font-bold text-ink-900">{bookingDetail.showtime.movieTitle}</h2>
                <p className="text-sm text-ink-700">
                   {bookingDetail.showtime.hallName} · {bookingDetail.showtime.screenType}
                </p>
@@ -244,7 +242,7 @@ export function SalesPaymentStep({ cinemaId, onBack, onPaid }: SalesPaymentStepP
             </ul>
             <p className="flex items-center justify-between border-t border-ink-200 pt-3 text-sm font-bold text-ink-900">
                <span>Tổng thanh toán</span>
-               <span className="text-2xl font-extrabold text-brand-700">{formatVnd(finalAmount)}</span>
+               <span className="text-2xl font-bold text-brand-700">{formatVnd(finalAmount)}</span>
             </p>
             {checkoutMutation.isError && <Alert variant="error">{getErrorMessage(checkoutMutation.error)}</Alert>}
             <Button

@@ -50,7 +50,7 @@ export function FnbProductPicker({
                >
                   <Minus className="size-4" aria-hidden="true" />
                </button>
-               <span className="w-8 text-center text-base font-extrabold text-ink-900">{quantity}</span>
+               <span className="w-8 text-center text-base font-bold text-ink-900">{quantity}</span>
                <button
                   type="button"
                   disabled={quantity >= MAX_FNB_QUANTITY_PER_LINE || isDisabled}

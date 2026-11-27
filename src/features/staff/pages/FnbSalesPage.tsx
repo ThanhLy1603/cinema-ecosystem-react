@@ -128,9 +128,9 @@ export function FnbSalesPage(): ReactElement {
 
             <div className="space-y-5">
                <section className="space-y-3 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100">
-                  <h2 className="flex items-center gap-3 text-sm font-extrabold uppercase tracking-wide text-ink-700">
+                  <h2 className="flex items-center gap-3 text-base font-bold text-ink-900">
                      Đơn hiện tại
-                     <span className="rounded-md bg-accent-100 px-2 py-0.5 text-xs font-extrabold text-accent-700">
+                     <span className="rounded-md bg-accent-100 px-2 py-0.5 text-xs font-bold text-accent-700">
                         {selectedQuantity} phần
                      </span>
                   </h2>
@@ -141,7 +141,7 @@ export function FnbSalesPage(): ReactElement {
                   )}
                   <p className="flex items-center justify-between border-t border-ink-200 pt-3 text-sm font-bold text-ink-900">
                      <span>Tổng thanh toán</span>
-                     <span className="text-2xl font-extrabold text-brand-700">{formatVnd(selectedTotal)}</span>
+                     <span className="text-2xl font-bold text-brand-700">{formatVnd(selectedTotal)}</span>
                   </p>
                </section>
 
@@ -174,8 +174,8 @@ export function FnbSalesPage(): ReactElement {
    return (
       <div className="space-y-6">
          <header className="space-y-1 print:hidden">
-            <h1 className="text-2xl font-extrabold text-ink-900 sm:text-3xl">Bán bắp nước</h1>
-            <p className="text-sm text-ink-700">
+            <h1 className="text-2xl font-bold text-ink-900">Bán bắp nước</h1>
+            <p className="mt-1 text-sm text-ink-500">
                Chọn combo hoặc món, thu tiền và in hóa đơn cho khách mua bắp nước không kèm vé.
             </p>
          </header>

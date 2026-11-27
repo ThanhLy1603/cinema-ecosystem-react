@@ -169,8 +169,8 @@ export function TicketSalesPage(): ReactElement {
    return (
       <div className="space-y-6">
          <header className="space-y-1 print:hidden">
-            <h1 className="text-2xl font-extrabold text-ink-900 sm:text-3xl">Bán vé</h1>
-            <p className="text-sm text-ink-700">
+            <h1 className="text-2xl font-bold text-ink-900">Bán vé</h1>
+            <p className="mt-1 text-sm text-ink-500">
                Chọn suất chiếu, chọn ghế, thêm bắp nước rồi thu tiền cho khách tại quầy.
             </p>
          </header>

@@ -103,11 +103,11 @@ export function DateRepeatPicker({
          </div>
 
          {error ? (
-            <p role="alert" className="text-[13px] font-medium text-danger-700">
+            <p role="alert" className="text-xs font-medium text-danger-700">
                {error}
             </p>
          ) : (
-            <p className="text-[13px] text-ink-600">
+            <p className="text-sm text-ink-600">
                <strong>{dates.length}</strong> ngày được chọn:{' '}
                {previewDates.map((date) => `${getWeekdayLabel(date)} ${formatDayMonth(date)}`).join(', ')}
                {dates.length > PREVIEW_DATE_COUNT && ` và ${dates.length - PREVIEW_DATE_COUNT} ngày nữa`}

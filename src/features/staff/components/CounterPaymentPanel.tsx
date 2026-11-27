@@ -46,7 +46,7 @@ export function CounterPaymentPanel({
 
    return (
       <section className="space-y-4 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100">
-         <h2 className="text-sm font-extrabold uppercase tracking-wide text-ink-700">Thanh toán</h2>
+         <h2 className="text-base font-bold text-ink-900">Thanh toán</h2>
          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3" role="radiogroup" aria-label="Phương thức thanh toán">
             {PAYMENT_METHOD_OPTIONS.map((paymentMethodOption) => {
                const MethodIcon: LucideIcon = paymentMethodOption.icon;
@@ -59,7 +59,7 @@ export function CounterPaymentPanel({
                      aria-checked={isSelected}
                      onClick={() => onChangePaymentMethod(paymentMethodOption.method)}
                      className={cn(
-                        'flex items-center justify-center gap-2 rounded-xl border-2 px-4 py-3 text-sm font-extrabold transition-colors',
+                        'flex items-center justify-center gap-2 rounded-xl border-2 px-4 py-3 text-sm font-bold transition-colors',
                         isSelected
                            ? 'border-brand-600 bg-brand-50 text-brand-800'
                            : 'border-ink-200 text-ink-700 hover:bg-ink-50',
@@ -108,7 +108,7 @@ export function CounterPaymentPanel({
                </div>
                <p className="flex items-center justify-between rounded-xl bg-accent-50 px-4 py-3 text-sm font-bold text-ink-900">
                   <span>Tiền thối lại khách</span>
-                  <span className="text-xl font-extrabold text-accent-700">
+                  <span className="text-lg font-bold text-accent-700">
                      {formatVnd(cashReceived !== null && changeAmount > 0 ? changeAmount : 0)}
                   </span>
                </p>

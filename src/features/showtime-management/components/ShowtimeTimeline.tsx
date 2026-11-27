@@ -132,8 +132,8 @@ export function ShowtimeTimeline({
                )}
                style={{ left: timelineBlockLayout.left, width: timelineBlockLayout.width }}
             >
-               <span className="block truncate text-xs font-extrabold leading-tight">{showtime.movieTitle}</span>
-               <span className="flex items-center gap-1.5 text-[11px] font-semibold">
+               <span className="block truncate text-xs font-bold leading-tight">{showtime.movieTitle}</span>
+               <span className="flex items-center gap-1.5 text-xs font-semibold">
                   <AgeRatingBadge ageRating={showtime.rated} className="min-w-0 px-1 py-0 text-[10px]" />
                   <span className="truncate">{clockRange}</span>
                </span>
@@ -157,7 +157,7 @@ export function ShowtimeTimeline({
       }
       return (
          <div
-            className="pointer-events-none absolute top-1 bottom-1 z-30 flex items-start rounded-lg border-2 border-dashed border-danger-600 bg-danger-500/10 px-2 py-0.5 text-[11px] font-extrabold uppercase tracking-wide text-danger-700"
+            className="pointer-events-none absolute top-1 bottom-1 z-30 flex items-start rounded-lg border-2 border-dashed border-danger-600 bg-danger-500/10 px-2 py-0.5 text-xs font-bold text-danger-700"
             style={{
                left: timelineBlockLayout.left,
                width: timelineBlockLayout.width + timelineBlockLayout.cleaningWidth,
@@ -177,7 +177,7 @@ export function ShowtimeTimeline({
                className="sticky left-0 z-30 flex shrink-0 flex-col justify-center gap-1 border-r border-ink-100 bg-white px-4"
                style={{ width: HALL_LABEL_WIDTH, height: LANE_HEIGHT }}
             >
-               <span className="truncate text-sm font-extrabold text-ink-900">{hall.name}</span>
+               <span className="truncate text-sm font-bold text-ink-900">{hall.name}</span>
                <span className="flex items-center gap-2 text-xs text-ink-500">
                   <span className="rounded-full bg-brand-50 px-2 py-0.5 font-bold text-brand-700">
                      {hall.screenType}
@@ -227,7 +227,7 @@ export function ShowtimeTimeline({
          <div style={{ width: HALL_LABEL_WIDTH + TIMELINE_WIDTH }}>
             <div className="flex border-b border-ink-100 bg-ink-50/60" style={{ height: HEADER_HEIGHT }}>
                <div
-                  className="sticky left-0 z-40 flex shrink-0 items-center border-r border-ink-100 bg-ink-50 px-4 text-[11px] font-bold uppercase tracking-wider text-ink-500"
+                  className="sticky left-0 z-40 flex shrink-0 items-center justify-center border-r border-ink-100 bg-ink-50 px-4 text-sm font-semibold text-ink-500"
                   style={{ width: HALL_LABEL_WIDTH }}
                >
                   Phòng chiếu
@@ -236,8 +236,8 @@ export function ShowtimeTimeline({
                   {HOUR_MARKS.map((hour) => (
                      <span
                         key={hour}
-                        className="absolute top-0 flex h-full items-center border-l border-ink-200 pl-2 text-[11px] font-semibold text-ink-500"
-                        style={{ left: hour * PIXELS_PER_HOUR }}
+                        className="absolute top-0 flex h-full items-center justify-center border-l border-ink-200 text-sm font-semibold text-ink-500"
+                        style={{ left: hour * PIXELS_PER_HOUR, width: PIXELS_PER_HOUR }}
                      >
                         {formatHourLabel(hour)}
                      </span>

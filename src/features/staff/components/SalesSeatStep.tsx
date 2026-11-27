@@ -319,7 +319,7 @@ export function SalesSeatStep({ showtimeId, onChangeShowtime, onContinue }: Sale
 
          <aside className="space-y-4 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100">
             <div className="space-y-1">
-               <h2 className="text-lg font-extrabold uppercase leading-tight text-ink-900">{seatMap.movieTitle}</h2>
+               <h2 className="text-base font-bold text-ink-900">{seatMap.movieTitle}</h2>
                <p className="text-sm text-ink-700">
                   {seatMap.hallName} · {seatMap.screenType}
                </p>
@@ -338,7 +338,7 @@ export function SalesSeatStep({ showtimeId, onChangeShowtime, onContinue }: Sale
                </p>
             )}
             <div className="space-y-2">
-               <h3 className="text-xs font-extrabold uppercase tracking-wider text-ink-500">Ghế đã chọn</h3>
+               <h3 className="text-sm font-bold text-ink-900">Ghế đã chọn</h3>
                {heldShowtimeSeats.length === 0 ? (
                   <p className="text-sm text-ink-500">Chọn ghế trên sơ đồ để thêm vào đơn.</p>
                ) : (
@@ -356,7 +356,7 @@ export function SalesSeatStep({ showtimeId, onChangeShowtime, onContinue }: Sale
             </div>
             <p className="flex items-center justify-between border-t border-ink-200 pt-3 text-sm font-bold text-ink-900">
                <span>Tiền vé</span>
-               <span className="text-xl font-extrabold text-brand-700">{formatVnd(totalAmount)}</span>
+               <span className="text-lg font-bold text-brand-700">{formatVnd(totalAmount)}</span>
             </p>
             {orphanSeatMessage !== null && <Alert variant="error">{orphanSeatMessage}</Alert>}
             <Button

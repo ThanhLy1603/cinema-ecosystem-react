@@ -63,7 +63,7 @@ export function ComboLinesEditor({
    return (
       <div className="space-y-3">
          <div className="flex items-center justify-between">
-            <h3 className="text-[13px] font-semibold text-ink-700">Món trong combo</h3>
+            <h3 className="text-sm font-bold text-ink-900">Món trong combo</h3>
             <Button
                variant="secondary"
                size="sm"
@@ -75,7 +75,7 @@ export function ComboLinesEditor({
          </div>
 
          {comboLineDrafts.length === 0 && (
-            <p className="rounded-lg bg-ink-50 px-4 py-5 text-center text-[13px] text-ink-500">
+            <p className="rounded-lg bg-ink-50 px-4 py-5 text-center text-sm text-ink-500">
                Chưa có món nào. Bấm "Thêm món" để chọn thành phần của combo.
             </p>
          )}
@@ -113,13 +113,13 @@ export function ComboLinesEditor({
          </ul>
 
          {error && (
-            <p role="alert" className="text-[13px] font-medium text-danger-700">
+            <p role="alert" className="text-xs font-medium text-danger-700">
                {error}
             </p>
          )}
 
          {itemsTotal > 0 && (
-            <dl className="space-y-1 rounded-lg bg-ink-50 px-4 py-3 text-[13px]">
+            <dl className="space-y-1 rounded-lg bg-ink-50 px-4 py-3 text-sm">
                <div className="flex justify-between">
                   <dt className="text-ink-600">Tổng giá lẻ các món</dt>
                   <dd className="font-semibold text-ink-900">{formatVnd(itemsTotal)}</dd>

@@ -1,8 +1,9 @@
 import { useMutation, type UseMutationResult, type UseQueryResult } from '@tanstack/react-query';
-import { Ban, CalendarClock, Copy, Save, X } from 'lucide-react';
-import { useEffect, useState, type FormEvent, type ReactElement } from 'react';
+import { Ban, Copy, Save } from 'lucide-react';
+import { useState, type FormEvent, type ReactElement } from 'react';
 import { cancelShowtime, createShowtime, updateShowtime } from '@/api/showtime/showtimeApi';
 import ShowtimePriceTable from '@/components/common/ShowtimePriceTable';
+import Modal from '@/components/common/Modal';
 import Alert from '@/components/ui/Alert';
 import Button from '@/components/ui/Button';
 import SelectField, { type SelectOption } from '@/components/ui/SelectField';
@@ -143,17 +144,6 @@ export function ShowtimeFormPanel({
       .map((hall) => ({ value: String(hall.id), label: `${hall.name} · ${hall.screenType}` }));
    const movieOptions: SelectOption[] = buildMovieOptions(movieInfos, editingShowtime);
 
-   function closeOnEscape(): () => void {
-      function handleKeyDown(keyboardEvent: KeyboardEvent): void {
-         if (keyboardEvent.key === 'Escape') {
-            onClose();
-         }
-      }
-      window.addEventListener('keydown', handleKeyDown);
-      return (): void => window.removeEventListener('keydown', handleKeyDown);
-   }
-   useEffect(closeOnEscape, [onClose]);
-
    function handleSaveError(error: unknown, saveVariables: SaveVariables): void {
       const responseConflicts: ShowtimeConflict[] | null = getErrorData<ShowtimeConflict[]>(
          error,
@@ -224,197 +214,164 @@ export function ShowtimeFormPanel({
       toVietnamDate(slotPreview.endTime) !== showtimeFormValues.date;
 
    return (
-      <div className="fixed inset-0 z-50 flex justify-end">
-         <button
-            type="button"
-            aria-label="Đóng biểu mẫu"
-            onClick={onClose}
-            className="absolute inset-0 bg-ink-900/30 backdrop-blur-xs"
-         />
-         <section
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="showtime-form-title"
-            className="relative z-10 flex h-full w-full max-w-xl flex-col bg-white shadow-soft"
-         >
-            <header className="flex items-start justify-between gap-4 border-b border-ink-100 px-6 py-5">
-               <div className="flex items-center gap-3">
-                  <span className="grid size-10 place-items-center rounded-xl bg-brand-50 text-brand-700">
-                     <CalendarClock className="size-5" aria-hidden="true" />
-                  </span>
-                  <h2 id="showtime-form-title" className="text-[15px] font-semibold text-ink-900">
-                     {editingShowtime ? 'Chi tiết suất chiếu' : 'Thêm suất chiếu'}
-                  </h2>
-               </div>
-               <div className="flex items-center gap-2">
-                  {editingShowtime && editingShowtime.status === 'ACTIVE' && (
-                     <Button
-                        variant="secondary"
-                        className="h-9 px-3"
-                        icon={<Copy className="size-4" aria-hidden="true" />}
-                        onClick={() => onDuplicate(editingShowtime)}
-                     >
-                        Nhân bản / lặp lại
-                     </Button>
-                  )}
-                  <button
-                     type="button"
-                     onClick={onClose}
-                     aria-label="Đóng"
-                     className="grid size-9 place-items-center rounded-xl text-ink-500 transition-colors hover:bg-ink-50 hover:text-ink-900"
-                  >
-                     <X className="size-5" aria-hidden="true" />
-                  </button>
-               </div>
-            </header>
-
-            <form onSubmit={handleSubmit} noValidate className="flex min-h-0 flex-1 flex-col">
-               <div className="flex-1 space-y-5 overflow-y-auto px-6 py-6">
-                  {showtimeConflicts.length > 0 && (
-                     <ShowtimeConflictList
-                        showtimeConflicts={showtimeConflicts}
-                        suggestedStartTime={suggestedStartTime}
-                        onUseSuggestedStartTime={applySuggestedStartTime}
-                     />
-                  )}
-                  {saveMutation.isError && showtimeConflicts.length === 0 && (
-                     <Alert variant="error">{getErrorMessage(saveMutation.error)}</Alert>
-                  )}
-                  {cancelMutation.isError && <Alert variant="error">{getErrorMessage(cancelMutation.error)}</Alert>}
-                  {isReadOnly && editingShowtime && (
-                     <Alert variant="info">
-                        {editingShowtime.hasBookings
-                           ? 'Suất chiếu đã có vé hoặc ghế đang được giữ nên không thể chỉnh sửa.'
-                           : 'Suất chiếu đã bắt đầu hoặc đã kết thúc nên không thể chỉnh sửa.'}
-                     </Alert>
-                  )}
-
-                  <SelectField
-                     id="showtime-hall"
-                     label="Phòng chiếu"
-                     value={showtimeFormValues.hallId}
-                     onChange={(hallId) => updateField('hallId', hallId)}
-                     options={hallOptions}
-                     error={showtimeFormErrors.hallId}
-                     disabled={isReadOnly}
-                     placeholder="Chọn phòng chiếu"
+      <Modal title={editingShowtime ? 'Chi tiết suất chiếu' : 'Thêm suất chiếu'} onClose={onClose} size="xl" isFlush>
+         <form onSubmit={handleSubmit} noValidate className="flex min-h-0 flex-1 flex-col">
+            <div className="min-h-0 flex-1 space-y-5 overflow-y-auto px-5 py-5">
+               {showtimeConflicts.length > 0 && (
+                  <ShowtimeConflictList
+                     showtimeConflicts={showtimeConflicts}
+                     suggestedStartTime={suggestedStartTime}
+                     onUseSuggestedStartTime={applySuggestedStartTime}
                   />
-                  <SelectField
-                     id="showtime-movie"
-                     label="Phim"
-                     value={showtimeFormValues.movieId}
-                     onChange={(movieId) => updateField('movieId', movieId)}
-                     options={movieOptions}
-                     error={showtimeFormErrors.movieId}
-                     disabled={isReadOnly}
-                     placeholder="Chọn phim"
-                  />
-                  <ShowtimeColorLegend movieInfos={movieInfos} selectedMovieId={selectedMovieInfo?.id ?? null} />
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                     <TextField
-                        id="showtime-date"
-                        label="Ngày chiếu"
-                        type="date"
-                        value={showtimeFormValues.date}
-                        onChange={(date) => updateField('date', date)}
-                        error={showtimeFormErrors.date}
-                        disabled={isReadOnly}
-                     />
-                     <TextField
-                        id="showtime-start-time"
-                        label="Giờ bắt đầu"
-                        type="time"
-                        value={showtimeFormValues.startTime}
-                        onChange={(startTime) => updateField('startTime', startTime)}
-                        error={showtimeFormErrors.startTime}
-                        disabled={isReadOnly}
-                     />
-                  </div>
+               )}
+               {saveMutation.isError && showtimeConflicts.length === 0 && (
+                  <Alert variant="error">{getErrorMessage(saveMutation.error)}</Alert>
+               )}
+               {cancelMutation.isError && <Alert variant="error">{getErrorMessage(cancelMutation.error)}</Alert>}
+               {isReadOnly && editingShowtime && (
+                  <Alert variant="info">
+                     {editingShowtime.hasBookings
+                        ? 'Suất chiếu đã có vé hoặc ghế đang được giữ nên không thể chỉnh sửa.'
+                        : 'Suất chiếu đã bắt đầu hoặc đã kết thúc nên không thể chỉnh sửa.'}
+                  </Alert>
+               )}
+
+               <SelectField
+                  id="showtime-hall"
+                  label="Phòng chiếu"
+                  value={showtimeFormValues.hallId}
+                  onChange={(hallId) => updateField('hallId', hallId)}
+                  options={hallOptions}
+                  error={showtimeFormErrors.hallId}
+                  disabled={isReadOnly}
+                  placeholder="Chọn phòng chiếu"
+               />
+               <SelectField
+                  id="showtime-movie"
+                  label="Phim"
+                  value={showtimeFormValues.movieId}
+                  onChange={(movieId) => updateField('movieId', movieId)}
+                  options={movieOptions}
+                  error={showtimeFormErrors.movieId}
+                  disabled={isReadOnly}
+                  placeholder="Chọn phim"
+               />
+               <ShowtimeColorLegend movieInfos={movieInfos} selectedMovieId={selectedMovieInfo?.id ?? null} />
+               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <TextField
-                     id="showtime-base-price"
-                     label="Giá vé gốc (VNĐ)"
-                     value={showtimeFormValues.basePrice}
-                     onChange={(basePrice) => updateField('basePrice', basePrice)}
-                     error={showtimeFormErrors.basePrice}
-                     hint="Chưa gồm phụ thu loại ghế, khung giờ, ngày lễ/cuối tuần."
-                     placeholder="90000"
+                     id="showtime-date"
+                     label="Ngày chiếu"
+                     type="date"
+                     value={showtimeFormValues.date}
+                     onChange={(date) => updateField('date', date)}
+                     error={showtimeFormErrors.date}
                      disabled={isReadOnly}
                   />
+                  <TextField
+                     id="showtime-start-time"
+                     label="Giờ bắt đầu"
+                     type="time"
+                     value={showtimeFormValues.startTime}
+                     onChange={(startTime) => updateField('startTime', startTime)}
+                     error={showtimeFormErrors.startTime}
+                     disabled={isReadOnly}
+                  />
+               </div>
+               <TextField
+                  id="showtime-base-price"
+                  label="Giá vé gốc (VNĐ)"
+                  value={showtimeFormValues.basePrice}
+                  onChange={(basePrice) => updateField('basePrice', basePrice)}
+                  error={showtimeFormErrors.basePrice}
+                  hint="Chưa gồm phụ thu loại ghế, khung giờ, ngày lễ/cuối tuần."
+                  placeholder="90000"
+                  disabled={isReadOnly}
+               />
 
-                  <div className="rounded-xl bg-ink-50 px-4 py-3 text-sm text-ink-700 ring-1 ring-ink-100">
-                     {slotPreview && selectedMovieInfo ? (
-                        <ul className="space-y-1">
-                           <li>
-                              Phim chiếu <strong>{formatDuration(selectedMovieInfo.durationMinutes)}</strong>, kết thúc
-                              lúc <strong>{toVietnamTimeOfDay(slotPreview.endTime)}</strong>
-                              {endsOnNextDay && ' (sang ngày hôm sau)'}.
-                           </li>
-                           <li>
-                              Phòng sẵn sàng cho suất kế tiếp từ{' '}
-                              <strong>{toVietnamTimeOfDay(slotPreview.occupiedUntil)}</strong> (đã gồm{' '}
-                              {CLEANING_MINUTES} phút dọn phòng).
-                           </li>
-                        </ul>
+               <div className="rounded-xl bg-ink-50 px-4 py-3 text-sm text-ink-700 ring-1 ring-ink-100">
+                  {slotPreview && selectedMovieInfo ? (
+                     <ul className="space-y-1">
+                        <li>
+                           Phim chiếu <strong>{formatDuration(selectedMovieInfo.durationMinutes)}</strong>, kết thúc lúc{' '}
+                           <strong>{toVietnamTimeOfDay(slotPreview.endTime)}</strong>
+                           {endsOnNextDay && ' (sang ngày hôm sau)'}.
+                        </li>
+                        <li>
+                           Phòng sẵn sàng cho suất kế tiếp từ{' '}
+                           <strong>{toVietnamTimeOfDay(slotPreview.occupiedUntil)}</strong> (đã gồm {CLEANING_MINUTES}{' '}
+                           phút dọn phòng).
+                        </li>
+                     </ul>
+                  ) : (
+                     <p>Chọn phim, ngày và giờ để xem giờ kết thúc và thời điểm phòng sẵn sàng trở lại.</p>
+                  )}
+               </div>
+
+               {pricePreviewQuery.data && (
+                  <div className="space-y-2">
+                     <h3 className="text-sm font-bold text-ink-900">Bảng giá vé dự kiến</h3>
+                     <ShowtimePriceTable showtimePrice={pricePreviewQuery.data} />
+                  </div>
+               )}
+
+               {editingShowtime?.cancellable && (
+                  <div className="space-y-3 border-t border-ink-100 pt-5">
+                     <p className="text-sm text-ink-600">
+                        Hủy suất chiếu sẽ nhả phòng cho suất khác. Không thể hủy khi suất đã có vé hoặc ghế đang được
+                        giữ.
+                     </p>
+                     {!isConfirmingCancel ? (
+                        <Button
+                           variant="remove"
+                           icon={<Ban className="size-4" aria-hidden="true" />}
+                           onClick={() => setIsConfirmingCancel(true)}
+                        >
+                           Hủy suất chiếu
+                        </Button>
                      ) : (
-                        <p>Chọn phim, ngày và giờ để xem giờ kết thúc và thời điểm phòng sẵn sàng trở lại.</p>
+                        <div className="flex flex-wrap gap-3">
+                           <Button
+                              variant="destructive"
+                              isLoading={cancelMutation.isPending}
+                              onClick={() => cancelMutation.mutate(editingShowtime.id)}
+                           >
+                              Xác nhận hủy suất
+                           </Button>
+                           <Button variant="ghost" onClick={() => setIsConfirmingCancel(false)}>
+                              Không hủy
+                           </Button>
+                        </div>
                      )}
                   </div>
+               )}
+            </div>
 
-                  {pricePreviewQuery.data && (
-                     <div className="space-y-2">
-                        <h3 className="text-sm font-extrabold text-ink-900">Bảng giá vé dự kiến</h3>
-                        <ShowtimePriceTable showtimePrice={pricePreviewQuery.data} />
-                     </div>
-                  )}
-
-                  {editingShowtime?.cancellable && (
-                     <div className="space-y-3 border-t border-ink-100 pt-5">
-                        <p className="text-sm text-ink-600">
-                           Hủy suất chiếu sẽ nhả phòng cho suất khác. Không thể hủy khi suất đã có vé hoặc ghế đang được
-                           giữ.
-                        </p>
-                        {!isConfirmingCancel ? (
-                           <Button
-                              variant="secondary"
-                              icon={<Ban className="size-4" aria-hidden="true" />}
-                              onClick={() => setIsConfirmingCancel(true)}
-                           >
-                              Hủy suất chiếu
-                           </Button>
-                        ) : (
-                           <div className="flex flex-wrap gap-3">
-                              <Button
-                                 isLoading={cancelMutation.isPending}
-                                 onClick={() => cancelMutation.mutate(editingShowtime.id)}
-                              >
-                                 Xác nhận hủy suất
-                              </Button>
-                              <Button variant="ghost" onClick={() => setIsConfirmingCancel(false)}>
-                                 Không hủy
-                              </Button>
-                           </div>
-                        )}
-                     </div>
-                  )}
-               </div>
-
-               <footer className="flex items-center justify-end gap-3 border-t border-ink-100 px-6 py-4">
-                  <Button variant="ghost" onClick={onClose}>
-                     Đóng
+            <footer className="flex flex-wrap items-center justify-end gap-3 border-t border-ink-100 px-5 py-4">
+               {editingShowtime && editingShowtime.status === 'ACTIVE' && (
+                  <Button
+                     variant="schedule"
+                     className="mr-auto"
+                     icon={<Copy className="size-4" aria-hidden="true" />}
+                     onClick={() => onDuplicate(editingShowtime)}
+                  >
+                     Nhân bản / lặp lại
                   </Button>
-                  {!isReadOnly && (
-                     <Button
-                        type="submit"
-                        isLoading={saveMutation.isPending}
-                        icon={<Save className="size-4" aria-hidden="true" />}
-                     >
-                        {editingShowtime ? 'Lưu thay đổi' : 'Tạo suất chiếu'}
-                     </Button>
-                  )}
-               </footer>
-            </form>
-         </section>
-      </div>
+               )}
+               <Button variant="secondary" onClick={onClose}>
+                  Đóng
+               </Button>
+               {!isReadOnly && (
+                  <Button
+                     type="submit"
+                     isLoading={saveMutation.isPending}
+                     icon={<Save className="size-4" aria-hidden="true" />}
+                  >
+                     {editingShowtime ? 'Lưu thay đổi' : 'Tạo suất chiếu'}
+                  </Button>
+               )}
+            </footer>
+         </form>
+      </Modal>
    );
 }
 

@@ -112,7 +112,7 @@ export function ShiftPage(): ReactElement {
             </span>
             <span className="ml-auto font-bold text-ink-900">{formatVnd(shift.totalSales)}</span>
             {shift.cashDifference !== null && shift.cashDifference !== 0 && (
-               <span className="rounded-md bg-red-100 px-2 py-0.5 text-xs font-extrabold text-red-700">
+               <span className="rounded-md bg-red-100 px-2 py-0.5 text-xs font-bold text-red-700">
                   Lệch {formatVnd(shift.cashDifference)}
                </span>
             )}
@@ -126,7 +126,7 @@ export function ShiftPage(): ReactElement {
    function renderOpenForm(): ReactElement {
       return (
          <section className="max-w-md space-y-4 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100">
-            <h2 className="text-sm font-extrabold uppercase tracking-wide text-ink-700">Mở ca mới</h2>
+            <h2 className="text-base font-bold text-ink-900">Mở ca mới</h2>
             <TextField
                id="shift-opening-cash"
                label="Tiền đầu ca trong két"
@@ -152,10 +152,10 @@ export function ShiftPage(): ReactElement {
    function renderCloseForm(): ReactElement {
       return (
          <section className="space-y-4 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100">
-            <h2 className="text-sm font-extrabold uppercase tracking-wide text-ink-700">Đóng ca</h2>
+            <h2 className="text-base font-bold text-ink-900">Đóng ca</h2>
             <p className="flex items-center justify-between rounded-xl bg-ink-50 px-4 py-3 text-sm font-bold text-ink-900">
                <span>Tiền mặt dự kiến trong két</span>
-               <span className="text-lg font-extrabold">{formatVnd(expectedCash)}</span>
+               <span className="text-lg font-bold">{formatVnd(expectedCash)}</span>
             </p>
             <TextField
                id="shift-counted-cash"
@@ -234,8 +234,8 @@ export function ShiftPage(): ReactElement {
    return (
       <div className="space-y-6">
          <header className="space-y-1 print:hidden">
-            <h1 className="text-2xl font-extrabold text-ink-900 sm:text-3xl">Ca làm việc</h1>
-            <p className="text-sm text-ink-700">
+            <h1 className="text-2xl font-bold text-ink-900">Ca làm việc</h1>
+            <p className="mt-1 text-sm text-ink-500">
                Mở ca với tiền đầu ca, theo dõi thu tiền theo phương thức, đóng ca và đối soát tiền mặt.
             </p>
          </header>
@@ -244,7 +244,7 @@ export function ShiftPage(): ReactElement {
          {currentShiftQuery.isPending ? <p className="text-sm text-ink-500">Đang tải ca làm việc...</p> : renderBody()}
 
          <section className="space-y-3 print:hidden">
-            <h2 className="text-sm font-extrabold uppercase tracking-wider text-ink-500">Các ca gần đây của tôi</h2>
+            <h2 className="text-base font-bold text-ink-900">Các ca gần đây của tôi</h2>
             {myShiftsQuery.data !== undefined && myShiftsQuery.data.length === 0 && (
                <p className="text-sm text-ink-500">Bạn chưa mở ca nào.</p>
             )}

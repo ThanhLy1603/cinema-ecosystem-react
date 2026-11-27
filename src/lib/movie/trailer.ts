@@ -10,6 +10,7 @@ export type TrailerKind = 'youtube' | 'video';
 export interface TrailerSource {
    kind: TrailerKind;
    url: string;
+   youtubeId?: string;
 }
 
 function extractYoutubeId(parsedUrl: URL): string | null {
@@ -35,7 +36,11 @@ export function toTrailerSource(trailerUrl: string, shouldAutoplay: boolean): Tr
    try {
       const youtubeId: string | null = extractYoutubeId(new URL(trailerUrl));
       return youtubeId !== null && YOUTUBE_ID_PATTERN.test(youtubeId)
-         ? { kind: 'youtube', url: `${YOUTUBE_EMBED_BASE_URL}${youtubeId}?rel=0${shouldAutoplay ? '&autoplay=1' : ''}` }
+         ? {
+              kind: 'youtube',
+              url: `${YOUTUBE_EMBED_BASE_URL}${youtubeId}?rel=0${shouldAutoplay ? '&autoplay=1' : ''}`,
+              youtubeId,
+           }
          : null;
    } catch {
       return null;

@@ -12,7 +12,7 @@ export function ShowtimeColorLegend({ movieInfos, selectedMovieId }: ShowtimeCol
    return (
       <div className="space-y-3 rounded-xl border border-ink-200 bg-ink-50/60 p-3">
          <div>
-            <p className="text-[11px] font-bold uppercase tracking-wider text-ink-500">Màu phim trên lịch chiếu</p>
+            <p className="text-xs font-bold text-ink-500">Màu phim trên lịch chiếu</p>
             {movieInfos.length === 0 ? (
                <p className="mt-1.5 text-xs text-ink-500">Chưa có phim nào để chiếu.</p>
             ) : (
@@ -22,7 +22,7 @@ export function ShowtimeColorLegend({ movieInfos, selectedMovieId }: ShowtimeCol
                         key={movieInfo.id}
                         className={cn(
                            'flex items-center gap-2 text-xs text-ink-700',
-                           movieInfo.id === selectedMovieId && 'font-extrabold text-ink-900',
+                           movieInfo.id === selectedMovieId && 'font-bold text-ink-900',
                         )}
                      >
                         <span
@@ -36,7 +36,7 @@ export function ShowtimeColorLegend({ movieInfos, selectedMovieId }: ShowtimeCol
             )}
          </div>
          <div className="border-t border-ink-200 pt-3">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-ink-500">Màu đặc biệt</p>
+            <p className="text-xs font-bold text-ink-500">Màu đặc biệt</p>
             <ul className="mt-2 space-y-1.5 text-xs text-ink-700">
                <li className="flex items-center gap-2">
                   <span

@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 import { searchUsers } from '@/api/auth/adminUserApi';
 import { getCinemaOptions } from '@/api/cinema/cinemaApi';
 import { searchAdminMovies } from '@/api/movie/movieApi';
-import PageHeader from '@/components/common/PageHeader';
+import ConsoleBanner from '@/components/common/ConsoleBanner';
 import LinkButton from '@/components/ui/LinkButton';
 import { getPrimaryRoleLabel } from '@/lib/auth/roleLabels';
 import { cn } from '@/lib/common/utils';
@@ -44,18 +44,19 @@ interface StatCardItem {
    value: string;
    to: string;
    icon: LucideIcon;
+   tone: string;
 }
 
 const ADMIN_MODULE_ITEMS: AdminModuleItem[] = [
    {
-      title: 'Người dùng & nhân sự',
+      title: 'Người dùng và nhân sự',
       description: 'Tìm kiếm tài khoản, thêm nhân viên, khóa/mở khóa, phân quyền và gán chi nhánh.',
       to: '/admin/users',
       icon: Users,
       status: 'ready',
    },
    {
-      title: 'Cụm rạp, phòng chiếu & sơ đồ ghế',
+      title: 'Cụm rạp, phòng chiếu và sơ đồ ghế',
       description: 'Chi nhánh, tiện ích, phòng chiếu 2D/3D/IMAX/4DX và ma trận ghế.',
       to: '/admin/cinemas',
       icon: Building2,
@@ -69,14 +70,14 @@ const ADMIN_MODULE_ITEMS: AdminModuleItem[] = [
       status: 'ready',
    },
    {
-      title: 'Suất chiếu & giá vé',
+      title: 'Suất chiếu và giá vé',
       description: 'Xếp lịch theo phòng, chặn trùng giờ, nhân bản lịch và quy tắc phụ thu.',
       to: '/admin/showtimes',
       icon: CalendarClock,
       status: 'ready',
    },
    {
-      title: 'Đồ ăn & nước',
+      title: 'Đồ ăn và nước',
       description: 'Món lẻ, combo bắp nước, giá bán và trạng thái còn hàng.',
       to: '/admin/fnb',
       icon: Popcorn,
@@ -90,7 +91,7 @@ const ADMIN_MODULE_ITEMS: AdminModuleItem[] = [
       status: 'soon',
    },
    {
-      title: 'Cộng đồng & blog',
+      title: 'Cộng đồng và blog',
       description: 'Bài viết điện ảnh và kiểm duyệt đánh giá, bình luận.',
       to: '/admin/community',
       icon: MessagesSquare,
@@ -103,7 +104,7 @@ function formatCount(isPending: boolean, isError: boolean, count?: number): stri
       return '...';
    }
    if (isError || count === undefined) {
-      return '—';
+      return '';
    }
    return count.toLocaleString('vi-VN');
 }
@@ -131,12 +132,14 @@ export function AdminDashboardPage(): ReactElement {
          value: formatCount(userSummaryQuery.isPending, userSummaryQuery.isError, userSummaryQuery.data?.totalElements),
          to: '/admin/users',
          icon: Users,
+         tone: 'bg-brand-50 text-brand-600',
       },
       {
          label: 'Cụm rạp',
          value: formatCount(cinemaOptionsQuery.isPending, cinemaOptionsQuery.isError, cinemaOptionsQuery.data?.length),
          to: '/admin/cinemas',
          icon: Building2,
+         tone: 'bg-brand-100 text-brand-700',
       },
       {
          label: 'Phim',
@@ -147,26 +150,29 @@ export function AdminDashboardPage(): ReactElement {
          ),
          to: '/admin/movies',
          icon: Clapperboard,
+         tone: 'bg-emerald-50 text-emerald-600',
       },
    ];
 
    return (
       <div className="w-full max-w-7xl space-y-5">
-         <PageHeader
-            title="Tổng quan"
-            description={`Xin chào ${user?.fullName ?? 'bạn'} · ${roleLabel} · ${
-               isAdmin ? 'phạm vi toàn hệ thống' : 'phạm vi theo chi nhánh phụ trách'
-            }`}
+         <ConsoleBanner
+            title={`Xin chào ${user?.fullName ?? 'bạn'}!`}
+            description={`${roleLabel} · ${isAdmin ? 'phạm vi toàn hệ thống' : 'phạm vi theo chi nhánh phụ trách'}`}
             actions={
                <>
                   <LinkButton
                      to="/admin/users/new"
-                     variant="secondary"
+                     variant="light"
                      icon={<UserPlus className="size-4" aria-hidden="true" />}
                   >
                      Thêm nhân viên
                   </LinkButton>
-                  <LinkButton to="/admin/showtimes" icon={<CalendarClock className="size-4" aria-hidden="true" />}>
+                  <LinkButton
+                     to="/admin/showtimes"
+                     variant="light"
+                     icon={<CalendarClock className="size-4" aria-hidden="true" />}
+                  >
                      Xếp lịch chiếu
                   </LinkButton>
                </>
@@ -178,34 +184,34 @@ export function AdminDashboardPage(): ReactElement {
                <Link
                   key={statCardItem.to}
                   to={statCardItem.to}
-                  className="group flex items-center gap-4 rounded-lg bg-white p-4 shadow-card ring-1 ring-ink-200/80 transition-colors hover:ring-brand-300"
+                  className="flex items-center justify-between gap-3 rounded-2xl border border-ink-200 bg-white p-5 shadow-card transition-colors hover:border-brand-300"
                >
-                  <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-600">
-                     <statCardItem.icon className="size-5" aria-hidden="true" />
-                  </span>
                   <div className="min-w-0">
-                     <p className="text-[13px] font-medium text-ink-500">{statCardItem.label}</p>
-                     <p className="text-2xl font-semibold tracking-tight text-ink-900">{statCardItem.value}</p>
+                     <p className="text-xs font-semibold text-ink-500">{statCardItem.label}</p>
+                     <p className="mt-1 text-2xl font-bold text-ink-900">{statCardItem.value}</p>
                   </div>
+                  <span className={cn('grid size-12 shrink-0 place-items-center rounded-2xl', statCardItem.tone)}>
+                     <statCardItem.icon className="size-6" aria-hidden="true" />
+                  </span>
                </Link>
             ))}
             <Link
                to="/profile"
-               className="group flex items-center gap-4 rounded-lg bg-white p-4 shadow-card ring-1 ring-ink-200/80 transition-colors hover:ring-brand-300"
+               className="flex items-center justify-between gap-3 rounded-2xl border border-ink-200 bg-white p-5 shadow-card transition-colors hover:border-brand-300"
             >
-               <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-ink-100 text-ink-700">
-                  <ShieldCheck className="size-5" aria-hidden="true" />
-               </span>
                <div className="min-w-0">
-                  <p className="text-[13px] font-medium text-ink-500">Quyền hạn</p>
-                  <p className="truncate text-base font-semibold text-ink-900">{roleLabel}</p>
+                  <p className="text-xs font-semibold text-ink-500">Quyền hạn</p>
+                  <p className="mt-1 truncate text-base font-bold text-ink-900">{roleLabel}</p>
                </div>
+               <span className="grid size-12 shrink-0 place-items-center rounded-2xl bg-amber-50 text-amber-600">
+                  <ShieldCheck className="size-6" aria-hidden="true" />
+               </span>
             </Link>
          </section>
 
          <section aria-label="Phân hệ quản trị" className="rounded-lg bg-white shadow-card ring-1 ring-ink-200/80">
             <div className="border-b border-ink-100 px-5 py-3.5">
-               <h2 className="text-[15px] font-semibold text-ink-900">Phân hệ quản trị</h2>
+               <h2 className="text-base font-bold text-ink-900">Phân hệ quản trị</h2>
             </div>
             <ul className="divide-y divide-ink-100">
                {ADMIN_MODULE_ITEMS.map((adminModuleItem) => (
@@ -226,11 +232,11 @@ export function AdminDashboardPage(): ReactElement {
                         </span>
                         <div className="min-w-0 flex-1">
                            <p className="text-sm font-semibold text-ink-900">{adminModuleItem.title}</p>
-                           <p className="truncate text-[13px] text-ink-500">{adminModuleItem.description}</p>
+                           <p className="truncate text-sm text-ink-500">{adminModuleItem.description}</p>
                         </div>
                         <span
                            className={cn(
-                              'shrink-0 rounded px-2 py-0.5 text-[11px] font-semibold',
+                              'shrink-0 rounded px-2 py-0.5 text-xs font-semibold',
                               adminModuleItem.status === 'ready'
                                  ? 'bg-emerald-50 text-emerald-700'
                                  : 'bg-ink-100 text-ink-600',

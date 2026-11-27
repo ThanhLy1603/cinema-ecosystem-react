@@ -75,12 +75,10 @@ export function UserDetailPage(): ReactElement {
          <header className="flex flex-wrap items-center gap-5 rounded-lg bg-white p-5 shadow-card ring-1 ring-ink-200/80">
             <UserAvatar user={adminUser} className="size-20 text-xl" />
             <div className="min-w-0 flex-1">
-               <h1 className="truncate text-xl font-semibold tracking-tight text-ink-900">{adminUser.fullName}</h1>
-               <p className="truncate text-sm text-ink-500">{adminUser.email}</p>
+               <h1 className="truncate text-2xl font-bold text-ink-900">{adminUser.fullName}</h1>
+               <p className="mt-1 truncate text-sm text-ink-500">{adminUser.email}</p>
                <div className="mt-2 flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-semibold uppercase tracking-wide text-brand-700">
-                     {getPrimaryRoleLabel(adminUser)}
-                  </span>
+                  <span className="text-xs font-semibold text-brand-700">{getPrimaryRoleLabel(adminUser)}</span>
                   <StatusBadge userStatus={adminUser.status} />
                   {!adminUser.emailVerified && (
                      <span className="rounded-full bg-accent-50 px-2.5 py-0.5 text-xs font-semibold text-ink-800 ring-1 ring-accent-200">

@@ -87,14 +87,10 @@ export function PersonForm({ person, onDone, onCancel }: PersonFormProps): React
    }
 
    return (
-      <form
-         onSubmit={handleSubmit}
-         className="space-y-4 rounded-2xl border border-brand-100 bg-brand-50/40 p-5"
-         noValidate
-      >
+      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
          {personMutation.isError && <Alert variant="error">{getErrorMessage(personMutation.error)}</Alert>}
          {deferredUpload.uploadError && <Alert variant="error">{deferredUpload.uploadError}</Alert>}
-         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+         <div className="grid grid-cols-1 gap-4">
             <TextField
                id={`person-name-${person?.id ?? 'new'}`}
                label="Tên nghệ sĩ"
@@ -116,7 +112,7 @@ export function PersonForm({ person, onDone, onCancel }: PersonFormProps): React
                optional
                error={fieldErrors.avatarUrl}
             />
-            <div className="sm:col-span-2">
+            <div>
                <TextAreaField
                   id={`person-bio-${person?.id ?? 'new'}`}
                   label="Tiểu sử"
@@ -129,18 +125,18 @@ export function PersonForm({ person, onDone, onCancel }: PersonFormProps): React
                />
             </div>
          </div>
-         <div className="flex flex-wrap gap-3">
-            <Button type="submit" isLoading={isBusy} icon={<Save className="size-4" aria-hidden="true" />}>
-               {person ? 'Lưu nghệ sĩ' : 'Thêm nghệ sĩ'}
-            </Button>
-            <Button variant="ghost" onClick={onCancel}>
-               Hủy
-            </Button>
+         <div className="flex flex-wrap items-center justify-end gap-3">
             {deferredUpload.uploadMessage && (
-               <p role="status" className="self-center text-sm font-medium text-ink-600">
+               <p role="status" className="mr-auto text-sm font-medium text-ink-600">
                   {deferredUpload.uploadMessage}
                </p>
             )}
+            <Button variant="secondary" onClick={onCancel}>
+               Hủy
+            </Button>
+            <Button type="submit" isLoading={isBusy} icon={<Save className="size-4" aria-hidden="true" />}>
+               {person ? 'Lưu nghệ sĩ' : 'Thêm nghệ sĩ'}
+            </Button>
          </div>
       </form>
    );

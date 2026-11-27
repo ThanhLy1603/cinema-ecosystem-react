@@ -21,9 +21,7 @@ function ReportRow({ label, value, isStrong = false, tone = 'normal' }: ReportRo
    return (
       <div className="flex justify-between gap-4 text-sm">
          <dt className="text-ink-600">{label}</dt>
-         <dd className={isStrong ? `text-lg font-extrabold ${toneClassName}` : `font-semibold ${toneClassName}`}>
-            {value}
-         </dd>
+         <dd className={isStrong ? `text-lg font-bold ${toneClassName}` : `font-semibold ${toneClassName}`}>{value}</dd>
       </div>
    );
 }
@@ -41,12 +39,12 @@ export function ShiftReportView({ shiftReport }: ShiftReportViewProps): ReactEle
       <article className="space-y-5 rounded-2xl bg-white p-5 shadow-md ring-1 ring-ink-100">
          <header className="space-y-1">
             <div className="flex flex-wrap items-center gap-2">
-               <h2 className="text-lg font-extrabold text-ink-900">Báo cáo ca làm việc</h2>
+               <h2 className="text-base font-bold text-ink-900">Báo cáo ca làm việc</h2>
                <span
                   className={
                      isClosed
-                        ? 'rounded-md bg-ink-100 px-2 py-0.5 text-xs font-extrabold text-ink-700'
-                        : 'rounded-md bg-brand-100 px-2 py-0.5 text-xs font-extrabold text-brand-800'
+                        ? 'rounded-md bg-ink-100 px-2 py-0.5 text-xs font-bold text-ink-700'
+                        : 'rounded-md bg-brand-100 px-2 py-0.5 text-xs font-bold text-brand-800'
                   }
                >
                   {isClosed ? 'Đã đóng ca' : 'Đang mở ca'}
@@ -62,39 +60,41 @@ export function ShiftReportView({ shiftReport }: ShiftReportViewProps): ReactEle
          </header>
 
          <section className="space-y-2">
-            <h3 className="text-xs font-extrabold uppercase tracking-wider text-ink-500">Tổng thu theo phương thức</h3>
+            <h3 className="text-sm font-bold text-ink-900">Tổng thu theo phương thức</h3>
             {methodTotals.length === 0 ? (
                <p className="text-sm text-ink-500">Chưa có giao dịch nào trong ca.</p>
             ) : (
-               <div className="overflow-x-auto">
+               <div className="overflow-x-auto rounded-xl ring-1 ring-ink-200">
                   <table className="w-full text-sm">
                      <thead>
-                        <tr className="text-left text-xs text-ink-500">
-                           <th className="py-1 pr-3 font-semibold">Phương thức</th>
-                           <th className="py-1 pr-3 text-right font-semibold">Đơn vé</th>
-                           <th className="py-1 pr-3 text-right font-semibold">Bắp nước lẻ</th>
-                           <th className="py-1 text-right font-semibold">Tổng</th>
+                        <tr className="text-xs text-ink-500">
+                           <th data-align="left" className="px-3 py-1 font-semibold">
+                              Phương thức
+                           </th>
+                           <th className="px-3 py-1 font-semibold">Đơn vé</th>
+                           <th className="px-3 py-1 font-semibold">Bắp nước lẻ</th>
+                           <th className="px-3 py-1 font-semibold">Tổng</th>
                         </tr>
                      </thead>
                      <tbody className="divide-y divide-ink-100">
                         {methodTotals.map((counterMethodTotal: CounterMethodTotal) => (
                            <tr key={counterMethodTotal.paymentMethod}>
-                              <td className="py-1.5 pr-3 font-semibold text-ink-900">
+                              <td data-align="left" className="px-3 py-1.5 font-semibold text-ink-900">
                                  {PAYMENT_METHOD_LABELS[counterMethodTotal.paymentMethod]}
                               </td>
-                              <td className="py-1.5 pr-3 text-right">
+                              <td className="px-3 py-1.5">
                                  <span className="mr-2 rounded bg-ink-100 px-1.5 py-0.5 text-xs font-bold">
                                     {counterMethodTotal.bookingOrders} đơn
                                  </span>
                                  {formatVnd(counterMethodTotal.bookingAmount)}
                               </td>
-                              <td className="py-1.5 pr-3 text-right">
+                              <td className="px-3 py-1.5">
                                  <span className="mr-2 rounded bg-ink-100 px-1.5 py-0.5 text-xs font-bold">
                                     {counterMethodTotal.fnbOrders} đơn
                                  </span>
                                  {formatVnd(counterMethodTotal.fnbAmount)}
                               </td>
-                              <td className="py-1.5 text-right font-extrabold text-ink-900">
+                              <td className="px-3 py-1.5 font-bold text-ink-900">
                                  {formatVnd(counterMethodTotal.bookingAmount + counterMethodTotal.fnbAmount)}
                               </td>
                            </tr>
@@ -129,7 +129,7 @@ export function ShiftReportView({ shiftReport }: ShiftReportViewProps): ReactEle
          </dl>
 
          <section className="space-y-2 border-t border-dashed border-ink-300 pt-4">
-            <h3 className="text-xs font-extrabold uppercase tracking-wider text-ink-500">Giao dịch trong ca</h3>
+            <h3 className="text-sm font-bold text-ink-900">Giao dịch trong ca</h3>
             {transactions.length === 0 ? (
                <p className="text-sm text-ink-500">Chưa có giao dịch.</p>
             ) : (

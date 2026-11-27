@@ -68,7 +68,7 @@ export function PriceSimulator(): ReactElement {
    return (
       <section className="space-y-5 rounded-lg bg-white p-5 shadow-card ring-1 ring-ink-200/80">
          <div>
-            <h2 className="text-[15px] font-semibold text-ink-900">Tính thử giá vé</h2>
+            <h2 className="text-base font-bold text-ink-900">Tính thử giá vé</h2>
             <p className="mt-1 text-sm text-ink-500">
                Chọn giá gốc, loại phòng và giờ chiếu để xem giá từng loại ghế theo các quy tắc đang áp dụng.
             </p>

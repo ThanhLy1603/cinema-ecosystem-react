@@ -1,10 +1,9 @@
 import { useMutation, useQuery, type UseMutationResult, type UseQueryResult } from '@tanstack/react-query';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import type { ReactElement } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams, type Location } from 'react-router-dom';
 import { getAdminMovie, updateMovie } from '@/api/movie/movieApi';
 import FullPageSpinner from '@/components/common/FullPageSpinner';
-import SectionCard from '@/components/common/SectionCard';
 import Alert from '@/components/ui/Alert';
 import { getErrorMessage } from '@/lib/common/apiError';
 import { getMovieDetailPath } from '@/lib/movie/moviePath';
@@ -16,6 +15,7 @@ import MovieStatusBadge from '../components/MovieStatusBadge';
 import { useGenres } from '../hooks/useGenres';
 import { useMovieRefresh } from '../hooks/useMovieRefresh';
 import { usePersonOptions } from '../hooks/usePersonOptions';
+import { getMovieListPath } from '../utils/listReturnPath';
 import { adminMovieDetailKey } from '../utils/queryKeys';
 import { getMovieServerFieldErrors } from '../utils/serverErrors';
 
@@ -23,6 +23,8 @@ export function MovieEditPage(): ReactElement {
    const { movieId: movieIdParam } = useParams<{ movieId: string }>();
    const movieId: number = Number(movieIdParam);
    const isValidMovieId: boolean = Number.isInteger(movieId) && movieId > 0;
+   const location: Location = useLocation();
+   const movieListPath: string = getMovieListPath(location.state);
    const isAdmin: boolean = useAuthStore((authState) => authState.hasRole('ROLE_ADMIN'));
    const refreshMovie: () => void = useMovieRefresh(isValidMovieId ? movieId : null);
    const genresQuery: UseQueryResult<Genre[]> = useGenres();
@@ -48,7 +50,7 @@ export function MovieEditPage(): ReactElement {
    }
 
    const backLink: ReactElement = (
-      <Link to="/admin/movies" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700">
+      <Link to={movieListPath} className="inline-flex items-center gap-2 text-sm font-semibold text-brand-700">
          <ArrowLeft className="size-4" aria-hidden="true" />
          Về danh sách phim
       </Link>
@@ -81,10 +83,10 @@ export function MovieEditPage(): ReactElement {
    const hasFieldErrors: boolean = Object.keys(serverFieldErrors).length > 0;
 
    return (
-      <div className="w-full max-w-4xl space-y-6">
+      <div className="w-full max-w-7xl space-y-6">
          {backLink}
          <header className="flex flex-wrap items-center gap-3">
-            <h1 className="text-xl font-semibold tracking-tight text-ink-900">{movieDetail.title}</h1>
+            <h1 className="text-2xl font-bold text-ink-900">{movieDetail.title}</h1>
             <MovieStatusBadge movieStatus={movieDetail.status} />
             <Link
                to={getMovieDetailPath(movieDetail.slug)}
@@ -95,27 +97,33 @@ export function MovieEditPage(): ReactElement {
             </Link>
          </header>
 
-         <SectionCard title="Thông tin phim">
-            <MovieForm
-               key={movieDetail.id}
-               initialMovie={movieDetail}
-               genres={genresQuery.data ?? []}
-               personOptions={personOptionsQuery.data ?? []}
-               isSubmitting={updateMutation.isPending}
-               submitLabel="Lưu thay đổi"
-               errorMessage={
-                  updateMutation.isError && !hasFieldErrors ? getErrorMessage(updateMutation.error) : undefined
-               }
-               successMessage={updateMutation.isSuccess ? 'Đã lưu thông tin phim' : undefined}
-               serverFieldErrors={serverFieldErrors}
-               onSubmit={handleSubmit}
-            />
-         </SectionCard>
+         <MovieForm
+            key={movieDetail.id}
+            initialMovie={movieDetail}
+            genres={genresQuery.data ?? []}
+            personOptions={personOptionsQuery.data ?? []}
+            isSubmitting={updateMutation.isPending}
+            submitLabel="Lưu thay đổi"
+            errorMessage={updateMutation.isError && !hasFieldErrors ? getErrorMessage(updateMutation.error) : undefined}
+            successMessage={updateMutation.isSuccess ? 'Đã lưu thông tin phim' : undefined}
+            serverFieldErrors={serverFieldErrors}
+            onSubmit={handleSubmit}
+         />
 
          {isAdmin && (
-            <SectionCard title="Xóa phim">
-               <DeleteMovieCard movieId={movieDetail.id} />
-            </SectionCard>
+            <section
+               aria-labelledby="movie-danger-zone-title"
+               className="mt-12 rounded-lg border border-danger-200 bg-white"
+            >
+               <div className="border-b border-danger-100 px-5 py-3.5">
+                  <h2 id="movie-danger-zone-title" className="text-danger-700 text-base font-bold">
+                     Vùng nguy hiểm: xóa phim
+                  </h2>
+               </div>
+               <div className="p-5">
+                  <DeleteMovieCard movieId={movieDetail.id} movieListPath={movieListPath} />
+               </div>
+            </section>
          )}
       </div>
    );

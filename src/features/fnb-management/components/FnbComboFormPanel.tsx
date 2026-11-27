@@ -3,7 +3,7 @@ import { Save } from 'lucide-react';
 import { useState, type FormEvent, type ReactElement } from 'react';
 import { createFnbCombo, listFnbItemOptions, updateFnbCombo } from '@/api/fnb/fnbApi';
 import MediaUploadField from '@/components/common/MediaUploadField';
-import SidePanel from '@/components/common/SidePanel';
+import Modal from '@/components/common/Modal';
 import Alert from '@/components/ui/Alert';
 import Button from '@/components/ui/Button';
 import SelectField from '@/components/ui/SelectField';
@@ -108,14 +108,9 @@ export function FnbComboFormPanel({ panelState, onSaved, onClose }: FnbComboForm
    }
 
    return (
-      <SidePanel
-         id="fnb-combo-form"
-         title={editingFnbCombo ? 'Sửa combo' : 'Thêm combo'}
-         onClose={onClose}
-         widthClassName="max-w-xl"
-      >
+      <Modal title={editingFnbCombo ? 'Sửa combo' : 'Thêm combo'} onClose={onClose} size="xl" isFlush>
          <form onSubmit={handleSubmit} noValidate className="flex min-h-0 flex-1 flex-col">
-            <div className="flex-1 space-y-4 overflow-y-auto px-6 py-5">
+            <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-5 py-5">
                {saveMutation.isError && !hasServerFieldErrors && (
                   <Alert variant="error">{getErrorMessage(saveMutation.error)}</Alert>
                )}
@@ -178,21 +173,21 @@ export function FnbComboFormPanel({ panelState, onSaved, onClose }: FnbComboForm
                   error={fnbComboFormErrors.imageUrl}
                />
             </div>
-            <footer className="flex items-center gap-3 border-t border-ink-100 px-6 py-4">
-               <Button type="submit" isLoading={isBusy} icon={<Save className="size-4" aria-hidden="true" />}>
-                  Lưu
-               </Button>
-               <Button variant="ghost" onClick={onClose}>
-                  Hủy
-               </Button>
+            <footer className="flex flex-wrap items-center justify-end gap-3 border-t border-ink-100 px-5 py-4">
                {deferredUpload.uploadMessage && (
-                  <p role="status" className="text-[13px] text-ink-600">
+                  <p role="status" className="mr-auto text-sm text-ink-600">
                      {deferredUpload.uploadMessage}
                   </p>
                )}
+               <Button variant="secondary" onClick={onClose}>
+                  Hủy
+               </Button>
+               <Button type="submit" isLoading={isBusy} icon={<Save className="size-4" aria-hidden="true" />}>
+                  Lưu
+               </Button>
             </footer>
          </form>
-      </SidePanel>
+      </Modal>
    );
 }
 

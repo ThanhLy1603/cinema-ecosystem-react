@@ -25,7 +25,7 @@ export function FnbManagementPage(): ReactElement {
    return (
       <div className="w-full max-w-7xl space-y-5">
          <PageHeader
-            title="Đồ ăn & nước"
+            title="Đồ ăn và nước"
             description="Danh mục món lẻ và combo bắp nước bán kèm vé. Giá áp dụng cho toàn hệ thống."
          />
 
@@ -35,7 +35,7 @@ export function FnbManagementPage(): ReactElement {
             </Alert>
          )}
 
-         <div role="tablist" aria-label="Danh mục đồ ăn & nước" className="flex gap-6 border-b border-ink-200">
+         <div role="tablist" aria-label="Danh mục đồ ăn và nước" className="flex gap-6 border-b border-ink-200">
             {FNB_TAB_ITEMS.map((fnbTabItem) => (
                <button
                   key={fnbTabItem.tab}
